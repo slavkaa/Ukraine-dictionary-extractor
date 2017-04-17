@@ -2,9 +2,9 @@
 
 Основною є таблиця слів 'word'.
 
-|Колонка|Тип|Призначення| 
-|---|---|
-|id|int(11) NOT NULL AUTO_INCREMENT | |
+| Колонка | Тип | Призначення|
+| --- | --- | --- |
+|id|int(11) NOT NULL AUTO_INCREMENT| |
 |word|varbinary(255) NOT NULL  | 'Щоб враховувати написання з великої літери' |
 |accented|varbinary(255) DEFAULT NULL | |
 |is_wrong|tinyint(1) NOT NULL DEFAULT '0' |
