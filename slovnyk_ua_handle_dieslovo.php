@@ -20,10 +20,10 @@ $dictionaryId = (int) $dictionary->getProperty('id');
 
 $part_of_language = 'дієслово';
 
-for ($j = 0; $j < 1;  $j++) {
+for ($j = 0; $j < 122;  $j++) {
     echo '.';
     $htmlObj = new Html($dbh);
-    $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 1, $j*100, 'LIKE');
+    $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
 
     foreach ($allHtml as $htmlArray) {
         echo '+';
@@ -244,7 +244,9 @@ for ($j = 0; $j < 1;  $j++) {
             $genus = array_get($wordForm, 'genus');
             $person = array_get($wordForm, 'person');
 
-            var_dump($word);
+            if ( " " == $word) {
+                continue;
+            }
 
             $htmlItem = new Html($dbh);
             $htmlItem->firstOrNewVerb($word, $tense, $number, $genus, $person, $dictionaryId);
