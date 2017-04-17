@@ -91,12 +91,12 @@ for ($j = 0; $j < 140;  $j++) {
             ],[
                 'word' => $cell2->item(1)->textContent,
                 'number' => 'однина',
-                'kind' => 'родивий',
+                'kind' => 'родовий',
                 'isMainForm' => false,
             ],[
                 'word' => $cell2->item(2)->textContent,
                 'number' => 'множина',
-                'kind' => 'родивий',
+                'kind' => 'родовий',
                 'isMainForm' => false,
             ],[
                 'word' => $cell1->item(4)->textContent,
@@ -179,10 +179,10 @@ for ($j = 0; $j < 140;  $j++) {
             $kind = 'називний';
         } elseif (in_array($word, $singR)) {
             $number = 'однина';
-            $kind = 'родивий';
+            $kind = 'родовий';
         } elseif (in_array($word, $pluralR)) {
             $number = 'множина';
-            $kind = 'родивий';
+            $kind = 'родовий';
         } elseif (in_array($word, $singD)) {
             $number = 'однина';
             $kind = 'давльний';

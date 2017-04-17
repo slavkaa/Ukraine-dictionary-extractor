@@ -171,17 +171,17 @@ for ($j = 0; $j < 122;  $j++) {
                 'word' => $cell2e->item(6)->textContent,
                 'tense' => 'минулий час',
                 'number' => 'множина',
-                'genus' => '1 особа',
+                'person' => '1 особа',
             ],[
                 'word' => $cell2e->item(6)->textContent,
                 'tense' => 'минулий час',
                 'number' => 'множина',
-                'genus' => '2 особа',
+                'person' => '2 особа',
             ],[
                 'word' => $cell2e->item(6)->textContent,
                 'tense' => 'минулий час',
                 'number' => 'множина',
-                'genus' => '3 особа',
+                'person' => '3 особа',
             ],[ // ***
                 'word' => trim($cell2->item(9)->textContent),
                 'tense' => 'наказовий спосіб',

@@ -47,6 +47,7 @@ for ($j = 0; $j < 140;  $j++) {
 
         if ($part_of_language !== trim($partOfLanguage)) {
             $html->firstOrNewAdverb($word, $dictionaryId);
+            $html->updateProperty('is_main_form', PDO::PARAM_BOOL, true);
         }
 
         $html->updateProperty('is_main_form', PDO::PARAM_BOOL, true);

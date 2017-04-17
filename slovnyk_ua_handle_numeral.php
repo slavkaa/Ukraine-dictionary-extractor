@@ -93,7 +93,7 @@ for ($j = 0; $j < 1;  $j++) {
                 ],[
                     'word' => $cell1->item(1)->textContent,
                     'number' => 'однина', 'kind' => 'називний',
-                    'genus' => 'жіночій рід',
+                    'genus' => 'жіночий рід',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell1->item(2)->textContent,
@@ -106,22 +106,22 @@ for ($j = 0; $j < 1;  $j++) {
                     'isMainForm' => false,
                 ], [ // ***
                     'word' => $cell2->item(0)->textContent,
-                    'number' => 'однина', 'kind' => 'родивий',
+                    'number' => 'однина', 'kind' => 'родовий',
                     'genus' => 'чоловічий рід',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell2->item(1)->textContent,
-                    'number' => 'однина', 'kind' => 'родивий',
-                    'genus' => 'жіночій рід',
+                    'number' => 'однина', 'kind' => 'родовий',
+                    'genus' => 'жіночий рід',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell2->item(2)->textContent,
-                    'number' => 'однина', 'kind' => 'родивий',
+                    'number' => 'однина', 'kind' => 'родовий',
                     'genus' => 'середній рід',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell2e->item(0)->textContent,
-                    'number' => 'однина', 'kind' => 'родивий',
+                    'number' => 'однина', 'kind' => 'родовий',
                     'isMainForm' => false,
                 ],[ // ***
                     'word' => $cell1->item(3)->textContent,
@@ -131,7 +131,7 @@ for ($j = 0; $j < 1;  $j++) {
                 ],[
                     'word' => $cell1->item(4)->textContent,
                     'number' => 'однина', 'kind' => 'давльний',
-                    'genus' => 'жіночій рід',
+                    'genus' => 'жіночий рід',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell1->item(5)->textContent,
@@ -150,7 +150,7 @@ for ($j = 0; $j < 1;  $j++) {
                 ],[
                     'word' => $cell2->item(4)->textContent,
                     'number' => 'однина', 'kind' => 'знахідний',
-                    'genus' => 'жіночій рід',
+                    'genus' => 'жіночий рід',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell2->item(5)->textContent,
@@ -169,7 +169,7 @@ for ($j = 0; $j < 1;  $j++) {
                 ],[
                     'word' => $cell1->item(7)->textContent,
                     'number' => 'однина', 'kind' => 'орудний',
-                    'genus' => 'жіночій рід',
+                    'genus' => 'жіночий рід',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell1->item(8)->textContent,
@@ -188,7 +188,7 @@ for ($j = 0; $j < 1;  $j++) {
                 ],[
                     'word' => $cell2->item(7)->textContent,
                     'number' => 'однина', 'kind' => 'місцевий',
-                    'genus' => 'жіночій рід',
+                    'genus' => 'жіночий рід',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell2->item(8)->textContent,
@@ -211,7 +211,7 @@ for ($j = 0; $j < 1;  $j++) {
                     'isMainForm' => true,
                 ], [ // ***
                     'word' => $cell2e->item(0)->textContent,
-                    'number' => 'однина', 'kind' => 'родивий',
+                    'number' => 'однина', 'kind' => 'родовий',
                     'genus' => 'чоловічий рід',
                     'isMainForm' => false,
                 ],[ // ***

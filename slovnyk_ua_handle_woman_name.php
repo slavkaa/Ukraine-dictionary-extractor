@@ -96,12 +96,12 @@ for ($j = 0; $j < 1;  $j++) {
                 'isMainForm' => false,
             ], [
                 'word' => $cell2->item(0)->textContent,
-                'number' => 'однина', 'kind' => 'родивий',
+                'number' => 'однина', 'kind' => 'родовий',
                 'genus' => 'жіночий рід',
                 'isMainForm' => false,
             ],[
                 'word' => $cell2e->item(0)->textContent,
-                'number' => 'множина', 'kind' => 'родивий',
+                'number' => 'множина', 'kind' => 'родовий',
                 'isMainForm' => false,
             ],[ // ***
                 'word' => $cell1->item(1)->textContent,
