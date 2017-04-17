@@ -41,5 +41,6 @@ select * from html where id = 218352 or main_form_id = 218352;
 
 -- Problem:
 select * from html where part_of_language LIKE '%іменник%' and created_at < '2017-04-16 00:00:00' and main_form_id is null and is_main_form = 0 limit 100;
-
 select * from html where part_of_language LIKE '%іменник%' and created_at < '2017-04-16 00:00:00' and main_form_id is null and is_main_form = 0 and part_of_language NOT LIKE '%,%' limit 100;
+
+select count(*) from html where part_of_language LIKE '%займенник%'
