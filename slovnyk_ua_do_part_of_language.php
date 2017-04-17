@@ -39,11 +39,11 @@ for ($i = 1; $i < 200;  $i++) {
             continue;
         }
 
-        if (0 < strpos($text, 'іменник')) {  $result[] = 'іменник';}
-        if (0 < strpos($text, 'дієслово')) { $result[] = 'дієслово'; }
+        if (0 < strpos($text, 'іменник')) {  $result[] = 'іменник';} // +
+        if (0 < strpos($text, 'дієслово')) { $result[] = 'дієслово'; } // +
         if (0 < strpos($text, 'прийменник')) { $result[] = 'прийменник'; }
         if (0 < strpos($text, 'займенник')) { $result[] = 'займенник'; }
-        if (0 < strpos($text, 'прикметник')) { $result[] = 'прикметник'; }
+        if (0 < strpos($text, 'прикметник')) { $result[] = 'прикметник'; } // +
         if (0 < strpos($text, 'сполучник')) { $result[] = 'сполучник'; }
         if (0 < strpos($text, 'частка')) { $result[] = 'частка'; }
         if (0 < strpos($text, 'прислівник')) { $result[] = 'прислівник'; }
@@ -55,7 +55,7 @@ for ($i = 1; $i < 200;  $i++) {
         if (0 < strpos($text, 'жіноче ім\'я')) { $result[] = 'жіноче ім\'я'; }
 
         // update html_cut
-        $html->updatePartOfLanguage(implode(',', $result));
+        $html->updateProperty('part_of_language', PDO::PARAM_STR, implode(',', $result));
     }
 }
 

@@ -33,7 +33,8 @@ foreach ($allHtml as $htmlX) {
 
     $url = $dictionary->getProperty('base_url') . urlencode($text);
 
-    $html->updateUrl($url);
+    $html->updateProperty('url', PDO::PARAM_STR, $url);
+    $html->updateProperty('url_binary', PDO::PARAM_STR, $url);
     echo '.';
 }
 

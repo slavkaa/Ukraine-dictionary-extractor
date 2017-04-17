@@ -46,8 +46,8 @@ for ($i = 1; $i < 200;  $i++) {
 
         $page = file_get_contents($url);
 
-        $htmlObj2->updateHtml($page);
-        $htmlObj2->updateIsNeedProcessing(false);
+        $htmlObj2->updateProperty('html', PDO::PARAM_LOB, $page);
+        $htmlObj2->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
     }
 
     unset($html);

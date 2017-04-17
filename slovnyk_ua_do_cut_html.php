@@ -53,8 +53,8 @@ for ($i = 1; $i < 200;  $i++) {
         $newDoc->appendChild($newDoc->importNode($cloned, TRUE));
 
         // update html_cut
-        $html->updateHtmlCut(html_entity_decode($newDoc->saveHTML()));
-        $html->updateIsNeedProcessing(false);
+        $html->updateProperty('html_cut', PDO::PARAM_LOB, html_entity_decode($newDoc->saveHTML()));
+        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
     }
 }
 
