@@ -38,6 +38,7 @@ for ($j = 0; $j < 1;  $j++) {
             ['sfm_cell_1s', 'sfm_cell_2s', 'sfm_cell_1_x2', 'sfm_cell_1e_x2', 'sfm_cell_1e', 'sfm_cell_2_x2', 'sfm_cell_2e_x2', 'sfm_cell_2e'],
             ['sfm_cell_v',  'sfm_cell_v',  'sfm_cell_1',    'sfm_cell_e_1',   'sfm_cell_e_1',   'sfm_cell_2',    'sfm_cell_2e', 'sfm_cell_e_2'],
             $text);
+        $url = $html->getProperty('url');
 
         // filtrate noun {
         // init HTML parser
@@ -179,6 +180,8 @@ for ($j = 0; $j < 1;  $j++) {
             $htmlItem->firstOrNewByKingNumeralGenus($word, $part_of_language, $kind, $number, $genus, $dictionaryId);
 
             $htmlItem->updateProperty('is_main_form', PDO::PARAM_BOOL, $isMainForm);
+            $htmlItem->updateProperty('url', PDO::PARAM_STR, $url);
+            $htmlItem->updateProperty('url_binary', PDO::PARAM_STR, $url);
 
             if ($isMainForm) {
                 $mainFormId = $htmlItem->getId();
