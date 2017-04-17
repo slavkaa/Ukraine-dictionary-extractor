@@ -52,7 +52,7 @@ for ($i = 1; $i < 200;  $i++) {
         if (0 < strpos($text, 'присудкове слово')) { $result[] = 'присудкове слово'; } // +
         if (0 < strpos($text, 'вставне слово')) { $result[] = 'вставне слово'; } // +
         if (0 < strpos($text, 'чоловіче ім\'я')) { $result[] = 'чоловіче ім\'я'; } // +
-        if (0 < strpos($text, 'жіноче ім\'я')) { $result[] = 'жіноче ім\'я'; }
+        if (0 < strpos($text, 'жіноче ім\'я')) { $result[] = 'жіноче ім\'я'; } // +
 
         // update html_cut
         $html->updateProperty('part_of_language', PDO::PARAM_STR, implode(',', $result));
