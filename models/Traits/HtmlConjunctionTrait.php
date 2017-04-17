@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Сполучник
+ */
 trait HtmlConjunctionTrait {
 
     /**

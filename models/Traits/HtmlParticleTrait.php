@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Частка
+ */
 trait HtmlParticleTrait {
 
     /**

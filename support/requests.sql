@@ -43,5 +43,6 @@ select * from html where id = 218352 or main_form_id = 218352;
 select * from html where part_of_language LIKE '%іменник%' and created_at < '2017-04-16 00:00:00' and main_form_id is null and is_main_form = 0 limit 100;
 select * from html where part_of_language LIKE '%іменник%' and created_at < '2017-04-16 00:00:00' and main_form_id is null and is_main_form = 0 and part_of_language NOT LIKE '%,%' limit 100;
 
-select count(*) from html where part_of_language LIKE '%займенник%'
-select * from html where part_of_language LIKE '%частка%' order by id
+select count(*) from html where part_of_language LIKE '%займенник%';
+select * from html where part_of_language LIKE '%частка%' order by id;
+select * from html where part_of_language LIKE '%прислівник%' and part_of_language NOT LIKE '%дієприслівник%' and part_of_language NOT LIKE '%дієслово%' order by id

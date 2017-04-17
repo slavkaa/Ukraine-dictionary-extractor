@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Іменник
+ */
 trait HtmlNounTrait {
 
     /**

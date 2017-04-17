@@ -7,11 +7,12 @@ require_once('Traits\HtmlPrepositionTrait.php');
 require_once('Traits\HtmlPronounTrait.php');
 require_once('Traits\HtmlConjunctionTrait.php');
 require_once('Traits\HtmlParticleTrait.php');
+require_once('Traits\HtmlAdverbTrait.php');
 
 class Html extends AbstractModel {
 
     use HtmlNounTrait, HtmlAdjectiveTrait, HtmlVerbTrait, HtmlPrepositionTrait, HtmlPronounTrait,
-        HtmlConjunctionTrait, HtmlParticleTrait;
+        HtmlConjunctionTrait, HtmlParticleTrait, HtmlAdverbTrait;
 
     /**
      * @var string

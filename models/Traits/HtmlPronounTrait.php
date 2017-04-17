@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Займенник
+ */
 trait HtmlPronounTrait {
 
     /**

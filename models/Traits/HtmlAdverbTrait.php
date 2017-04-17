@@ -1,17 +1,17 @@
 <?php
 
 /**
- * Прийменник
+ * Прислівник
  */
-trait HtmlPrepositionTrait {
+trait HtmlAdverbTrait {
 
     /**
      * @param string $word
      * @param integer $dictionaryId
      */
-    public function firstOrNewPreposition($word, $dictionaryId)
+    public function firstOrNewAdverb($word, $dictionaryId)
     {
-        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE part_of_language = \'прийменник\' AND word_binary = :word;';
+        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE part_of_language = \'прислівник\' AND word_binary = :word;';
         $stm = $this->connection->prepare($sql);
         $stm->bindParam(':word', $word, PDO::PARAM_STR);
         $stm->execute();
@@ -22,7 +22,7 @@ trait HtmlPrepositionTrait {
         } else {
             echo 'I[html] ';
             $sql = 'INSERT INTO `' . $this->tableName .
-                '` (`dictionary_id`,`word`, `word_binary`, `part_of_language`) VALUES (:dictionary_id, :word, :word, \'прийменник\');';
+                '` (`dictionary_id`,`word`, `word_binary`, `part_of_language`) VALUES (:dictionary_id, :word, :word, \'прислівник\');';
             $stm = $this->connection->prepare($sql);
             $stm->bindParam(':word', $word, PDO::PARAM_STR);
             $stm->bindParam(':dictionary_id', $dictionaryId, PDO::PARAM_INT);
