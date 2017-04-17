@@ -1,46 +1,359 @@
 ﻿﻿U[dictionary] .
  offset 0, limit 100 
-+InitId(8)+InitId(65)string(1407) "<table class="sfm_table" border="0px" cellpadd cellspac>
-<tr><td class="sfm_cell_hx" colspan="3" al>
-<font color="red">без</font> - іменник, чоловічий рід, неістота, ІІ відміна</td></tr>
++<table class="sfm_table" border="0px" cellpadd cellspac>
+<tr><td class="sfm_cell_hx" colspan="5" al>
+<font color="red">інший</font> - займенник<br>(означальний)</td></tr>
 <tr>
-<td class="sfm_cell_h" al>відмінок</td>
-<td class="sfm_cell_h" al>однина</td>
-<td class="sfm_cell_he" al>множина</td>
+<td class="sfm_cell_h" w al>відмінок</td>
+<td class="sfm_cell_h" w al>чол. рід</td>
+<td class="sfm_cell_h" w al>жін. рід</td>
+<td class="sfm_cell_h" w al>сер. рід</td>
+<td class="sfm_cell_he" w al>множина</td>
 </tr>
 <tr>
 <td class="sfm_cell_v" al>називний</td>
-<td class="sfm_cell_1" al>без</td>
-<td class="sfm_cell_e_1" al>бези</td>
+<td class="sfm_cell_1" al>інший</td>
+<td class="sfm_cell_1" al>інша</td>
+<td class="sfm_cell_1" al>інше</td>
+<td class="sfm_cell_e_1" al>інші</td>
 </tr>
 <tr>
 <td class="sfm_cell_v" al>родовий</td>
-<td class="sfm_cell_2" al>безу</td>
-<td class="sfm_cell_e_2" al>безів</td>
+<td class="sfm_cell_2" al>іншого</td>
+<td class="sfm_cell_2" al>іншої</td>
+<td class="sfm_cell_2" al>іншого</td>
+<td class="sfm_cell_e_2" al>інших</td>
 </tr>
 <tr>
 <td class="sfm_cell_v" al>давальний</td>
-<td class="sfm_cell_1" al>безові, безу</td>
-<td class="sfm_cell_e_1" al>безам</td>
+<td class="sfm_cell_1" al>іншому</td>
+<td class="sfm_cell_1" al>іншій</td>
+<td class="sfm_cell_1" al>іншому</td>
+<td class="sfm_cell_e_1" al>іншим</td>
 </tr>
 <tr>
 <td class="sfm_cell_v" al>знахідний</td>
-<td class="sfm_cell_2" al>без</td>
-<td class="sfm_cell_e_2" al>бези</td>
+<td class="sfm_cell_2" al>інший, іншого</td>
+<td class="sfm_cell_2" al>іншу</td>
+<td class="sfm_cell_2" al>інше</td>
+<td class="sfm_cell_e_2" al>інші, інших</td>
 </tr>
 <tr>
 <td class="sfm_cell_v" al>орудний</td>
-<td class="sfm_cell_1" al>безом</td>
-<td class="sfm_cell_e_1" al>безами</td>
+<td class="sfm_cell_1" al>іншим</td>
+<td class="sfm_cell_1" al>іншою</td>
+<td class="sfm_cell_1" al>іншим</td>
+<td class="sfm_cell_e_1" al>іншими</td>
 </tr>
 <tr>
 <td class="sfm_cell_v" al>місцевий</td>
-<td class="sfm_cell_2" al>на/у безі</td>
-<td class="sfm_cell_e_2" al>на/у безах</td>
+<td class="sfm_cell_2" al>іншому, іншім</td>
+<td class="sfm_cell_2" al>іншій</td>
+<td class="sfm_cell_2" al>іншому, іншім</td>
+<td class="sfm_cell_e_2" al>інших</td>
 </tr>
-<tr>
-<td class="sfm_cell_v" al>кличний</td>
-<td class="sfm_cell_1" al>безе</td>
-<td class="sfm_cell_e_1" al>бези</td>
-</tr>
-</table>"
+</table><pre>string(22) "означальний"
+
+
+array(24) {
+  [0]=>
+  array(5) {
+    ["word"]=>
+    string(10) "інший"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(16) "називний"
+    ["genus"]=>
+    string(25) "чоловічий рід"
+    ["isMainForm"]=>
+    bool(true)
+  }
+  [1]=>
+  array(5) {
+    ["word"]=>
+    string(8) "інша"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(16) "називний"
+    ["genus"]=>
+    string(21) "жіночій рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [2]=>
+  array(5) {
+    ["word"]=>
+    string(8) "інше"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(16) "називний"
+    ["genus"]=>
+    string(23) "середній рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [3]=>
+  array(4) {
+    ["word"]=>
+    string(8) "інші"
+    ["number"]=>
+    string(14) "множина"
+    ["kind"]=>
+    string(16) "називний"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [4]=>
+  array(5) {
+    ["word"]=>
+    string(12) "іншого"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(14) "родивий"
+    ["genus"]=>
+    string(25) "чоловічий рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [5]=>
+  array(5) {
+    ["word"]=>
+    string(10) "іншої"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(14) "родивий"
+    ["genus"]=>
+    string(21) "жіночій рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [6]=>
+  array(5) {
+    ["word"]=>
+    string(12) "іншого"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(14) "родивий"
+    ["genus"]=>
+    string(23) "середній рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [7]=>
+  array(4) {
+    ["word"]=>
+    string(10) "інших"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(14) "родивий"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [8]=>
+  array(5) {
+    ["word"]=>
+    string(12) "іншому"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(16) "давльний"
+    ["genus"]=>
+    string(25) "чоловічий рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [9]=>
+  array(5) {
+    ["word"]=>
+    string(10) "іншій"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(16) "давльний"
+    ["genus"]=>
+    string(21) "жіночій рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [10]=>
+  array(5) {
+    ["word"]=>
+    string(12) "іншому"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(16) "давльний"
+    ["genus"]=>
+    string(23) "середній рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [11]=>
+  array(4) {
+    ["word"]=>
+    string(10) "іншим"
+    ["number"]=>
+    string(14) "множина"
+    ["kind"]=>
+    string(16) "давльний"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [12]=>
+  array(5) {
+    ["word"]=>
+    string(24) "інший, іншого"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(18) "знахідний"
+    ["genus"]=>
+    string(25) "чоловічий рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [13]=>
+  array(5) {
+    ["word"]=>
+    string(8) "іншу"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(18) "знахідний"
+    ["genus"]=>
+    string(21) "жіночій рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [14]=>
+  array(5) {
+    ["word"]=>
+    string(8) "інше"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(18) "знахідний"
+    ["genus"]=>
+    string(23) "середній рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [15]=>
+  array(4) {
+    ["word"]=>
+    string(20) "інші, інших"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(18) "знахідний"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [16]=>
+  array(5) {
+    ["word"]=>
+    string(10) "іншим"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(14) "орудний"
+    ["genus"]=>
+    string(25) "чоловічий рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [17]=>
+  array(5) {
+    ["word"]=>
+    string(10) "іншою"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(14) "орудний"
+    ["genus"]=>
+    string(21) "жіночій рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [18]=>
+  array(5) {
+    ["word"]=>
+    string(10) "іншим"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(14) "орудний"
+    ["genus"]=>
+    string(23) "середній рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [19]=>
+  array(4) {
+    ["word"]=>
+    string(12) "іншими"
+    ["number"]=>
+    string(14) "множина"
+    ["kind"]=>
+    string(14) "орудний"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [20]=>
+  array(5) {
+    ["word"]=>
+    string(24) "іншому, іншім"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(16) "місцевий"
+    ["genus"]=>
+    string(25) "чоловічий рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [21]=>
+  array(5) {
+    ["word"]=>
+    string(10) "іншій"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(16) "місцевий"
+    ["genus"]=>
+    string(21) "жіночій рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [22]=>
+  array(5) {
+    ["word"]=>
+    string(24) "іншому, іншім"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(16) "місцевий"
+    ["genus"]=>
+    string(23) "середній рід"
+    ["isMainForm"]=>
+    bool(false)
+  }
+  [23]=>
+  array(4) {
+    ["word"]=>
+    string(10) "інших"
+    ["number"]=>
+    string(12) "однина"
+    ["kind"]=>
+    string(16) "місцевий"
+    ["isMainForm"]=>
+    bool(false)
+  }
+}
