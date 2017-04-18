@@ -1,26 +1,26 @@
 ﻿<?php
 
 // @link: http://phpfaq.ru/pdo
-// @acton: php slovnyk_ua_handle_prykmetnyk.php
+// @acton: php slovnyk_ua_handle_pronoun.php    Займенник
 
-require_once('support/config.php');
-require_once('support/functions.php');
-require_once('support/libs.php');
-require_once('models/word.php');
-require_once('models/wordToIgnore.php');
-require_once('models/source.php');
-require_once('models/wordToSource.php');
-require_once('models/dictionary.php');
-require_once('models/html.php');
+require_once('../support/config.php');
+require_once('../support/functions.php');
+require_once('../support/libs.php');
+require_once('../models/word.php');
+require_once('../models/wordToIgnore.php');
+require_once('../models/source.php');
+require_once('../models/wordToSource.php');
+require_once('../models/dictionary.php');
+require_once('../models/html.php');
 
 // *** //
 $dictionary = new Dictionary($dbh);
 $dictionary->firstOrNew('slovnyk.ua', 'http://www.slovnyk.ua/?swrd=');
 $dictionaryId = (int) $dictionary->getProperty('id');
 
-$part_of_language = 'прикметник';
+$part_of_language = 'займенник';
 
-for ($j = 68; $j < 90;  $j++) {
+for ($j = 0; $j < 5;  $j++) {
     echo '.';
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
@@ -39,30 +39,30 @@ for ($j = 68; $j < 90;  $j++) {
             $text);
 
         // filtrate noun {
-            // init HTML parser
-            $doc = new DOMDocument();
-            $doc->encoding = 'UTF-8';
-            @$doc->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', 'UTF-8'));
+        // init HTML parser
+        $doc = new DOMDocument();
+        $doc->encoding = 'UTF-8';
+        @$doc->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', 'UTF-8'));
 
-            // extract tables
-            $xpath = new DOMXpath($doc);
-            $tables = $xpath->query("//*[contains(@class, 'sfm_table')]");
+        // extract tables
+        $xpath = new DOMXpath($doc);
+        $tables = $xpath->query("//*[contains(@class, 'sfm_table')]");
 
-            $isFound = false;
-            for ($i = 0; $i < $tables->length; $i++) {
-                $item = $tables->item($i);
-                if (-1 < strpos($item->textContent, $part_of_language)) {
-                    $doc = new DOMDocument();
-                    @$doc->loadHTML(mb_convert_encoding($item->ownerDocument->saveHTML($item), 'HTML-ENTITIES', 'UTF-8'));
-                    $isFound = true;
+        $isFound = false;
+        for ($i = 0; $i < $tables->length; $i++) {
+            $item = $tables->item($i);
+            if (-1 < strpos($item->textContent, $part_of_language)) {
+                $doc = new DOMDocument();
+                @$doc->loadHTML(mb_convert_encoding($item->ownerDocument->saveHTML($item), 'HTML-ENTITIES', 'UTF-8'));
+                $isFound = true;
 
-                    break;
-                }
+                break;
             }
+        }
 
-            if (!$isFound) {
-                continue;
-            }
+        if (!$isFound) {
+            continue;
+        }
         // filtrate noun }
 
         // extract table
@@ -70,7 +70,9 @@ for ($j = 68; $j < 90;  $j++) {
         /** @var DOMNodeList $partOfLanguageData */
         $definition = $xpath->query("//*[contains(@class, 'sfm_cell_hx')]");
         $definition = $definition->item(0)->textContent;
-        $definition = explode(',', $definition);
+        $definition = explode('(', $definition);
+
+        $class = str_replace([')', ' '], '', array_get($definition, 1));
 
         $cell1 = $xpath->query("//*[contains(@class, 'sfm_cell_1')]");
         $cell1e = $xpath->query("//*[contains(@class, 'sfm_cell_e_1')]");
@@ -211,28 +213,10 @@ for ($j = 68; $j < 90;  $j++) {
                 $isMainForm = array_get($wordForm, 'isMainForm');
             }
         }
-
-        //        Detector
-        if (null === $number && false === in_array($word, ['того'])) {
-//            echo $item->ownerDocument->saveHTML($item);
-//            echo "\n\n<pre>";
-//            var_dump($html->getId());
-//            var_dump($word);
-//            var_dump($number);
-//            var_dump($kind);
-//            var_dump($wordForms);
-//            exit;
-            continue;
-        }
-//        continue;
-
         // ***
-        
+
         $mainFormId = null;
 
-//        $html->updateProperty('number', PDO::PARAM_STR, $number);
-//        $html->updateProperty('kind', PDO::PARAM_STR, $kind);
-//        $html->updateProperty('genus', PDO::PARAM_STR, $genus);
         $html->updateProperty('is_main_form', PDO::PARAM_BOOL, $isMainForm);
 
         foreach ($wordForms as $wordForm) {
@@ -244,7 +228,7 @@ for ($j = 68; $j < 90;  $j++) {
             $isMainForm = array_get($wordForm, 'isMainForm');
 
             $htmlItem = new Html($dbh);
-            $htmlItem->firstOrNewPrykmetnyk($word, $kind, $number, $genus, $dictionaryId);
+            $htmlItem->firstOrNewPronoun($word, $kind, $number, $genus, $dictionaryId);
 
             $htmlItem->updateProperty('is_main_form', PDO::PARAM_BOOL, $isMainForm);
 

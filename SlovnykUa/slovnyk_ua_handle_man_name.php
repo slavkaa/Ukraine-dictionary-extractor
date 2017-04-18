@@ -1,24 +1,24 @@
 ﻿<?php
 
 // @link: http://phpfaq.ru/pdo
-// @acton: php slovnyk_ua_handle_woman_name.php
+// @acton: php slovnyk_ua_handle_man_name.php
 
-require_once('support/config.php');
-require_once('support/functions.php');
-require_once('support/libs.php');
-require_once('models/word.php');
-require_once('models/wordToIgnore.php');
-require_once('models/source.php');
-require_once('models/wordToSource.php');
-require_once('models/dictionary.php');
-require_once('models/html.php');
+require_once('../support/config.php');
+require_once('../support/functions.php');
+require_once('../support/libs.php');
+require_once('../models/word.php');
+require_once('../models/wordToIgnore.php');
+require_once('../models/source.php');
+require_once('../models/wordToSource.php');
+require_once('../models/dictionary.php');
+require_once('../models/html.php');
 
 // *** //
 $dictionary = new Dictionary($dbh);
 $dictionary->firstOrNew('slovnyk.ua', 'http://www.slovnyk.ua/?swrd=');
 $dictionaryId = (int) $dictionary->getProperty('id');
 
-$part_of_language = 'жіноче ім\'я';
+$part_of_language = 'чоловіче ім\'я';
 
 for ($j = 0; $j < 1;  $j++) {
     echo '.';
@@ -88,16 +88,16 @@ for ($j = 0; $j < 1;  $j++) {
             [
                 'word' => $cell1->item(0)->textContent,
                 'number' => 'однина', 'kind' => 'називний',
-                'genus' => 'жіночий рід',
+                'genus' => 'чоловічий рід',
                 'isMainForm' => true,
             ],[
                 'word' => $cell1e->item(0)->textContent,
                 'number' => 'множина', 'kind' => 'називний',
                 'isMainForm' => false,
             ], [
-                'word' => $cell2->item(0)->textContent,
+                'word' => $cell2->item(01)->textContent,
                 'number' => 'однина', 'kind' => 'родовий',
-                'genus' => 'жіночий рід',
+                'genus' => 'чоловічий рід',
                 'isMainForm' => false,
             ],[
                 'word' => $cell2e->item(0)->textContent,
@@ -106,7 +106,7 @@ for ($j = 0; $j < 1;  $j++) {
             ],[ // ***
                 'word' => $cell1->item(1)->textContent,
                 'number' => 'однина', 'kind' => 'давльний',
-                'genus' => 'жіночий рід',
+                'genus' => 'чоловічий рід',
                 'isMainForm' => false,
             ],[
                 'word' => $cell1e->item(1)->textContent,
@@ -115,7 +115,7 @@ for ($j = 0; $j < 1;  $j++) {
             ], [ // ***
                 'word' => $cell2->item(1)->textContent,
                 'number' => 'однина', 'kind' => 'знахідний',
-                'genus' => 'жіночий рід',
+                'genus' => 'чоловічий рід',
                 'isMainForm' => false,
             ],[
                 'word' => $cell2e->item(1)->textContent,
@@ -124,7 +124,7 @@ for ($j = 0; $j < 1;  $j++) {
             ],[ // ***
                 'word' => $cell1->item(2)->textContent,
                 'number' => 'однина', 'kind' => 'орудний',
-                'genus' => 'жіночий рід',
+                'genus' => 'чоловічий рід',
                 'isMainForm' => false,
             ],[
                 'word' => $cell1e->item(2)->textContent,
@@ -133,7 +133,7 @@ for ($j = 0; $j < 1;  $j++) {
             ], [ // ***
                 'word' => $cell2->item(2)->textContent,
                 'number' => 'однина', 'kind' => 'місцевий',
-                'genus' => 'жіночий рід',
+                'genus' => 'чоловічий рід',
                 'isMainForm' => false,
             ], [ // ***
                 'word' => $cell2e->item(2)->textContent,
@@ -142,7 +142,7 @@ for ($j = 0; $j < 1;  $j++) {
             ], [ // ***
                 'word' => $cell1->item(3)->textContent,
                 'number' => 'однина', 'kind' => 'кличний',
-                'genus' => 'жіночий рід',
+                'genus' => 'чоловічий рід',
                 'isMainForm' => false,
             ], [ // ***
                 'word' => $cell1e->item(3)->textContent,
