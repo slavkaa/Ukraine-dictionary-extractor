@@ -119,22 +119,22 @@ for ($j = 68; $j < 90;  $j++) {
                 'isMainForm' => false,
             ],[ // ***
                 'word' => $cell1->item(3)->textContent,
-                'number' => 'однина', 'kind' => 'давльний',
+                'number' => 'однина', 'kind' => 'давальний',
                 'genus' => 'чоловічий рід',
                 'isMainForm' => false,
             ],[
                 'word' => $cell1->item(4)->textContent,
-                'number' => 'однина', 'kind' => 'давльний',
+                'number' => 'однина', 'kind' => 'давальний',
                 'genus' => 'жіночий рід',
                 'isMainForm' => false,
             ],[
                 'word' => $cell1->item(5)->textContent,
-                'number' => 'однина', 'kind' => 'давльний',
+                'number' => 'однина', 'kind' => 'давальний',
                 'genus' => 'середній рід',
                 'isMainForm' => false,
             ],[
                 'word' => $cell1e->item(1)->textContent,
-                'number' => 'множина', 'kind' => 'давльний',
+                'number' => 'множина', 'kind' => 'давальний',
                 'isMainForm' => false,
             ], [ // ***
                 'word' => $cell2->item(3)->textContent,
