@@ -50,3 +50,5 @@ select * from html where part_of_language LIKE '%прислівник%' and part
 INSERT INTO word_rejected (word, word_readable, source_id) SELECT word, word_readable, source_id FROM word_new WHERE is_wrong = 0;
 
 CREATE TABLE copy LIKE original;
+
+SELECT word, count(word) as counter FROM html group by word order by counter DESC;
