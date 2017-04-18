@@ -40,11 +40,12 @@ class AbstractModel {
 
     /**
      * @param mixed $key
+     * @param null $default
      * @return string
      */
-    public function getProperty($key)
+    public function getProperty($key, $default = null)
     {
-        return array_get($this->props, $key);
+        return array_get($this->props, $key, $default);
     }
 
     /**
@@ -100,7 +101,7 @@ class AbstractModel {
      */
     public function isNew()
     {
-        return NULL !== $this->getProperty('id');
+        return NULL === $this->getProperty('id');
     }
 
 
