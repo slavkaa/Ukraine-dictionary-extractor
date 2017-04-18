@@ -24,6 +24,7 @@ for ($i = 1; $i < 4824;  $i++) {
         echo '<';
 
         $id = array_get($htmlArr, 'id');
+        $wordText = array_get($htmlArr, 'word_binary');
         $html = new Html($dbh);
         $html->getById($id);
 
@@ -32,11 +33,13 @@ for ($i = 1; $i < 4824;  $i++) {
         }
 
         // part_of_language
-
         $value = $html->getProperty('part_of_language');
         $value = str_replace("'", '`', $value);
-        $value = (null == $value) ? '-' : $value;
         if (false == in_array($value, ['займенник','іменник','прикметник','дієслово','дієприкметник','дієприслівник','прислівник','частка','вигук','сполучник','прийменник','числівник','присудкове слово','чоловіче ім`я','жіноче ім`я','вставне слово', null])) {
+            if (null === $part_of_language) {
+                continue;
+            }
+
             if (-1 < strpos($value, ',')) {
                 // ignore
             } else {
@@ -47,143 +50,116 @@ for ($i = 1; $i < 4824;  $i++) {
             }
         }
         $part_of_language = $value;
-//        $word->updateProperty('part_of_language', PDO::PARAM_STR, $value);
 
         // creature
-
         $value = $html->getProperty('creature');
         $value = trim($value);
         $value = (null == $value) ? '-' : $value;
-        if (false == in_array($value, ['істота','неістота','істота і неістота', null])) {
+        if (false == in_array($value, ['істота','неістота','істота і неістота', '-'])) {
             echo 'Wrong creature ' . $value;
             echo '.HTML node, ID ' . $id . '. ';
             die;
         }
         $creature = $value;
-//        $word->updateProperty('creature', PDO::PARAM_STR, $value);
 
         // genus
-
         $value = $html->getProperty('genus');
         $value = str_replace(' рід', '', $value);
         $value = (null == $value) ? '-' : $value;
-        if (false == in_array($value, ['чоловічий','жіночий','середній','чоловічий і жіночий', null])) {
+        if (false == in_array($value, ['чоловічий','жіночий','середній','чоловічий і жіночий', '-'])) {
             echo 'Wrong genus ' . $value;
             echo '.HTML node, ID ' . $id . '. ';
             die;
         }
         $genus = $value;
-//        $word->updateProperty('genus', PDO::PARAM_STR, $value);
 
         // number
-
         $value = $html->getProperty('number');
         $value = str_replace('тільки ', '', $value);
         $value = (null == $value) ? '-' : $value;
-        if (false == in_array($value, ['однина','множина', null])) {
+        if (false == in_array($value, ['однина','множина', '-'])) {
             echo 'Wrong number';
             die;
         }
         $number = $value;
-//        $word->updateProperty('number', PDO::PARAM_STR, $value);
 
         // person
-
         $value = $html->getProperty('person');
         $value = (null == $value) ? '-' : $value;
-        if (false == in_array($value, ['1 особа','2 особа','3 особа', null])) {
+        if (false == in_array($value, ['1 особа','2 особа','3 особа', '-'])) {
             echo 'Wrong person';
             die;
         }
         $person = $value;
-//        $word->updateProperty('person', PDO::PARAM_STR, $value);
 
         // kind
-
         $value = $html->getProperty('kind');
         $value = (null == $value) ? '-' : $value;
-        if (false == in_array($value, ['називний','родовий','давальний','знахідний','орудний','місцевий','кличний', null])) {
+        if (false == in_array($value, ['називний','родовий','давальний','знахідний','орудний','місцевий','кличний', '-'])) {
             echo 'Wrong kind ' . $value;
             die;
         }
         $kind = $value;
-//        $word->updateProperty('kind', PDO::PARAM_STR, $value);
 
         // verb_kind
-
         $value = $html->getProperty('verb_kind');
         $value = (null == $value) ? '-' : $value;
-        if (false == in_array($value, ['доконаний','недоконаний', null])) {
+        if (false == in_array($value, ['доконаний','недоконаний', '-'])) {
             echo 'Wrong verb_kind';
             die;
         }
         $verb_kind = $value;
-//        $word->updateProperty('verb_kind', PDO::PARAM_STR, $value);
 
         // dievidmina
-
         $value = $html->getProperty('dievidmina');
         $value = (null == $value) ? '-' : $value;
-        if (false == in_array($value, ['1 дієвідміна','2 дієвідміна', null])) {
+        if (false == in_array($value, ['1 дієвідміна','2 дієвідміна', '-'])) {
             echo 'Wrong dievidmina';
             die;
         }
         $dievidmina = $value;
-//        $word->updateProperty('dievidmina', PDO::PARAM_STR, $value);
 
         // class
-
         $value = $html->getProperty('class');
         $value = (null == $value) ? '-' : $value;
-        if (false == in_array($value, ['особовий','зворотній','взаємний','присвійний','вказівний','означальний','питальний','відносний','неозначений','заперечний', null])) {
+        if (false == in_array($value, ['особовий','зворотній','взаємний','присвійний','вказівний','означальний','питальний','відносний','неозначений','заперечний', '-'])) {
             echo 'Wrong class';
             die;
         }
         $class = $value;
-//        $word->updateProperty('class', PDO::PARAM_STR, $value);
 
         // sub_role
-
         $value = $html->getProperty('sub_role');
         $value = (null == $value) ? '-' : $value;
-        if (false == in_array($value, ['іменник','прикметник','числівник','прислівник', null])) {
+        if (false == in_array($value, ['іменник','прикметник','числівник','прислівник', '-'])) {
             echo 'Wrong sub_role';
             die;
         }
         $sub_role = $value;
-//        $word->updateProperty('sub_role', PDO::PARAM_STR, $value);
 
         // comparison
-
         $value = $html->getProperty('comparison');
         $value = (null == $value) ? '-' : $value;
-        if (false == in_array($value, ['перший','вищий простий','вищий складений','найвищий простий','найвищий складений', null])) {
+        if (false == in_array($value, ['перший','вищий простий','вищий складений','найвищий простий','найвищий складений', '-'])) {
             echo 'Wrong comparison';
             die;
         }
         $comparison = $value;
-//        $word->updateProperty('comparison', PDO::PARAM_STR, $value);
 
         // tense
-
         $value = $html->getProperty('tense');
         $value = (null == $value) ? '-' : $value;
-        if (false == in_array($value, ['майбутній час','теперешній час','минулий час','наказовий спосіб', null])) {
+        if (false == in_array($value, ['майбутній час','теперешній час','минулий час','наказовий спосіб', '-'])) {
             echo 'Wrong tense';
             die;
         }
         $tense = $value;
-//        $word->updateProperty('tense', PDO::PARAM_STR, $value);
 
         // is_main_form
-
         $is_main_form = $html->getProperty('is_main_form', false);
-//        $word->updateProperty('is_main_form', PDO::PARAM_BOOL, $html->getProperty('is_main_form', false));
 
         // is_infinitive
-
         $is_infinitive = $html->getProperty('is_infinitive', false);
-//        $word->updateProperty('is_infinitive', PDO::PARAM_BOOL, $html->getProperty('is_infinitive', false));
 
         // --------------------------------------
 
@@ -205,6 +181,7 @@ for ($i = 1; $i < 4824;  $i++) {
 
         $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
         echo '>';
+        die;
     }
 
     echo "\n";

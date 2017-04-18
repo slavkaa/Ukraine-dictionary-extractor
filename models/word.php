@@ -81,20 +81,75 @@ class Word extends AbstractModel {
      * @param boolean $isForeign
      */
     public function firstOrNewTotal($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
-        $dievidmina, $class, $sub_role, $comparison,$tense, $mood, $is_infinitive, $isForeign = FALSE)
+        $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form)
     {
-        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE word = \'' . $word . '\' limit 1;';
-        $stm = $this->connection->query($sql);
+        $array = [
+            'word = :word',
+            'word_binary = :word',
+            'part_of_language = :part_of_language',
+            'creature = :creature',
+            'genus = :genus',
+            'number = :number',
+            'person = :person',
+            'kind = :kind',
+            'verb_kind = :verb_kind',
+            'dievidmina = :dievidmina',
+            'class = :class',
+            'sub_role = :sub_role',
+            'comparison = :comparison',
+            'tense = :tense',
+            'mood = :mood',
+            'is_infinitive = :is_infinitive',
+            'is_main_form = :is_main_form',
+        ];
+
+        $fields = '`word`,`word_binary`,`part_of_language`,`creature`,`genus`,`number`,`person`,`kind`,`verb_kind`,`dievidmina`,`class`,`sub_role`,`comparison`,`tense`,`mood`,`is_infinitive`,`is_main_form`';
+
+        $values = ':word,:word,:part_of_language,:creature,:genus,:number,:person,:kind,:verb_kind,:dievidmina,:class,:sub_role,:comparison,:tense,:mood,:is_infinitive,:is_main_form';
+
+
+        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE ' . implode(' AND ', $array) . ' limit 1;';
+        $stm = $this->connection->prepare($sql);
+        $stm->bindParam(':word', $word, PDO::PARAM_STR);
+        $stm->bindParam(':part_of_language', $part_of_language, PDO::PARAM_STR);
+        $stm->bindParam(':creature', $creature, PDO::PARAM_STR);
+        $stm->bindParam(':genus', $genus, PDO::PARAM_STR);
+        $stm->bindParam(':number', $number, PDO::PARAM_STR);
+        $stm->bindParam(':person', $person, PDO::PARAM_STR);
+        $stm->bindParam(':kind', $kind, PDO::PARAM_STR);
+        $stm->bindParam(':verb_kind', $verb_kind, PDO::PARAM_STR);
+        $stm->bindParam(':dievidmina', $dievidmina, PDO::PARAM_STR);
+        $stm->bindParam(':class', $class, PDO::PARAM_STR);
+        $stm->bindParam(':sub_role', $sub_role, PDO::PARAM_STR);
+        $stm->bindParam(':comparison', $comparison, PDO::PARAM_STR);
+        $stm->bindParam(':tense', $tense, PDO::PARAM_STR);
+        $stm->bindParam(':mood', $mood, PDO::PARAM_STR);
+        $stm->bindParam(':is_infinitive', $is_infinitive, PDO::PARAM_BOOL);
+        $stm->bindParam(':is_main_form', $is_main_form, PDO::PARAM_BOOL);
         $result = $stm->fetch(PDO::FETCH_ASSOC);
 
         if (empty($result)) {
-            $sql = 'INSERT INTO `' . $this->tableName . '` (`word`, `is_foreign`) VALUES (:word, :isForeign );';
+            $sql = 'INSERT INTO `' . $this->tableName . '` (' . $fields . ') VALUES (' . $values . ');';
             $stm = $this->connection->prepare($sql);
-            $stm->bindParam(':isForeign', $isForeign, PDO::PARAM_BOOL);
             $stm->bindParam(':word', $word, PDO::PARAM_STR);
+            $stm->bindParam(':part_of_language', $part_of_language, PDO::PARAM_STR);
+            $stm->bindParam(':creature', $creature, PDO::PARAM_STR);
+            $stm->bindParam(':genus', $genus, PDO::PARAM_STR);
+            $stm->bindParam(':number', $number, PDO::PARAM_STR);
+            $stm->bindParam(':person', $person, PDO::PARAM_STR);
+            $stm->bindParam(':kind', $kind, PDO::PARAM_STR);
+            $stm->bindParam(':verb_kind', $verb_kind, PDO::PARAM_STR);
+            $stm->bindParam(':dievidmina', $dievidmina, PDO::PARAM_STR);
+            $stm->bindParam(':class', $class, PDO::PARAM_STR);
+            $stm->bindParam(':sub_role', $sub_role, PDO::PARAM_STR);
+            $stm->bindParam(':comparison', $comparison, PDO::PARAM_STR);
+            $stm->bindParam(':tense', $tense, PDO::PARAM_STR);
+            $stm->bindParam(':mood', $mood, PDO::PARAM_STR);
+            $stm->bindParam(':is_infinitive', $is_infinitive, PDO::PARAM_BOOL);
+            $stm->bindParam(':is_main_form', $is_main_form, PDO::PARAM_BOOL);
             $stm->execute();
-            $id = $this->connection->lastInsertId();
 
+            $id = $this->connection->lastInsertId();
             $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE id = :id limit 1;';
             $stm = $this->connection->prepare($sql);
             $stm->bindParam(':id', $id);
