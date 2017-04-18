@@ -9,7 +9,6 @@ require_once('../support/libs.php');
 require_once('../models/word.php');
 require_once('../models/wordToIgnore.php');
 require_once('../models/source.php');
-require_once('../models/wordToSource.php');
 require_once('../models/dictionary.php');
 require_once('../models/html.php');
 

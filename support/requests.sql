@@ -45,4 +45,8 @@ select * from html where part_of_language LIKE '%іменник%' and created_at
 
 select count(*) from html where part_of_language LIKE '%займенник%';
 select * from html where part_of_language LIKE '%частка%' order by id;
-select * from html where part_of_language LIKE '%прислівник%' and part_of_language NOT LIKE '%дієприслівник%' and part_of_language NOT LIKE '%дієслово%' order by id
+select * from html where part_of_language LIKE '%прислівник%' and part_of_language NOT LIKE '%дієприслівник%' and part_of_language NOT LIKE '%дієслово%' order by id;
+
+INSERT INTO word_rejected (word, word_readable, source_id) SELECT word, word_readable, source_id FROM word_new WHERE is_wrong = 0;
+
+CREATE TABLE copy LIKE original;

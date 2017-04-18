@@ -9,7 +9,6 @@ require_once('../support/libs.php');
 require_once('../models/word.php');
 require_once('../models/wordToIgnore.php');
 require_once('../models/source.php');
-require_once('../models/wordToSource.php');
 require_once('../models/dictionary.php');
 require_once('../models/html.php');
 
@@ -27,6 +26,12 @@ for ($j = 0; $j < 140;  $j++) {
         echo '+';
         $html = new Html($dbh);
         $html->getById(array_get($htmlArray, 'id'));
+
+        if (false == $html->getProperty('is_need_processing', false)) {
+            echo 's';
+            continue;
+        }
+        echo 'p';
 
         // load extracted HTML=page
         $word = cleanCyrillic($html->getProperty('word'));
@@ -215,32 +220,20 @@ for ($j = 0; $j < 140;  $j++) {
             $kind = 'кличний';
         }
 
-//        Detector
-//        if (null === $number && false === in_array($word, ['іно'])) {
-//            echo "\n\n";
-//            var_dump($html->getId());
-//            var_dump($word);
-//            var_dump($singR);
-//            var_dump($number);
-//            var_dump($kind);
-//            var_dump($wordForms);
-//            exit;
-//        }
-
         // ***
         
         $mainFormId = null;
 
-//        $html->updateProperty('number', PDO::PARAM_STR, $number);
-//        $html->updateProperty('kind', PDO::PARAM_STR, $kind);
-//        $html->updateProperty('creature', PDO::PARAM_BOOL, $creature);
-//        $html->updateProperty('genus', PDO::PARAM_STR, $genus);
-//        $html->updateProperty('variation', PDO::PARAM_STR, $variation);
         $html->updateProperty('is_main_form', PDO::PARAM_BOOL, $isMainForm);
 
         foreach ($wordForms as $wordForm) {
             echo '*';
-            $word = array_get($wordForm, 'word');
+            $word = trim(array_get($wordForm, 'word'));
+
+            if ('' == $word || empty($word)) {
+                continue;
+            }
+
             $number = array_get($wordForm, 'number');
             $kind = array_get($wordForm, 'kind');
             $isMainForm = array_get($wordForm, 'isMainForm');

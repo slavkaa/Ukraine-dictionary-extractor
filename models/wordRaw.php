@@ -2,20 +2,20 @@
 require_once('abstractModel.php');
 require_once('Traits\WordTrait.php');
 
-class WordToIgnore extends AbstractModel
-{
+class WordRaw extends AbstractModel {
+
     use WordTrait;
 
     /**
      * @var string
      */
-    protected $tableName = 'word_to_ignore';
+	protected $tableName = 'word_raw';
 
     /**
      * @var mixed[]
      */
     protected $props = [
         'word' => null,
-        'is_false_alert' => null
+        'word_binary' => null,
     ];
 }

@@ -30,20 +30,13 @@ class Source extends AbstractModel {
         $stm->execute();
         $result = $stm->fetch(PDO::FETCH_ASSOC);
 
-        if (!empty($result)) {
-            echo 'U[source] ';
-        } else {
-            echo 'I[source] ';
+        if (empty($result)) {
             $sql = 'INSERT INTO `' . $this->tableName . '` (`author`, `title`) VALUES (:author, :title );';
             $stm = $this->connection->prepare($sql);
             $stm->bindParam(':author', $author, PDO::PARAM_STR);
             $stm->bindParam(':title', $title, PDO::PARAM_STR);
-//            var_dump($sql);
             $stm->execute();
-//            var_dump($stm);
-//            var_dump($this->connection->errorInfo());
             $id = $this->connection->lastInsertId();
-//            var_dump($id);
             $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE id = :id limit 1;';
             $stm = $this->connection->prepare($sql);
             $stm->bindParam(':id', $id);
