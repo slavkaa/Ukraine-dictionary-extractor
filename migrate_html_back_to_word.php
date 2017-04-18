@@ -14,17 +14,20 @@ require_once('models/html.php');
 
 // *** //
 
-for ($i = 1; $i < 4824;  $i++) {
+for ($i = 1; $i < 4502;  $i++) {
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getAllIsNeedProcessing(100);
 
     echo $i . '00. ';
 
     foreach ($allHtml as $htmlArr) {
-        echo '<';
-
         $id = array_get($htmlArr, 'id');
         $wordText = array_get($htmlArr, 'word_binary');
+
+        if ('' == $wordText) {
+            continue;
+        }
+
         $html = new Html($dbh);
         $html->getById($id);
 
@@ -35,13 +38,18 @@ for ($i = 1; $i < 4824;  $i++) {
         // part_of_language
         $value = $html->getProperty('part_of_language');
         $value = str_replace("'", '`', $value);
-        if (false == in_array($value, ['займенник','іменник','прикметник','дієслово','дієприкметник','дієприслівник','прислівник','частка','вигук','сполучник','прийменник','числівник','присудкове слово','чоловіче ім`я','жіноче ім`я','вставне слово', null])) {
-            if (null === $part_of_language) {
-                continue;
-            }
 
+        if ('' == $value) {
+            echo 'E';
+            $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+            continue;
+        }
+
+        if (false == in_array($value, ['займенник','іменник','прикметник','дієслово','дієприкметник','дієприслівник','прислівник','частка','вигук','сполучник','прийменник','числівник','присудкове слово','чоловіче ім`я','жіноче ім`я','вставне слово', null])) {
             if (-1 < strpos($value, ',')) {
-                // ignore
+                echo 'C';
+                $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+                continue;
             } else {
                 echo 'Wrong part_of_language ';
                 var_dump($value);
@@ -50,6 +58,8 @@ for ($i = 1; $i < 4824;  $i++) {
             }
         }
         $part_of_language = $value;
+
+        echo '<';
 
         // creature
         $value = $html->getProperty('creature');
@@ -97,15 +107,18 @@ for ($i = 1; $i < 4824;  $i++) {
         $value = (null == $value) ? '-' : $value;
         if (false == in_array($value, ['називний','родовий','давальний','знахідний','орудний','місцевий','кличний', '-'])) {
             echo 'Wrong kind ' . $value;
+            echo '.HTML node, ID ' . $id . '. ';
             die;
         }
         $kind = $value;
 
         // verb_kind
         $value = $html->getProperty('verb_kind');
+        $value = str_replace(' вид', '', $value);
         $value = (null == $value) ? '-' : $value;
         if (false == in_array($value, ['доконаний','недоконаний', '-'])) {
             echo 'Wrong verb_kind';
+            echo '.HTML node, ID ' . $id . '. ';
             die;
         }
         $verb_kind = $value;
@@ -149,8 +162,9 @@ for ($i = 1; $i < 4824;  $i++) {
         // tense
         $value = $html->getProperty('tense');
         $value = (null == $value) ? '-' : $value;
-        if (false == in_array($value, ['майбутній час','теперешній час','минулий час','наказовий спосіб', '-'])) {
+        if (false == in_array($value, ['майбутній час','теперішній час','минулий час','наказовий спосіб','-'])) {
             echo 'Wrong tense';
+            echo '.HTML node, ID ' . $id . '. ';
             die;
         }
         $tense = $value;
@@ -174,14 +188,12 @@ for ($i = 1; $i < 4824;  $i++) {
         // --------------------------------------
 
         // html_id
-
         $word->updateProperty('html_id', PDO::PARAM_INT, $html->getId());
 
         // is_need_processing
 
         $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
         echo '>';
-        die;
     }
 
     echo "\n";

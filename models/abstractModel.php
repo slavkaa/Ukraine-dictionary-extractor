@@ -112,19 +112,14 @@ class AbstractModel {
      */
     public function updateProperty($columnName, $columnType, $value)
     {
-        $id = (int) array_get($this->props, 'id');
+        $id = $this->getId();
 
         if ($id) {
             $sql = 'UPDATE `' . $this->tableName . '` SET ' . $columnName . ' = :' . $columnName . ' WHERE id = :id;';
-//            var_dump($sql);
             $stm = $this->connection->prepare($sql);
             $stm->bindParam(':id', $id, PDO::PARAM_INT);
             $stm->bindParam(':' . $columnName, $value, $columnType);
             $stm->execute();
-
-//            var_dump($this->connection->errorInfo());
-
-//            echo 'U['. $columnName .':' . $id . '] ';
         } else {
             echo '!!!['. $columnName .'] ';
         }

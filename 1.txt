@@ -1,3 +1,1 @@
-﻿﻿U[dictionary] .
- offset 0, limit 100 
-+InitId(7)U[html] *I[html] ID(241147)*I[html] ID(241148)*I[html] ID(241149)*I[html] ID(241150)*I[html] ID(241151)*I[html] ID(241152)*I[html] ID(241153)*I[html] ID(241154)*I[html] ID(241155)*I[html] ID(241156)*I[html] ID(241157)*I[html] ID(241158)*I[html] ID(241159)*I[html] ID(241160)*I[html] ID(241161)*I[html] ID(241162)*I[html] ID(241163)*I[html] ID(241164)**I[html] ID(241165)*I[html] ID(241166)*I[html] ID(241167)*U[html] ID(241101)*U[html] ID(241102)
+﻿﻿100. +

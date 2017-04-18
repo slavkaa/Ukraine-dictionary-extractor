@@ -75,10 +75,24 @@ class Word extends AbstractModel {
     }
 
 
-
     /**
      * @param string $word
-     * @param boolean $isForeign
+     * @param string $part_of_language
+     * @param string $creature
+     * @param string $genus
+     * @param string $number
+     * @param string $person
+     * @param string $kind
+     * @param string $verb_kind
+     * @param string $dievidmina
+     * @param string $class
+     * @param string $sub_role
+     * @param string $comparison
+     * @param string $tense
+     * @param string $mood
+     * @param boolean $is_infinitive
+     * @param boolean $is_main_form
+     * @internal param bool $isForeign
      */
     public function firstOrNewTotal($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
         $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form)
@@ -128,6 +142,9 @@ class Word extends AbstractModel {
         $stm->bindParam(':is_main_form', $is_main_form, PDO::PARAM_BOOL);
         $result = $stm->fetch(PDO::FETCH_ASSOC);
 
+//        var_dump($result);
+//        die;
+
         if (empty($result)) {
             $sql = 'INSERT INTO `' . $this->tableName . '` (' . $fields . ') VALUES (' . $values . ');';
             $stm = $this->connection->prepare($sql);
@@ -149,6 +166,9 @@ class Word extends AbstractModel {
             $stm->bindParam(':is_main_form', $is_main_form, PDO::PARAM_BOOL);
             $stm->execute();
 
+//            var_dump($part_of_language);
+//            var_dump($stm->errorInfo());
+
             $id = $this->connection->lastInsertId();
             $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE id = :id limit 1;';
             $stm = $this->connection->prepare($sql);
@@ -158,9 +178,12 @@ class Word extends AbstractModel {
 
             $this->id = array_get($result, 'id');
             $this->props = $result;
+        } else {
+            $this->id = array_get($result, 'id');
+            $this->props = $result;
         }
 
-        $this->id = array_get($result, 'id');
-        $this->props = $result;
+//        var_dump($this->id);
+//        die;
     }
 }
