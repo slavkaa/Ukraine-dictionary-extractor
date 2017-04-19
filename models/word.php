@@ -1,7 +1,10 @@
 <?php
 require_once('abstractModel.php');
+require_once('Traits\ProcessingFieldTrait.php');
 
-class Word extends AbstractModel {
+class Word extends AbstractModel
+{
+    use ProcessingFieldTrait;
 
     /**
      * @var string
@@ -140,10 +143,8 @@ class Word extends AbstractModel {
         $stm->bindParam(':mood', $mood, PDO::PARAM_STR);
         $stm->bindParam(':is_infinitive', $is_infinitive, PDO::PARAM_BOOL);
         $stm->bindParam(':is_main_form', $is_main_form, PDO::PARAM_BOOL);
+        $stm->execute();
         $result = $stm->fetch(PDO::FETCH_ASSOC);
-
-//        var_dump($result);
-//        die;
 
         if (empty($result)) {
             $sql = 'INSERT INTO `' . $this->tableName . '` (' . $fields . ') VALUES (' . $values . ');';

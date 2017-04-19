@@ -9,11 +9,12 @@ require_once('Traits\HtmlConjunctionTrait.php');
 require_once('Traits\HtmlParticleTrait.php');
 require_once('Traits\HtmlAdverbTrait.php');
 require_once('Traits\HtmlNumeralTrait.php');
+require_once('Traits\ProcessingFieldTrait.php');
 
 class Html extends AbstractModel {
 
     use HtmlNounTrait, HtmlAdjectiveTrait, HtmlVerbTrait, HtmlPrepositionTrait, HtmlPronounTrait,
-        HtmlConjunctionTrait, HtmlParticleTrait, HtmlAdverbTrait, HtmlNumeralTrait;
+        HtmlConjunctionTrait, HtmlParticleTrait, HtmlAdverbTrait, HtmlNumeralTrait, ProcessingFieldTrait;
 
     /**
      * @var string
@@ -128,34 +129,6 @@ class Html extends AbstractModel {
     public function getAllWithoutHtml($limit = 1000000)
     {
         $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE html IS NULL OR html = \'\' LIMIT :limit;';
-        $stm = $this->connection->prepare($sql);
-        $stm->bindParam(':limit', $limit, PDO::PARAM_INT);
-        $stm->execute();
-
-        return $stm;
-    }
-
-    /**
-     * @param int $limit
-     * @return PDOStatement
-     */
-    public function getAllIsNeedProcessingOrdered($limit = 1000000)
-    {
-        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE is_need_processing = 1 ORDER BY id LIMIT :limit;';
-        $stm = $this->connection->prepare($sql);
-        $stm->bindParam(':limit', $limit, PDO::PARAM_INT);
-        $stm->execute();
-
-        return $stm;
-    }
-
-    /**
-     * @param int $limit
-     * @return PDOStatement
-     */
-    public function getAllIsNeedProcessing($limit = 1000000)
-    {
-        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE is_need_processing = 1 LIMIT :limit;';
         $stm = $this->connection->prepare($sql);
         $stm->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stm->execute();

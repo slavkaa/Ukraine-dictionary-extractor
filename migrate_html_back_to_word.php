@@ -14,7 +14,7 @@ require_once('models/html.php');
 
 // *** //
 
-for ($i = 1; $i < 4502;  $i++) {
+for ($i = 1; $i < 4510;  $i++) { //
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getAllIsNeedProcessing(100);
 
@@ -170,10 +170,10 @@ for ($i = 1; $i < 4502;  $i++) {
         $tense = $value;
 
         // is_main_form
-        $is_main_form = $html->getProperty('is_main_form', false);
+        $is_main_form = (bool) $html->getProperty('is_main_form', false);
 
         // is_infinitive
-        $is_infinitive = $html->getProperty('is_infinitive', false);
+        $is_infinitive = (bool) $html->getProperty('is_infinitive', false);
 
         // --------------------------------------
 

@@ -52,3 +52,12 @@ INSERT INTO word_rejected (word, word_readable, source_id) SELECT word, word_rea
 CREATE TABLE copy LIKE original;
 
 SELECT word, count(word) as counter FROM html group by word order by counter DESC;
+
+--
+
+select * from html where is_main_form = 1 and word_id is null and id > 405
+select * from html where main_form_id = 632 or id = 632
+select * from html where word = 'доля'
+update html set main_form_id = 51573 where main_form_id = 582
+select * from html where main_form_id = 582
+select * from html where main_form_id = 51573 or id = 51573
