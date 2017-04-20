@@ -2,8 +2,8 @@
 
 // @link: http://phpfaq.ru/pdo
 
-$host = '172.19.5.99';
-//$host = '127.0.0.1';
+//$host = '172.19.5.99';
+$host = '127.0.0.1';
 $db   = 'url_dictionary';
 $user = 'root';
 $pass = '';

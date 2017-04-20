@@ -77,28 +77,44 @@ trait HtmlNounTrait {
      * @param string $kind
      * @param string $number
      * @param integer $dictionaryId
+     * @param string $creature
+     * @param string $genus
+     * @param string $variation
+     * @param boolean $isMainForm
      */
-    public function firstOrNewNounNonUrl($word, $kind, $number, $dictionaryId)
+    public function firstOrNewNounNonUrl($word, $kind, $number, $dictionaryId, $creature, $genus, $variation, $isMainForm)
     {
-        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE part_of_language = \'іменник\' AND word_binary = :word AND kind = :kind AND number = :number AND url is NULL;';
+        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE part_of_language = \'іменник\' AND word_binary = :word AND '.
+            'kind = :kind AND number = :number AND url is NULL AND creature = :creature AND genus = :genus AND variation = :variation AND is_main_form = :isMainForm LIMIT 1;';
         $stm = $this->connection->prepare($sql);
         $stm->bindParam(':word', $word, PDO::PARAM_STR);
         $stm->bindParam(':kind', $kind, PDO::PARAM_STR);
         $stm->bindParam(':number', $number, PDO::PARAM_STR);
+        $stm->bindParam(':creature', $creature, PDO::PARAM_STR);
+        $stm->bindParam(':genus', $genus, PDO::PARAM_STR);
+        $stm->bindParam(':variation', $variation, PDO::PARAM_STR);
+        $stm->bindParam(':isMainForm', $isMainForm, PDO::PARAM_BOOL);
         $stm->execute();
         $result = $stm->fetch(PDO::FETCH_ASSOC);
+
+        var_dump($stm->errorInfo());
 
         if (!empty($result)) {
             echo 'U[html] ';
         } else {
             echo 'I[html] ';
             $sql = 'INSERT INTO `' . $this->tableName .
-                '` (`dictionary_id`,`word`, `word_binary`, `part_of_language`, `kind`, `number`) VALUES (:dictionary_id, :word, :word, \'іменник\', :kind, :number);';
+                '` (`dictionary_id`,`word`, `word_binary`, `part_of_language`, `kind`, `number`, `creature`, `genus`, `variation`, `isMainForm`) '.
+                ' VALUES (:dictionary_id, :word, :word, \'іменник\', :kind, :number, :creature, :genus, :variation, :is_main_form);';
             $stm = $this->connection->prepare($sql);
             $stm->bindParam(':word', $word, PDO::PARAM_STR);
             $stm->bindParam(':kind', $kind, PDO::PARAM_STR);
             $stm->bindParam(':number', $number, PDO::PARAM_STR);
             $stm->bindParam(':dictionary_id', $dictionaryId, PDO::PARAM_INT);
+            $stm->bindParam(':creature', $creature, PDO::PARAM_STR);
+            $stm->bindParam(':genus', $genus, PDO::PARAM_STR);
+            $stm->bindParam(':variation', $variation, PDO::PARAM_STR);
+            $stm->bindParam(':isMainForm', $isMainForm, PDO::PARAM_BOOL);
             $stm->execute();
             $id = $this->connection->lastInsertId();
 
@@ -111,5 +127,7 @@ trait HtmlNounTrait {
 
         $this->id = array_get($result, 'id');
         $this->props = $result;
+
+        die;
     }
 } 

@@ -61,3 +61,7 @@ select * from html where word = 'доля'
 update html set main_form_id = 51573 where main_form_id = 582
 select * from html where main_form_id = 582
 select * from html where main_form_id = 51573 or id = 51573
+
+--
+
+update html set creature = null, genus = null, number = null, person = null, kind = null, verb_kind = null, dievidmina = null, class = null, sub_role = null, comparison = null, tense = null, mood = null, is_infinitive = 0, is_main_form = 0, main_form_id = null

@@ -14,8 +14,10 @@ require_once('../models/html.php');
 
 // *** //
 
-for ($i = 1; $i < 200;  $i++) {
-    echo '.';
+echo "\n";
+
+for ($i = 1; $i < 120;  $i++) {
+    echo $i . '00 ';
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getAllIsNeedProcessing(100);
 
@@ -35,8 +37,12 @@ for ($i = 1; $i < 200;  $i++) {
         $result = [];
 
         if ('' === $text) { // empty response from slovnyk.ua
+            echo 'e';
+            $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             continue;
         }
+
+        echo '.';
 
         if (0 < strpos($text, 'іменник')) {  $result[] = 'іменник';} // +
         if (0 < strpos($text, 'дієслово')) { $result[] = 'дієслово'; } // +
@@ -55,7 +61,10 @@ for ($i = 1; $i < 200;  $i++) {
 
         // update html_cut
         $html->updateProperty('part_of_language', PDO::PARAM_STR, implode(',', $result));
+        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
     }
+
+    echo "\n";
 }
 
 echo 'END';

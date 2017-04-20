@@ -122,6 +122,7 @@ class AbstractModel {
             $stm->execute();
         } else {
             echo '!!!['. $columnName .'] ';
+            exit;
         }
     }
 }

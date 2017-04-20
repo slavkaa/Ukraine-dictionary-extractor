@@ -1,0 +1,4 @@
+﻿﻿U[dictionary] 
+000 
+ offset 0, limit 100 
+<pstring(19) "ІІ відміна"

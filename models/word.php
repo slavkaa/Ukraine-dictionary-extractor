@@ -77,7 +77,6 @@ class Word extends AbstractModel
         $this->props = $result;
     }
 
-
     /**
      * @param string $word
      * @param string $part_of_language
