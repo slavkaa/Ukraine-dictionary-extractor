@@ -75,9 +75,13 @@ for ($j = 0; $j < 135;  $j++) {
         $definition = $definition->item(0)->textContent;
         $definition = explode(',', $definition);
 
-        $creature = trim(array_get($definition, 2)); // istota
-        $genus = trim(array_get($definition, 1)); // rid
-        $variation = trim(array_get($definition, 3));
+        $creature = trim(array_get($definition, 2, '-')); // istota
+        $genus = trim(array_get($definition, 1, '-')); // rid
+        $variation = trim(array_get($definition, 3, '-'));
+
+        $creature = $creature ? $creature : '-';
+        $genus = $genus ? $genus : '-';
+        $variation = $variation ? $variation : '-';
 
         $isMainForm = false;
 
@@ -163,9 +167,12 @@ for ($j = 0; $j < 135;  $j++) {
                 continue;
             }
 
-            $number = array_get($wordForm, 'number');
-            $kind = array_get($wordForm, 'kind');
-            $is_main_form = array_get($wordForm, 'isMainForm');
+            $number = array_get($wordForm, 'number', '-');
+            $kind = array_get($wordForm, 'kind', '-');
+            $is_main_form = (bool) array_get($wordForm, 'isMainForm', false);
+
+            $number = $number ? $number : '-';
+            $kind = $kind ? $kind: '-';
 
             $htmlItem = new Html($dbh);
             $htmlItem->firstOrNewTotal($word, $part_of_language, $creature, $genus, $number, '-', $kind, '-',

@@ -281,7 +281,7 @@ class Html extends AbstractModel {
      * @param int $dictionary_id
      */
     public function firstOrNewTotal($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
-                                    $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form, $variation, $dictionary_id)
+        $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form, $variation, $dictionary_id)
     {
         $array = [
             'word = :word',
@@ -298,16 +298,21 @@ class Html extends AbstractModel {
             'sub_role = :sub_role',
             'comparison = :comparison',
             'tense = :tense',
+            'variation = :variation',
             'mood = :mood',
             'is_infinitive = :is_infinitive',
             'is_main_form = :is_main_form',
-            'variation = :variation',
+
         ];
 
-        $fields = '`word`,`word_binary`,`part_of_language`,`creature`,`genus`,`number`,`person`,`kind`,`verb_kind`,`dievidmina`,`class`,`sub_role`,`comparison`,`tense`,`mood`,`is_infinitive`,`is_main_form`,`variation`,`dictionary_id`';
-
-        $values = ':word,:word,:part_of_language,:creature,:genus,:number,:person,:kind,:verb_kind,:dievidmina,:class,:sub_role,:comparison,:tense,:mood,:is_infinitive,:is_main_form,:variation,:dictionary_id';
-
+        if (null === $word || null === $part_of_language || null === $creature || null === $genus || null === $number ||
+            null === $person || null === $kind || null === $verb_kind || null === $dievidmina || null === $class ||
+            null === $sub_role || null === $comparison || null === $tense || null === $mood || !in_array($is_infinitive, [0,1,false,true]) ||
+            !in_array($is_main_form, [0,1,false,true]) || null === $variation || null === $dictionary_id) {
+            var_dump($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
+                $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form, $variation, $dictionary_id);
+            die('NULL value!');
+        }
 
         $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE ' . implode(' AND ', $array) . ' limit 1;';
         $stm = $this->connection->prepare($sql);
@@ -336,6 +341,18 @@ class Html extends AbstractModel {
 //        var_dump($this->connection->errorInfo());
 
         if (empty($result)) {
+
+//            var_dump($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
+//                $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form, $variation, $dictionary_id);
+//            var_dump($result);
+//            var_dump($stm->errorInfo());
+//            var_dump($this->connection->errorInfo());
+//            die;
+
+            $fields = '`word`,`word_binary`,`part_of_language`,`creature`,`genus`,`number`,`person`,`kind`,`verb_kind`,`dievidmina`,`class`,`sub_role`,`comparison`,`tense`,`mood`,`is_infinitive`,`is_main_form`,`variation`,`dictionary_id`';
+
+            $values = ':word,:word,:part_of_language,:creature,:genus,:number,:person,:kind,:verb_kind,:dievidmina,:class,:sub_role,:comparison,:tense,:mood,:is_infinitive,:is_main_form,:variation,:dictionary_id';
+
             $sql = 'INSERT INTO `' . $this->tableName . '` (' . $fields . ') VALUES (' . $values . ');';
             $stm = $this->connection->prepare($sql);
             $stm->bindParam(':word', $word, PDO::PARAM_STR);
@@ -367,13 +384,10 @@ class Html extends AbstractModel {
             $stm->bindParam(':id', $id);
             $stm->execute();
             $result = $stm->fetch(PDO::FETCH_ASSOC);
-
-            $this->id = array_get($result, 'id');
-            $this->props = $result;
-        } else {
-            $this->id = array_get($result, 'id');
-            $this->props = $result;
         }
+
+        $this->id = array_get($result, 'id');
+        $this->props = $result;
 
 //        var_dump($this->id);
 //        die;

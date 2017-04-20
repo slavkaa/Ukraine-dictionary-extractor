@@ -21,7 +21,7 @@ $part_of_language = 'дієслово';
 
 echo "\n";
 
-for ($j = 0; $j < 122;  $j++) {
+for ($j = 0; $j < 125;  $j++) { // 125
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
 
@@ -29,8 +29,6 @@ for ($j = 0; $j < 122;  $j++) {
         echo '<';
         $html = new Html($dbh);
         $html->getById(array_get($htmlArray, 'id'));
-
-        echo 'InitId(' . array_get($htmlArray, 'id') . ')';
 
         // load extracted HTML=page
         $word = cleanCyrillic($html->getProperty('word'));
@@ -75,8 +73,11 @@ for ($j = 0; $j < 122;  $j++) {
         $definition = explode(',', $definition);
 
         $infinitive = trim(str_replace(['дієслово', '-', ' '], '', array_get($definition, 0)));
-        $verbKind = trim(array_get($definition, 1));
-        $dievidmina = trim(array_get($definition, 2));
+        $verbKind = trim(array_get($definition, 1, '-'));
+        $dievidmina = trim(array_get($definition, 2, '-'));
+
+        $dievidmina = $dievidmina ? $dievidmina : '-';
+        $verbKind = $verbKind ? $verbKind : '-';
 
         $cell2 = $xpath->query("//*[contains(@class, 'sfm_cell_2')]");
         $cell2e = $xpath->query("//*[contains(@class, 'sfm_cell_e_2')]");
@@ -228,10 +229,15 @@ for ($j = 0; $j < 122;  $j++) {
         foreach ($wordForms as $wordForm) {
             echo 'd';
             $word = trim(array_get($wordForm, 'word'));
-            $tense = array_get($wordForm, 'tense');
-            $number = array_get($wordForm, 'number');
-            $genus = array_get($wordForm, 'genus');
-            $person = array_get($wordForm, 'person');
+            $tense = array_get($wordForm, 'tense', '-');
+            $number = array_get($wordForm, 'number', '-');
+            $genus = array_get($wordForm, 'genus', '-');
+            $person = array_get($wordForm, 'person', '-');
+
+            $genus = $genus ? $genus : '-';
+            $tense = $tense ? $tense : '-';
+            $number = $number ? $number : '-';
+            $person = $person ? $person : '-';
 
             if ( " " == $word || empty($word)) {
                 continue;
@@ -240,24 +246,20 @@ for ($j = 0; $j < 122;  $j++) {
             $htmlItem->firstOrNewTotal($word, 'дієслово', '-', $genus, $number, $person, '-', $verbKind,
                 $dievidmina, '-', '-', '-', $tense, '-', 0, 0, '-', $dictionaryId);
             $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
-
-            echo 'ID(' . $htmlItem->getId() . ')';
         }
 
         foreach ($diepruslivnyk as $wordForm) {
             echo 'p';
-            $word = array_get($wordForm, 'word');
-            $tense = array_get($wordForm, 'tense');
+            $word = trim(array_get($wordForm, 'word'));
+            $tense = array_get($wordForm, 'tense', '-');
 
             if ( " " == $word || empty($word)) {
                 continue;
             }
 
-            $htmlItem->firstOrNewTotal($word, 'дієприслівник', '-', $genus, $number, '-', '-', $verbKind,
-                $dievidmina, '-', '-', '-', $tense, '-', 0, 0, '-', $dictionaryId);
+            $htmlItem->firstOrNewTotal(trim($word), 'дієприслівник', '-', '-', '-', '-', '-', '-',
+                '-', '-', '-', '-', $tense, '-', 0, 0, '-', $dictionaryId);
             $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
-
-            echo 'ID(' . $htmlItem->getId() . ')';
         }
 
         $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
