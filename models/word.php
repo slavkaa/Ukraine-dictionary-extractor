@@ -91,13 +91,13 @@ class Word extends AbstractModel
      * @param string $sub_role
      * @param string $comparison
      * @param string $tense
+     * @param string $variation
      * @param string $mood
      * @param boolean $is_infinitive
      * @param boolean $is_main_form
-     * @internal param bool $isForeign
      */
     public function firstOrNewTotal($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
-        $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form)
+        $dievidmina, $class, $sub_role, $comparison, $tense, $variation, $mood, $is_infinitive, $is_main_form)
     {
         $array = [
             'word = :word',
@@ -114,14 +114,15 @@ class Word extends AbstractModel
             'sub_role = :sub_role',
             'comparison = :comparison',
             'tense = :tense',
+            'variation = :variation',
             'mood = :mood',
             'is_infinitive = :is_infinitive',
             'is_main_form = :is_main_form',
         ];
 
-        $fields = '`word`,`word_binary`,`part_of_language`,`creature`,`genus`,`number`,`person`,`kind`,`verb_kind`,`dievidmina`,`class`,`sub_role`,`comparison`,`tense`,`mood`,`is_infinitive`,`is_main_form`';
+        $fields = '`word`,`word_binary`,`part_of_language`,`creature`,`genus`,`number`,`person`,`kind`,`verb_kind`,`dievidmina`,`class`,`sub_role`,`comparison`,`tense`,`mood`,`is_infinitive`,`is_main_form`, `variation`';
 
-        $values = ':word,:word,:part_of_language,:creature,:genus,:number,:person,:kind,:verb_kind,:dievidmina,:class,:sub_role,:comparison,:tense,:mood,:is_infinitive,:is_main_form';
+        $values = ':word,:word,:part_of_language,:creature,:genus,:number,:person,:kind,:verb_kind,:dievidmina,:class,:sub_role,:comparison,:tense,:mood,:is_infinitive,:is_main_form,:variation';
 
 
         $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE ' . implode(' AND ', $array) . ' limit 1;';
@@ -139,6 +140,7 @@ class Word extends AbstractModel
         $stm->bindParam(':sub_role', $sub_role, PDO::PARAM_STR);
         $stm->bindParam(':comparison', $comparison, PDO::PARAM_STR);
         $stm->bindParam(':tense', $tense, PDO::PARAM_STR);
+        $stm->bindParam(':variation', $variation, PDO::PARAM_STR);
         $stm->bindParam(':mood', $mood, PDO::PARAM_STR);
         $stm->bindParam(':is_infinitive', $is_infinitive, PDO::PARAM_BOOL);
         $stm->bindParam(':is_main_form', $is_main_form, PDO::PARAM_BOOL);
@@ -161,6 +163,7 @@ class Word extends AbstractModel
             $stm->bindParam(':sub_role', $sub_role, PDO::PARAM_STR);
             $stm->bindParam(':comparison', $comparison, PDO::PARAM_STR);
             $stm->bindParam(':tense', $tense, PDO::PARAM_STR);
+            $stm->bindParam(':variation', $variation, PDO::PARAM_STR);
             $stm->bindParam(':mood', $mood, PDO::PARAM_STR);
             $stm->bindParam(':is_infinitive', $is_infinitive, PDO::PARAM_BOOL);
             $stm->bindParam(':is_main_form', $is_main_form, PDO::PARAM_BOOL);

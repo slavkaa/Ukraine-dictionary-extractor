@@ -14,7 +14,7 @@ require_once('models/html.php');
 
 // *** //
 
-for ($i = 1; $i < 4510;  $i++) { //
+for ($i = 1; $i < 2750;  $i++) { //
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getAllIsNeedProcessing(100);
 
@@ -162,12 +162,22 @@ for ($i = 1; $i < 4510;  $i++) { //
         // tense
         $value = $html->getProperty('tense');
         $value = (null == $value) ? '-' : $value;
-        if (false == in_array($value, ['майбутній час','теперішній час','минулий час','наказовий спосіб','-'])) {
+        if (false == in_array($value, ['майбутній','теперішній','минулий','наказовий спосіб','-'])) {
             echo 'Wrong tense';
             echo '.HTML node, ID ' . $id . '. ';
             die;
         }
         $tense = $value;
+
+        // variation
+        $value = $html->getProperty('variation');
+        $value = (null == $value) ? '-' : $value;
+        if (false == in_array($value, ['1 відміна','2 відміна','3 відміна','4 відміна','невідмінюване','-'])) {
+            echo 'Wrong variation';
+            echo '.HTML node, ID ' . $id . '. ';
+            die;
+        }
+        $variation = $value;
 
         // is_main_form
         $is_main_form = (bool) $html->getProperty('is_main_form', false);
@@ -179,19 +189,12 @@ for ($i = 1; $i < 4510;  $i++) { //
 
         $word = new Word($dbh);
         $word->firstOrNewTotal($wordText, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
-            $dievidmina, $class, $sub_role, $comparison, $tense, '-', $is_infinitive, $is_main_form);
+            $dievidmina, $class, $sub_role, $comparison, $tense, $variation, '-', $is_infinitive, $is_main_form);
 
-        if ($word->isNew()) {
-            $html->updateProperty('word_id', PDO::PARAM_INT, $word->getId());
-        }
-
-        // --------------------------------------
-
-        // html_id
         $word->updateProperty('html_id', PDO::PARAM_INT, $html->getId());
+        $word->updateProperty('main_form_code', PDO::PARAM_STR, $html->getProperty('main_form_id'));
 
-        // is_need_processing
-
+        $html->updateProperty('word_id', PDO::PARAM_INT, $word->getId());
         $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
         echo '>';
     }
