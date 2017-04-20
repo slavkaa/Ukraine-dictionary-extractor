@@ -31,14 +31,7 @@ for ($j = 0; $j < 135;  $j++) {
         $html = new Html($dbh);
         $html->getById(array_get($htmlArray, 'id'));
 
-        if (false == $html->getProperty('is_need_processing', false)) {
-            echo 's';
-            continue;
-        }
-        echo 'p';
-
         // load extracted HTML=page
-        $word = cleanCyrillic($html->getProperty('word'));
         $text = cleanCyrillic($html->getProperty('html_cut'));
 
         // filtrate noun {
@@ -75,9 +68,29 @@ for ($j = 0; $j < 135;  $j++) {
         $definition = $definition->item(0)->textContent;
         $definition = explode(',', $definition);
 
-        $creature = trim(array_get($definition, 2, '-')); // istota
+        $creature = trim(array_get($definition, 2, '-'));
         $genus = trim(array_get($definition, 1, '-')); // rid
         $variation = trim(array_get($definition, 3, '-'));
+
+        if ('тільки множина' == trim($variation) || 'тільки однина' == trim($variation)) {
+            $creature = trim(array_get($definition, 2, '-'));
+            $genus = '-';
+            $variation = '-';
+        }
+
+        if ('істота' == trim($genus) || 'неістота' == trim($genus)) {
+            $creature = trim(array_get($definition, 1, '-'));
+            $genus = '-';
+            $variation = '-';
+        }
+
+        if ('тільки множина' == trim($genus) || 'тільки множина(мн.)' == trim($genus)) {
+            $creature = '-';
+            $genus = '-';
+            $variation = '-';
+        }
+
+        $genus = str_replace(' рід', '', $genus);
 
         $creature = $creature ? $creature : '-';
         $genus = $genus ? $genus : '-';
@@ -88,74 +101,118 @@ for ($j = 0; $j < 135;  $j++) {
         $cell1 = $xpath->query("//*[contains(@class, 'sfm_cell_1')]");
         $cell2 = $xpath->query("//*[contains(@class, 'sfm_cell_2')]");
 
-        // main form must be first
-        $wordForms = [
-            [
-                'word' => $cell1->item(1)->textContent,
-                'number' => 'однина',
-                'kind' => 'називний',
-                'isMainForm' => true,
-            ],[
-                'word' => $cell1->item(2)->textContent,
-                'number' => 'множина',
-                'kind' => 'називний',
-                'isMainForm' => false,
-            ],[
-                'word' => $cell2->item(1)->textContent,
-                'number' => 'однина',
-                'kind' => 'родовий',
-                'isMainForm' => false,
-            ],[
-                'word' => $cell2->item(2)->textContent,
-                'number' => 'множина',
-                'kind' => 'родовий',
-                'isMainForm' => false,
-            ],[
-                'word' => $cell1->item(4)->textContent,
-                'number' => 'однина',
-                'kind' => 'давальний',
-                'isMainForm' => false,
-            ],[
-                'word' => $cell1->item(5)->textContent,
-                'number' => 'множина',
-                'kind' => 'давальний',
-                'isMainForm' => false,
-            ],[
-                'word' => $cell2->item(4)->textContent,
-                'number' => 'однина',
-                'kind' => 'знахідний',
-                'isMainForm' => false,
-            ],[
-                'word' => $cell2->item(5)->textContent,
-                'number' => 'множина',
-                'kind' => 'знахідний',
-                'isMainForm' => false,
-            ],[
-                'word' => $cell1->item(7)->textContent,
-                'number' => 'однина',
-                'kind' => 'орудний', 'isMainForm' => false,
-            ],[
-                'word' => $cell1->item(8)->textContent,
-                'number' => 'множина',
-                'kind' => 'орудний', 'isMainForm' => false,
-            ],[
-                'word' => $cell2->item(7)->textContent,
-                'number' => 'однина',
-                'kind' => 'місцевий',  'isMainForm' => false,
-            ],[
-                'word' => $cell2->item(8)->textContent,
-                'number' => 'множина',
-                'kind' => 'місцевий',  'isMainForm' => false,
-            ],[
-                'word' => $cell1->item(10)->textContent,
-                'number' => 'однина',
-                'kind' => 'кличний', 'isMainForm' => false,
-            ],[
-                'word' => $cell1->item(11)->textContent,
-                'number' => 'множина',
-                'kind' => 'кличний', 'isMainForm' => false,
-            ]
-        ];
+        $cell1e = $xpath->query("//*[contains(@class, 'sfm_cell_1e')]");
+        $cell2e = $xpath->query("//*[contains(@class, 'sfm_cell_2e')]");
+
+        if ('' === $cell1->item(1)->textContent) {
+            $wordForms = [
+                [
+                    'word' => $cell1e->item(0)->textContent,
+                    'number' => 'множина',
+                    'kind' => 'називний',
+                    'isMainForm' => true,
+                ],[
+                    'word' => $cell2e->item(0)->textContent,
+                    'number' => 'множина',
+                    'kind' => 'родовий',
+                    'isMainForm' => false,
+                ],[
+                    'word' => $cell1e->item(1)->textContent,
+                    'number' => 'множина',
+                    'kind' => 'давальний',
+                    'isMainForm' => false,
+                ],[
+                    'word' => $cell2e->item(1)->textContent,
+                    'number' => 'множина',
+                    'kind' => 'знахідний',
+                    'isMainForm' => false,
+                ],[
+                    'word' => $cell1e->item(2)->textContent,
+                    'number' => 'множина',
+                    'kind' => 'орудний',
+                    'isMainForm' => false,
+                ],[
+                    'word' => $cell2e->item(2)->textContent,
+                    'number' => 'множина',
+                    'kind' => 'місцевий',
+                    'isMainForm' => false,
+                ],[
+                    'word' => $cell1e->item(2)->textContent,
+                    'number' => 'множина',
+                    'kind' => 'кличний',
+                    'isMainForm' => false,
+                ]
+            ];
+        } else {
+            // main form must be first
+            $wordForms = [
+                [
+                    'word' => $cell1->item(1)->textContent,
+                    'number' => 'однина',
+                    'kind' => 'називний',
+                    'isMainForm' => true,
+                ],[
+                    'word' => $cell1->item(2)->textContent,
+                    'number' => 'множина',
+                    'kind' => 'називний',
+                    'isMainForm' => false,
+                ],[
+                    'word' => $cell2->item(1)->textContent,
+                    'number' => 'однина',
+                    'kind' => 'родовий',
+                    'isMainForm' => false,
+                ],[
+                    'word' => $cell2->item(2)->textContent,
+                    'number' => 'множина',
+                    'kind' => 'родовий',
+                    'isMainForm' => false,
+                ],[
+                    'word' => $cell1->item(4)->textContent,
+                    'number' => 'однина',
+                    'kind' => 'давальний',
+                    'isMainForm' => false,
+                ],[
+                    'word' => $cell1->item(5)->textContent,
+                    'number' => 'множина',
+                    'kind' => 'давальний',
+                    'isMainForm' => false,
+                ],[
+                    'word' => $cell2->item(4)->textContent,
+                    'number' => 'однина',
+                    'kind' => 'знахідний',
+                    'isMainForm' => false,
+                ],[
+                    'word' => $cell2->item(5)->textContent,
+                    'number' => 'множина',
+                    'kind' => 'знахідний',
+                    'isMainForm' => false,
+                ],[
+                    'word' => $cell1->item(7)->textContent,
+                    'number' => 'однина',
+                    'kind' => 'орудний', 'isMainForm' => false,
+                ],[
+                    'word' => $cell1->item(8)->textContent,
+                    'number' => 'множина',
+                    'kind' => 'орудний', 'isMainForm' => false,
+                ],[
+                    'word' => $cell2->item(7)->textContent,
+                    'number' => 'однина',
+                    'kind' => 'місцевий',  'isMainForm' => false,
+                ],[
+                    'word' => $cell2->item(8)->textContent,
+                    'number' => 'множина',
+                    'kind' => 'місцевий',  'isMainForm' => false,
+                ],[
+                    'word' => $cell1->item(10)->textContent,
+                    'number' => 'однина',
+                    'kind' => 'кличний', 'isMainForm' => false,
+                ],[
+                    'word' => $cell1->item(11)->textContent,
+                    'number' => 'множина',
+                    'kind' => 'кличний', 'isMainForm' => false,
+                ]
+            ];
+        }
         
         $mainFormId = null;
 
@@ -186,8 +243,6 @@ for ($j = 0; $j < 135;  $j++) {
 
             echo ']';
         }
-
-        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
         echo '>';
     }
 }

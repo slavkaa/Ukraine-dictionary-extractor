@@ -84,7 +84,7 @@ for ($j = 0; $j < 125;  $j++) { // 125
 
         $infinitiveArr = [
             'word' => $infinitive,
-            'verb_kind' => $verbKind ,
+            'verb_kind' => str_replace(' вид', '', $verbKind) ,
             'dievidmina' => $dievidmina,
         ];
 
@@ -229,7 +229,7 @@ for ($j = 0; $j < 125;  $j++) { // 125
         foreach ($wordForms as $wordForm) {
             echo 'd';
             $word = trim(array_get($wordForm, 'word'));
-            $tense = array_get($wordForm, 'tense', '-');
+            $tense = str_replace(' час', '', array_get($wordForm, 'tense', '-'));
             $number = array_get($wordForm, 'number', '-');
             $genus = array_get($wordForm, 'genus', '-');
             $person = array_get($wordForm, 'person', '-');

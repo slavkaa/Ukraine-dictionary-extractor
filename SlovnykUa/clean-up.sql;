@@ -1,0 +1,33 @@
+select * from html where is_main_form = 1 AND url IS NULL;
+update html set main_form_id = id where is_main_form = 1 AND url IS NULL;
+select * from html where main_form_id IS NULL AND url IS NULL;
+
+select * from html where is_main_form != 1 AND main_form_id IS NULL AND url IS NULL;
+
+select creature from html group by creature;
+
+-- Sanification:
+
+update html set creature = '-' where creature = 'тільки множина';
+update html set genus = '-' where creature = 'тільки множина';
+update html set genus = 'жіночий' where genus = 'жіночий рід';
+update html set genus = 'середній' where genus = 'середній рід';
+update html set genus = 'чоловічий' where genus = 'чоловічий рід';
+update html set genus = 'чоловічий і жіночий' where genus = 'чоловічий і жіночий рід';
+update html set verb_kind = 'доконаний' where verb_kind = 'доконаний вид';
+update html set verb_kind = 'недоконаний' where verb_kind = 'недоконаний вид';
+update html set dievidmina = '2 дієвідміна' where dievidmina = 'ІІ дієвідміна';
+update html set dievidmina = '1 дієвідміна' where dievidmina LIKE 'І дієвідміна%';
+update html set class = '-' where class = '';
+update html set tense = 'майбутній' where tense = 'майбутній час';
+update html set tense = 'минулий' where tense = 'минулий час';
+update html set tense = 'теперішній' where tense = 'теперішній час';
+update html set variation = '3 відміна' where variation LIKE '%ІІІ відміна%';
+update html set variation = '2 відміна' where variation LIKE '%ІІ відміна%';
+update html set variation = '1 відміна' where variation LIKE '%І відміна%';
+update html set variation = '4 відміна' where variation LIKE '%ІV відміна%';
+update html set variation = 'невідмінюване' where variation LIKE '%невідмінюване%';
+
+-- Sanification END
+
+update html set variation = 'невідмінюване' where variation LIKE '%невідмінюване%';

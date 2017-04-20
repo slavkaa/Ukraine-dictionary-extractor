@@ -238,20 +238,7 @@ for ($j = 0; $j < 1;  $j++) {
             ];
         }
 
-        // ***
-        $isMainForm = null;
-
-        foreach ($wordForms as $wordForm) {
-            $checkArr = explode(',', str_replace(' ', ',', array_get($wordForm, 'word')));
-            if (in_array($word, $checkArr)) {
-                $isMainForm = array_get($wordForm, 'isMainForm');
-            }
-        }
-        // ***
-
         $mainFormId = null;
-
-        $html->updateProperty('is_main_form', PDO::PARAM_BOOL, $isMainForm);
 
         foreach ($wordForms as $wordForm) {
             echo '*';
@@ -269,6 +256,12 @@ for ($j = 0; $j < 1;  $j++) {
             $htmlItem = new Html($dbh);
             $htmlItem->firstOrNewTotal(trim($word), $part_of_language, '-', $genus, $number, '-', $kind, '-',
                 '-', $class, '-', '-', '-', '-', 0, $is_main_form, '-', $dictionaryId);
+
+            if ($is_main_form) {
+                $mainFormId = $htmlItem->getId();
+            }
+
+            echo sprintf('{%s}', $mainFormId);
 
             $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
         }

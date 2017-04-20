@@ -388,6 +388,15 @@ class Html extends AbstractModel {
         $this->id = array_get($result, 'id');
         $this->props = $result;
 
+//        if (null === $this->id) {
+//            var_dump($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
+//                $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form, $variation, $dictionary_id);
+//            var_dump($stm->errorInfo());
+//            var_dump($this->connection->errorInfo());
+//
+//            exit;
+//        }
+
 //        var_dump($this->id);
 //        die;
     }
