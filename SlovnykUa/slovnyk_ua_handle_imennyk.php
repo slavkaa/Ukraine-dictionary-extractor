@@ -180,8 +180,7 @@ for ($j = 0; $j < 135;  $j++) {
             echo ']';
         }
 
-        $htmlItem->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
-
+        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
         echo '>';
     }
 }

@@ -145,7 +145,7 @@ class Html extends AbstractModel {
      */
     public function getPartOfLanguage($partOfLanguage, $limit = 1000000, $offset = 0, $sing = '=')
     {
-        echo "\n offset $offset, limit $limit \n";
+        echo "offset $offset, limit $limit \n";
 
         $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE part_of_language ' . $sing .' :part_of_language ORDER BY id LIMIT :offset, :limit;';
         $stm = $this->connection->prepare($sql);
@@ -279,7 +279,6 @@ class Html extends AbstractModel {
      * @param boolean $is_main_form
      * @param string $variation
      * @param int $dictionary_id
-     * @internal param bool $isForeign
      */
     public function firstOrNewTotal($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
                                     $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form, $variation, $dictionary_id)

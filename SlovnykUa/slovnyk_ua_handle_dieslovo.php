@@ -19,13 +19,14 @@ $dictionaryId = (int) $dictionary->getProperty('id');
 
 $part_of_language = 'дієслово';
 
+echo "\n";
+
 for ($j = 0; $j < 122;  $j++) {
-    echo '.';
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
 
     foreach ($allHtml as $htmlArray) {
-        echo '+';
+        echo '<';
         $html = new Html($dbh);
         $html->getById(array_get($htmlArray, 'id'));
 
@@ -65,9 +66,6 @@ for ($j = 0; $j < 122;  $j++) {
                 continue;
             }
         // filtrate $part_of_language }
-
-//        echo $item->ownerDocument->saveHTML($item);
-//        echo '<pre>';
 
         // extract table
         $xpath = new DOMXpath($doc);
@@ -217,60 +215,53 @@ for ($j = 0; $j < 122;  $j++) {
         $isInfinitive = ($infinitive === $word);
 
         // define infinitive {
-        if ($isInfinitive) {
-            $html->updateProperty('is_infinitive', PDO::PARAM_BOOL, true);
-            $html->updateProperty('is_main_form', PDO::PARAM_BOOL, true);
-            $mainFormId = $html->getId();
-        } else {
+        $mainFormId = null;
+        if ( " " != $infinitive && !empty($infinitive)) {
+            echo 'i';
             $htmlItem = new Html($dbh);
-            $htmlItem->firstOrNewInfinitive($infinitive, $verbKind, $dievidmina, $dictionaryId);
-            $htmlItem->updateProperty('is_infinitive', PDO::PARAM_BOOL, true);
-            $htmlItem->updateProperty('is_main_form', PDO::PARAM_BOOL, true);
+            $htmlItem->firstOrNewTotal($infinitive, 'дієслово', '-', '-', '-', '-', '-', $verbKind,
+                $dievidmina, '-', '-', '-', '-', '-', 1, 1, '-', $dictionaryId);
             $mainFormId = $htmlItem->getId();
-
-            $html->updateProperty('is_infinitive', PDO::PARAM_BOOL, false);
-            $html->updateProperty('is_main_form', PDO::PARAM_BOOL, false);
-            $html->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
         }
-
         // define infinitive }
 
         foreach ($wordForms as $wordForm) {
-            echo '*';
+            echo 'd';
             $word = trim(array_get($wordForm, 'word'));
             $tense = array_get($wordForm, 'tense');
             $number = array_get($wordForm, 'number');
             $genus = array_get($wordForm, 'genus');
             $person = array_get($wordForm, 'person');
 
-            if ( " " == $word) {
+            if ( " " == $word || empty($word)) {
                 continue;
             }
-
             $htmlItem = new Html($dbh);
-            $htmlItem->firstOrNewVerb($word, $tense, $number, $genus, $person, $dictionaryId);
-
-            $htmlItem->updateProperty('is_main_form', PDO::PARAM_BOOL, false);
-            $htmlItem->updateProperty('is_infinitive', PDO::PARAM_BOOL, false);
+            $htmlItem->firstOrNewTotal($word, 'дієслово', '-', $genus, $number, $person, '-', $verbKind,
+                $dievidmina, '-', '-', '-', $tense, '-', 0, 0, '-', $dictionaryId);
             $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
 
             echo 'ID(' . $htmlItem->getId() . ')';
         }
 
         foreach ($diepruslivnyk as $wordForm) {
-            echo '*';
+            echo 'p';
             $word = array_get($wordForm, 'word');
             $tense = array_get($wordForm, 'tense');
 
-            $htmlItem = new Html($dbh);
-            $htmlItem->firstOrNewDiepruslivnyk($word, $tense, $dictionaryId);
+            if ( " " == $word || empty($word)) {
+                continue;
+            }
 
-            $htmlItem->updateProperty('is_main_form', PDO::PARAM_BOOL, false);
-            $htmlItem->updateProperty('is_infinitive', PDO::PARAM_BOOL, false);
+            $htmlItem->firstOrNewTotal($word, 'дієприслівник', '-', $genus, $number, '-', '-', $verbKind,
+                $dievidmina, '-', '-', '-', $tense, '-', 0, 0, '-', $dictionaryId);
             $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
 
             echo 'ID(' . $htmlItem->getId() . ')';
         }
+
+        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+        echo '>';
     }
 }
 
