@@ -382,7 +382,7 @@ class Html extends AbstractModel {
             $stm->execute();
             $result = $stm->fetch(PDO::FETCH_ASSOC);
         } else {
-            echo '*';
+            echo 'e';
         }
 
         $this->id = array_get($result, 'id');
