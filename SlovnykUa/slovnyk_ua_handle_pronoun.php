@@ -18,11 +18,12 @@ $dictionary->firstOrNew('slovnyk.ua', 'http://www.slovnyk.ua/?swrd=');
 $dictionaryId = (int) $dictionary->getProperty('id');
 
 $part_of_language = 'займенник';
+echo "\n";
 
 for ($j = 0; $j < 5;  $j++) {
-    echo '.';
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
+    echo "<";
 
     foreach ($allHtml as $htmlArray) {
         echo '+';
@@ -218,32 +219,37 @@ for ($j = 0; $j < 5;  $j++) {
 
         $html->updateProperty('is_main_form', PDO::PARAM_BOOL, $isMainForm);
 
+        echo '[';
         foreach ($wordForms as $wordForm) {
-            echo '*';
-            $word = array_get($wordForm, 'word');
-            $number = array_get($wordForm, 'number');
-            $kind = array_get($wordForm, 'kind');
-            $genus = array_get($wordForm, 'genus');
-            $isMainForm = array_get($wordForm, 'isMainForm');
+            echo '+';
+            $word = trim(array_get($wordForm, 'word'));
 
-            $htmlItem = new Html($dbh);
-            $htmlItem->firstOrNewPronoun($word, $kind, $number, $genus, $dictionaryId);
-
-            $htmlItem->updateProperty('is_main_form', PDO::PARAM_BOOL, $isMainForm);
-
-            if ($isMainForm) {
-                $mainFormId = $htmlItem->getId();
-
-                if ($html->getId() !== $mainFormId) {
-                    $html->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
-                }
-            } else {
-                $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
+            if (' ' == $word || empty($word)) {
+                continue;
             }
 
-            echo 'ID(' . $htmlItem->getId() . ')';
+            $number = array_get($wordForm, 'number', '-');
+            $kind = array_get($wordForm, 'kind', '-');
+            $genus = array_get($wordForm, 'genus', '-');
+            $is_main_form = array_get($wordForm, 'isMainForm', false);
+
+            $number = $number ? $number : '-';
+            $kind = $kind ? $kind : '-';
+            $genus = $genus ? $genus : '-';
+
+            $htmlItem = new Html($dbh);
+            $htmlItem->firstOrNewTotal($word, $part_of_language, '-', $genus, $number, '-', $kind, '-',
+                '-', '-', '-', '-', '-', '-', 0, $is_main_form, '-', $dictionaryId);
+
+            if ($is_main_form) {
+                $mainFormId = $htmlItem->getId();
+            }
+
+            $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
         }
+        echo ']';
     }
+    echo ">\n";
 }
 
 echo 'END';

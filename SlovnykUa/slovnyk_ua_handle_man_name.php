@@ -18,13 +18,11 @@ $dictionary->firstOrNew('slovnyk.ua', 'http://www.slovnyk.ua/?swrd=');
 $dictionaryId = (int) $dictionary->getProperty('id');
 
 $part_of_language = 'чоловіче ім\'я';
-
 echo "\n";
 
 for ($j = 0; $j < 1;  $j++) {
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
-
     echo "<";
 
     foreach ($allHtml as $htmlArray) {
@@ -34,7 +32,6 @@ for ($j = 0; $j < 1;  $j++) {
         $html->getById(array_get($htmlArray, 'id'));
 
         // load extracted HTML=page
-        $word = cleanCyrillic($html->getProperty('word'));
         $text = cleanCyrillic($html->getProperty('html_cut'));
         $text = str_replace(
             ['sfm_cell_1s', 'sfm_cell_2s', 'sfm_cell_1_x2', 'sfm_cell_1e_x2', 'sfm_cell_1e', 'sfm_cell_2_x2', 'sfm_cell_2e_x2', 'sfm_cell_2e'],
@@ -153,24 +150,16 @@ for ($j = 0; $j < 1;  $j++) {
             ]
         ];
 
-        // ***
-        $isMainForm = null;
-
-        foreach ($wordForms as $wordForm) {
-            $checkArr = explode(',', str_replace(' ', ',', array_get($wordForm, 'word')));
-            if (in_array($word, $checkArr)) {
-                $isMainForm = array_get($wordForm, 'isMainForm');
-            }
-        }
-        // ***
-
         $mainFormId = null;
-
-        $html->updateProperty('is_main_form', PDO::PARAM_BOOL, $isMainForm);
 
         foreach ($wordForms as $wordForm) {
             echo '*';
             $word = trim(array_get($wordForm, 'word'));
+
+            if (' ' == $word || empty($word)) {
+                continue;
+            }
+
             $number = array_get($wordForm, 'number', '-');
             $kind = array_get($wordForm, 'kind', '-');
             $genus = array_get($wordForm, 'genus', '-');

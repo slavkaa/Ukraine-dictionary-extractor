@@ -253,7 +253,7 @@ for ($j = 0; $j < 125;  $j++) { // 125
             $word = trim(array_get($wordForm, 'word'));
             $tense = array_get($wordForm, 'tense', '-');
 
-            if ( " " == $word || empty($word)) {
+            if (' ' == $word || empty($word)) {
                 continue;
             }
 

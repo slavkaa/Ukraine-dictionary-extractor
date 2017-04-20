@@ -23,7 +23,6 @@ echo "\n";
 for ($j = 0; $j < 2;  $j++) {
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
-
     echo "<";
 
     foreach ($allHtml as $htmlArray) {
@@ -34,6 +33,10 @@ for ($j = 0; $j < 2;  $j++) {
         // load extracted HTML=page
         $word = trim(cleanCyrillic($html->getProperty('word')));
         $partOfLanguage = $html->getProperty('part_of_language');
+
+        if (' ' == $word || empty($word)) {
+            continue;
+        }
 
         if ($part_of_language !== trim($partOfLanguage)) {
             $htmlItem = new Html($dbh);

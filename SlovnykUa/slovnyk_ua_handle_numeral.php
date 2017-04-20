@@ -256,6 +256,11 @@ for ($j = 0; $j < 1;  $j++) {
         foreach ($wordForms as $wordForm) {
             echo '*';
             $word = trim(array_get($wordForm, 'word'));
+
+            if (' ' == $word || empty($word)) {
+                continue;
+            }
+
             $number = array_get($wordForm, 'number', '-');
             $kind = array_get($wordForm, 'kind', '-');
             $genus = array_get($wordForm, 'genus', '-');

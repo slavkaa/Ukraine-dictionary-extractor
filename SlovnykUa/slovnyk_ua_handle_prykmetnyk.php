@@ -196,8 +196,9 @@ for ($j = 0; $j < 910;  $j++) { // 910
             ],
         ];
 
+        echo '[';
         foreach ($wordForms as $wordForm) {
-            echo '*';
+            echo '+';
             $word = trim(array_get($wordForm, 'word'));
 
             $number = array_get($wordForm, 'number', '-');
@@ -209,7 +210,7 @@ for ($j = 0; $j < 910;  $j++) { // 910
             $htmlItem->firstOrNewTotal(trim($word), $part_of_language, '-', $genus, $number, '-', $kind, '-',
                 '-', '-', '-', '-', '-', '-', 0, $is_main_form, '-', $dictionaryId);
 
-            if ( " " == $word || empty($word)) {
+            if (' ' == $word || empty($word)) {
                 continue;
             }
 
@@ -219,9 +220,9 @@ for ($j = 0; $j < 910;  $j++) { // 910
 
             $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
         }
-
-        echo '>';
+        echo ']';
     }
+    echo ">\n";
 }
 
 echo 'END';

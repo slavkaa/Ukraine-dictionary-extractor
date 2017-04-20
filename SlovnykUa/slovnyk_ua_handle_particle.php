@@ -35,6 +35,10 @@ for ($j = 0; $j < 1;  $j++) {
         $word = trim(cleanCyrillic($html->getProperty('word')));
         $partOfLanguage = $html->getProperty('part_of_language');
 
+        if (' ' == $word || empty($word)) {
+            continue;
+        }
+
         if ($part_of_language !== trim($partOfLanguage)) {
             $htmlItem = new Html($dbh);
             $htmlItem->firstOrNewTotal(trim($word), $part_of_language, '-', '-', '-', '-', '-', '-',

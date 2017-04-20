@@ -45,6 +45,10 @@ for ($j = 0; $j < 140;  $j++) {
             continue;
         }
 
+        if (' ' == $word || empty($word)) {
+            continue;
+        }
+
         $htmlItem = new Html($dbh);
         $htmlItem->firstOrNewTotal(trim($word), $part_of_language, '-', '-', '-', '-', '-', '-',
             '-', '-', '-', '-', '-', '-', 0, true, '-', $dictionaryId);

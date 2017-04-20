@@ -163,7 +163,7 @@ for ($j = 0; $j < 135;  $j++) {
             echo '[';
             $word = trim(array_get($wordForm, 'word'));
 
-            if ('' == $word || empty($word)) {
+            if (' ' == $word || empty($word)) {
                 continue;
             }
 
