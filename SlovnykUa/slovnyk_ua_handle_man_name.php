@@ -19,10 +19,13 @@ $dictionaryId = (int) $dictionary->getProperty('id');
 
 $part_of_language = 'чоловіче ім\'я';
 
+echo "\n";
+
 for ($j = 0; $j < 1;  $j++) {
-    echo '.';
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
+
+    echo "<";
 
     foreach ($allHtml as $htmlArray) {
         echo '+';
@@ -167,32 +170,28 @@ for ($j = 0; $j < 1;  $j++) {
 
         foreach ($wordForms as $wordForm) {
             echo '*';
-            $word = array_get($wordForm, 'word');
-            $number = array_get($wordForm, 'number');
-            $kind = array_get($wordForm, 'kind');
-            $genus = array_get($wordForm, 'genus');
-            $isMainForm = array_get($wordForm, 'isMainForm');
+            $word = trim(array_get($wordForm, 'word'));
+            $number = array_get($wordForm, 'number', '-');
+            $kind = array_get($wordForm, 'kind', '-');
+            $genus = array_get($wordForm, 'genus', '-');
+            $is_main_form = array_get($wordForm, 'isMainForm', false);
+
+            $number = $number ? $number : '-';
+            $kind = $kind ? $kind: '-';
+            $genus = $genus ? $genus: '-';
 
             $htmlItem = new Html($dbh);
-            $htmlItem->firstOrNewByKingNumeralGenus($word, $part_of_language, $kind, $number, $genus, $dictionaryId);
+            $htmlItem->firstOrNewTotal($word, $part_of_language, 'істота', $genus, $number, '-', $kind, '-',
+                '-', '-', '-', '-', '-', '-', 0, $is_main_form, '-', $dictionaryId);
 
-            $htmlItem->updateProperty('is_main_form', PDO::PARAM_BOOL, $isMainForm);
-            $htmlItem->updateProperty('url', PDO::PARAM_STR, $url);
-            $htmlItem->updateProperty('url_binary', PDO::PARAM_STR, $url);
-
-            if ($isMainForm) {
+            if ($is_main_form) {
                 $mainFormId = $htmlItem->getId();
-
-                if ($html->getId() !== $mainFormId) {
-                    $html->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
-                }
-            } else {
-                $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
             }
 
-            echo 'ID(' . $htmlItem->getId() . ')';
+            $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
         }
     }
+    echo ">\n";
 }
 
 echo 'END';

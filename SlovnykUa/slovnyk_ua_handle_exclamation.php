@@ -19,31 +19,30 @@ $dictionaryId = (int) $dictionary->getProperty('id');
 
 $part_of_language = 'вигук';
 
+echo "\n";
+
 for ($j = 0; $j < 1;  $j++) {
-    echo '.';
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
+
+    echo "<";
 
     foreach ($allHtml as $htmlArray) {
         echo '+';
         $html = new Html($dbh);
         $html->getById(array_get($htmlArray, 'id'));
 
-        echo 'InitId(' . array_get($htmlArray, 'id') . ')';
-
         // load extracted HTML=page
-        $word = cleanCyrillic($html->getProperty('word'));
+        $word = trim(cleanCyrillic($html->getProperty('word')));
         $partOfLanguage = $html->getProperty('part_of_language');
-        $url = $html->getProperty('url');
 
         if ($part_of_language !== trim($partOfLanguage)) {
-            $html->firstOrNewByPartOfLanguage($word, $part_of_language, $dictionaryId);
-            $html->updateProperty('url', PDO::PARAM_STR, $url);
-            $html->updateProperty('url_binary', PDO::PARAM_STR, $url);
+            $htmlItem = new Html($dbh);
+            $htmlItem->firstOrNewTotal(trim($word), $part_of_language, '-', '-', '-', '-', '-', '-',
+                '-', '-', '-', '-', '-', '-', 0, true, '-', $dictionaryId);
         }
-
-        $html->updateProperty('is_main_form', PDO::PARAM_BOOL, true);
     }
+    echo ">\n";
 }
 
 echo 'END';

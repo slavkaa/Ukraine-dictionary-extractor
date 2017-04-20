@@ -1,8 +1,5 @@
 <?php
 require_once('abstractModel.php');
-require_once('Traits\HtmlNounTrait.php');
-require_once('Traits\HtmlAdjectiveTrait.php');
-require_once('Traits\HtmlVerbTrait.php');
 require_once('Traits\HtmlPrepositionTrait.php');
 require_once('Traits\HtmlPronounTrait.php');
 require_once('Traits\HtmlConjunctionTrait.php');
@@ -13,7 +10,7 @@ require_once('Traits\ProcessingFieldTrait.php');
 
 class Html extends AbstractModel {
 
-    use HtmlNounTrait, HtmlAdjectiveTrait, HtmlVerbTrait, HtmlPrepositionTrait, HtmlPronounTrait,
+    use HtmlPrepositionTrait, HtmlPronounTrait,
         HtmlConjunctionTrait, HtmlParticleTrait, HtmlAdverbTrait, HtmlNumeralTrait, ProcessingFieldTrait;
 
     /**
@@ -147,7 +144,7 @@ class Html extends AbstractModel {
     {
         echo "offset $offset, limit $limit \n";
 
-        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE part_of_language ' . $sing .' :part_of_language ORDER BY id LIMIT :offset, :limit;';
+        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE part_of_language ' . $sing .' :part_of_language and url IS NOT NULL ORDER BY id LIMIT :offset, :limit;';
         $stm = $this->connection->prepare($sql);
         $stm->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stm->bindParam(':offset', $offset, PDO::PARAM_INT);
@@ -384,6 +381,8 @@ class Html extends AbstractModel {
             $stm->bindParam(':id', $id);
             $stm->execute();
             $result = $stm->fetch(PDO::FETCH_ASSOC);
+        } else {
+            echo '*';
         }
 
         $this->id = array_get($result, 'id');
