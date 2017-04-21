@@ -41,4 +41,30 @@ trait WordTrait {
         $this->id = array_get($result, 'id');
         $this->props = $result;
     }
+
+    /**
+     * @param string $word
+     */
+    public function findByWordAll($word)
+    {
+        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE word_binary = \'' . $word . '\' limit 1;';
+        $stm = $this->connection->prepare($sql);
+        $stm->execute();
+
+        return $stm;
+    }
+
+    /**
+     * @param string[] $numbers
+     * @param string[] $foreignLetters
+     *
+     * @return bool
+     */
+    public function isUkraineWord($numbers, $foreignLetters)
+    {
+        $markers = array_merge($numbers, $foreignLetters);
+        $markers = array_merge($markers, ['=','ý','Ý', 'Ú', 'ú', 'Û', 'û', '¨', '¸', '^']);
+
+        return !array_in_string($markers, trim($this->getProperty('word_binary')));
+    }
 }

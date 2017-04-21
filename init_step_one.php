@@ -182,7 +182,7 @@ foreach ($titles as $title) {
 
         $isCapital = in_array($firstLetter, $capitalLetters);
         $isForeign = array_in_string($foreignLetters, $textWord);
-        $hasNumber = array_in_string([0,1,2,3,4,5,6,7,8,9], $textWord);
+        $hasNumber = array_in_string($numbers, $textWord);
 
         $wordToIgnore = null;
 

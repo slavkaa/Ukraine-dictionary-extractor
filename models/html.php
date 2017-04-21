@@ -1,17 +1,10 @@
 <?php
 require_once('abstractModel.php');
-require_once('Traits\HtmlPrepositionTrait.php');
-require_once('Traits\HtmlPronounTrait.php');
-require_once('Traits\HtmlConjunctionTrait.php');
-require_once('Traits\HtmlParticleTrait.php');
-require_once('Traits\HtmlAdverbTrait.php');
-require_once('Traits\HtmlNumeralTrait.php');
 require_once('Traits\ProcessingFieldTrait.php');
 
 class Html extends AbstractModel {
 
-    use HtmlPrepositionTrait, HtmlPronounTrait,
-        HtmlConjunctionTrait, HtmlParticleTrait, HtmlAdverbTrait, HtmlNumeralTrait, ProcessingFieldTrait;
+    use ProcessingFieldTrait;
 
     /**
      * @var string

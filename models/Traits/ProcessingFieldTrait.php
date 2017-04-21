@@ -28,4 +28,18 @@ trait ProcessingFieldTrait {
 
         return $stm;
     }
+
+    /**
+     *
+     */
+    public function getFirstToProcess() {
+        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE is_need_processing = 1 order by id ASC limit 1;';
+        $stm = $this->connection->query($sql);
+        $result = $stm->fetch(PDO::FETCH_ASSOC);
+
+        if (!empty($result)) {
+            $this->id = array_get($result, 'id');
+            $this->props = $result;
+        }
+    }
 }
