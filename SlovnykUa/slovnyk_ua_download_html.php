@@ -1,57 +1,39 @@
 ﻿<?php
 
-// @link: http://phpfaq.ru/pdo
 // @acton: php slovnyk_ua_download_html.php
 
-require_once('../support/config.php');
-require_once('../support/functions.php');
-require_once('../support/libs.php');
-require_once('../models/word.php');
-require_once('../models/wordToIgnore.php');
-require_once('../models/source.php');
-require_once('../models/dictionary.php');
-require_once('../models/html.php');
+require_once('../support/_require_once.php');
 
 // *** //
 
-for ($i = 1; $i < 200;  $i++) {
-    echo '.';
+echo "\n";
+
+for ($i = 1; $i < 65;  $i++) {
+    echo $i . '00.';
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getAllIsNeedProcessing(100);
 
-    foreach ($allHtml as $html) {
-        $page = array_get($html, 'html');
-//        $inp = array_get($html, 'is_need_processing');
-//        var_dump($inp);
+        foreach ($allHtml as $htmlArr) {
+            echo '<';
 
-        if (NULL !== $page) {
+            $htmlObj2 = new Html($dbh);
+            $htmlObj2->getById(array_get($htmlArr, 'id'));
+
+            $page = file_get_contents($htmlObj2->getProperty('url_binary'));
+
+            $htmlObj2->updateProperty('html', PDO::PARAM_LOB, $page);
+            $htmlObj2->generateCutHtml();
+
+            $htmlObj2->updateProperty('is_need_processing', PDO::PARAM_BOOL, false); // we need cut HTML after
+
             echo '>';
-            continue;
         }
 
-        unset($page);
-
-        $wordId = (int) array_get($html, 'word_id');
-        $url = array_get($html, 'url_binary');
-        $word = array_get($html, 'word_binary');
-        $dictionaryId = (int) array_get($html, 'dictionary_id');
-
-        $htmlObj2 = new Html($dbh);
-        $htmlObj2->getById(array_get($html, 'id'));
-
-        if (null === $htmlObj2->getId()) {
-            $htmlObj2->firstOrNew($wordId, $url, $word, $dictionaryId);
-        }
-
-        $page = file_get_contents($url);
-
-        $htmlObj2->updateProperty('html', PDO::PARAM_LOB, $page);
-        $htmlObj2->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
-    }
-
-    unset($html);
+    unset($htmlArr);
     unset($htmlObj2);
     unset($allHtml);
+    unset($page);
+    echo "\n";
 }
 
 

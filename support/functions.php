@@ -93,7 +93,7 @@ function writeLn($text)
  */
 function cleanCyrillic($text)
 {
-    $text = str_replace(['i', 'I'], ['і', 'І'], $text);
+    $text = str_replace(['i', 'I'], ['і', 'І'], $text); // See Issue #2 (Ukraine-dictionary-extractor)
     return iconv(mb_detect_encoding($text, mb_detect_order(), true), "UTF-8", $text);
 }
 

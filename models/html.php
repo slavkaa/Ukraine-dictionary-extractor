@@ -53,10 +53,7 @@ class Html extends AbstractModel {
         $stm->execute();
         $result = $stm->fetch(PDO::FETCH_ASSOC);
 
-        if (!empty($result)) {
-            echo 'U[html] ';
-        } else {
-            echo 'I[html] ';
+        if (empty($result)) {
             $sql = 'INSERT INTO `' . $this->tableName .
                 '` ( `dictionary_id`, `word_id`, `url`, `url_binary`, `word`, `word_binary`) VALUES (:dictionary_id, :word_id, :url, :url, :word, :word );';
             $stm = $this->connection->prepare($sql);
@@ -66,12 +63,6 @@ class Html extends AbstractModel {
             $stm->bindParam(':word_id', $wordId, PDO::PARAM_INT);
             $stm->execute();
             $id = $this->connection->lastInsertId();
-
-//            var_dump($sql);
-//            var_dump($stm);
-//            var_dump($this->connection->errorInfo());
-//            var_dump([$url, $word, $dictionaryId, $wordId]);
-//            var_dump($id);
 
             $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE id = :id limit 1;';
             $stm = $this->connection->prepare($sql);
@@ -392,5 +383,44 @@ class Html extends AbstractModel {
 
 //        var_dump($this->id);
 //        die;
+    }
+
+    /**
+     * Generate html_cut from html
+     */
+    public function generateCutHtml()
+    {
+        // load extracted HTML=page
+        $text = $this->getProperty('html');
+        $text = iconv(mb_detect_encoding($text, mb_detect_order(), true), "UTF-8", $text);
+
+        // init HTML parser
+        $doc = new DOMDocument();
+        $doc->encoding = 'UTF-8';
+        @$doc->loadHTML(mb_convert_encoding($text, 'HTML-ENTITIES', 'UTF-8'));
+
+        // extract table
+        $xpath = new DOMXpath($doc);
+
+        /** @var DOMNodeList $partOfLanguageData */
+        $partOfLanguageData = $xpath->query("//*[contains(@class, 'sfm_table')]");
+
+        // combine mini-HTML
+        $element = $partOfLanguageData->item(0);
+
+        if (NULL === $element) {
+            // do nothing
+            echo '-';
+        } else {
+            $newDoc = new DOMDocument();
+            $doc->encoding = 'UTF-8';
+            $cloned = $element->cloneNode(TRUE);
+            $newDoc->appendChild($newDoc->importNode($cloned, TRUE));
+
+            // update html_cut
+            $this->updateProperty('html_cut', PDO::PARAM_LOB, html_entity_decode($newDoc->saveHTML()));
+
+            echo '+';
+        }
     }
 }

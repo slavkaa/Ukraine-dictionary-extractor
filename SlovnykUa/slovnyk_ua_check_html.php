@@ -1,7 +1,7 @@
 ﻿<?php
 
 // @link: http://phpfaq.ru/pdo
-// @acton: php check_slovnyk_ua_html.php > 1.html
+// @acton: php slovnyk_ua_check_html.php > 1.html
 
 require_once('../support/config.php');
 require_once('../support/functions.php');
@@ -16,7 +16,7 @@ require_once('../models/html.php');
 
 $html = new Html($dbh);
 //$html->getMaxFilledHtml();
-$html->getById(42737);
+$html->getById(1339977);
 
 $url = $html->getProperty('url');
 $text = $html->getProperty('html');

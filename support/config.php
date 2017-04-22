@@ -1,9 +1,17 @@
-<?php 
+<?php
+
+exec('chcp 65001');
 
 // @link: http://phpfaq.ru/pdo
 
-$host = '172.19.5.99';
-//$host = '127.0.0.1';
+$mac = GetMAC();
+
+if ("00-50-56-C0-00-01" === $mac) { // must be "..."
+    $host = '127.0.0.1';
+} else {
+    $host = '172.19.5.99';
+}
+
 $db   = 'url_dictionary';
 $user = 'root';
 $pass = '';
@@ -28,3 +36,17 @@ try {
  @result $dbh - data base handler.
 
 **/
+
+/**
+ * @return string
+ */
+function GetMAC()
+{
+    ob_start();
+    system('getmac');
+    $Content = ob_get_contents();
+    ob_clean();
+    ob_end_flush();
+
+    return substr($Content, strpos($Content,'\\')-20, 17);
+}
