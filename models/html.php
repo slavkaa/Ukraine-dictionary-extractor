@@ -410,7 +410,7 @@ class Html extends AbstractModel {
 
         if (NULL === $element) {
             // do nothing
-            echo '-';
+            echo '-'.$this->getId().':'.$this->getProperty('word_binary');
         } else {
             $newDoc = new DOMDocument();
             $doc->encoding = 'UTF-8';

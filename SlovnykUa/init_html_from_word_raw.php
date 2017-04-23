@@ -11,7 +11,7 @@ $dictionaryId = (int) $dictionary->getProperty('id');
 
 echo "\n";
 
-for ($i = 1; $i < 65;  $i++) {
+for ($i = 1; $i < 170;  $i++) {
     echo $i . '00. ';
 
     $wordRaw = new WordRaw($dbh);

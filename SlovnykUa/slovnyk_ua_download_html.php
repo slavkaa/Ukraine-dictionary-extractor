@@ -8,7 +8,7 @@ require_once('../support/_require_once.php');
 
 echo "\n";
 
-for ($i = 1; $i < 65;  $i++) {
+for ($i = 1; $i < 171;  $i++) {
     echo $i . '00.';
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getAllIsNeedProcessing(100);
