@@ -22,11 +22,11 @@ echo "\n";
 
 for ($j = 0; $j < 1;  $j++) {
     $htmlObj = new Html($dbh);
-    $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
+    $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
     echo "<";
 
     foreach ($allHtml as $htmlArray) {
-        echo '+';
+
         $html = new Html($dbh);
         $html->getById(array_get($htmlArray, 'id'));
 
@@ -35,6 +35,8 @@ for ($j = 0; $j < 1;  $j++) {
         $partOfLanguage = $html->getProperty('part_of_language');
 
         if (' ' == $word || empty($word)) {
+            $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+            echo '.';
             continue;
         }
 
@@ -42,7 +44,12 @@ for ($j = 0; $j < 1;  $j++) {
             $htmlItem = new Html($dbh);
             $htmlItem->firstOrNewTotal(trim($word), $part_of_language, '-', '-', '-', '-', '-', '-',
                 '-', '-', '-', '-', '-', '-', 0, true, '-', $dictionaryId);
+            echo '+';
+        } else {
+            echo '.';
         }
+
+        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
     }
     echo ">\n";
 }

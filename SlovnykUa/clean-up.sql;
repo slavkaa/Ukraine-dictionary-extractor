@@ -31,3 +31,7 @@ update html set variation = 'íåâ³äì³íþâàíå' where variation LIKE '%íåâ³äì³íþâàíå
 -- Sanification END
 
 update html set variation = 'íåâ³äì³íþâàíå' where variation LIKE '%íåâ³äì³íþâàíå%';
+
+update html set is_need_processing = 1 where created_at > '2017-04-21'
+SELECT * FROM html WHERE part_of_language  LIKE '%ä³ºñëîâî%'  AND  created_at > '2017-04-21'
+SELECT * FROM html WHERE part_of_language  LIKE '%ä³ºñëîâî%'  AND  created_at > '2017-04-21' AND main_form_id IS NOT NULL

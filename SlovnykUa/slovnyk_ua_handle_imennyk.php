@@ -3,14 +3,7 @@
 // @link: http://phpfaq.ru/pdo
 // @acton: php slovnyk_ua_handle_imennyk.php
 
-require_once('../support/config.php');
-require_once('../support/functions.php');
-require_once('../support/libs.php');
-require_once('../models/word.php');
-require_once('../models/wordToIgnore.php');
-require_once('../models/source.php');
-require_once('../models/dictionary.php');
-require_once('../models/html.php');
+require_once('../support/_require_once.php');
 
 // *** //
 $dictionary = new Dictionary($dbh);
@@ -21,10 +14,10 @@ $part_of_language = 'іменник';
 
 echo "\n";
 
-for ($j = 0; $j < 135;  $j++) {
+for ($j = 0; $j < 170;  $j++) {
     echo ($j + 1) . "00: \n";
     $htmlObj = new Html($dbh);
-    $allHtml = $htmlObj->getPartOfLanguage('%'.$part_of_language.'%', 100, $j*100, 'LIKE');
+    $allHtml = $htmlObj->getPartOfLanguage('%'.$part_of_language.'%', 100, 0, 'LIKE');
 
     foreach ($allHtml as $htmlArray) {
         echo '<';
@@ -52,11 +45,13 @@ for ($j = 0; $j < 135;  $j++) {
                     @$doc->loadHTML(mb_convert_encoding($item->ownerDocument->saveHTML($item), 'HTML-ENTITIES', 'UTF-8'));
                     $isFound = true;
 
+                    $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
                     break;
                 }
             }
 
             if (!$isFound) {
+                $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
                 continue;
             }
         // filtrate noun }
@@ -243,6 +238,8 @@ for ($j = 0; $j < 135;  $j++) {
 
             echo ']';
         }
+
+        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
         echo '>';
     }
 }

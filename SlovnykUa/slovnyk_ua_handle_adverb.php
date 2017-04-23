@@ -23,12 +23,11 @@ echo "\n";
 
 for ($j = 0; $j < 140;  $j++) {
     $htmlObj = new Html($dbh);
-    $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
+    $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
 
     echo "\n<";
 
     foreach ($allHtml as $htmlArray) {
-        echo '+';
         $html = new Html($dbh);
         $html->getById(array_get($htmlArray, 'id'));
 
@@ -38,20 +37,29 @@ for ($j = 0; $j < 140;  $j++) {
         $partOfLanguage = $html->getProperty('part_of_language');
 
         if (-1 < strpos($partOfLanguage, 'дієприслівник')) {
+            echo '.';
+            $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             continue;
         }
 
         if (-1 < strpos($partOfLanguage, 'дієслово')) {
+            echo '.';
+            $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             continue;
         }
 
         if (' ' == $word || empty($word)) {
+            echo '.';
+            $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             continue;
         }
 
+        echo '+';
         $htmlItem = new Html($dbh);
         $htmlItem->firstOrNewTotal(trim($word), $part_of_language, '-', '-', '-', '-', '-', '-',
             '-', '-', '-', '-', '-', '-', 0, true, '-', $dictionaryId);
+
+        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
     }
     echo '>';
     echo "\n";

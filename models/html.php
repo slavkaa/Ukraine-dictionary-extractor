@@ -128,7 +128,9 @@ class Html extends AbstractModel {
     {
         echo "offset $offset, limit $limit \n";
 
-        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE part_of_language ' . $sing .' :part_of_language and url IS NOT NULL ORDER BY id LIMIT :offset, :limit;';
+        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE part_of_language ' . $sing .' :part_of_language '
+            . ' AND is_need_processing = 1 LIMIT :offset, :limit;';
+
         $stm = $this->connection->prepare($sql);
         $stm->bindParam(':limit', $limit, PDO::PARAM_INT);
         $stm->bindParam(':offset', $offset, PDO::PARAM_INT);

@@ -21,9 +21,9 @@ $part_of_language = 'дієслово';
 
 echo "\n";
 
-for ($j = 0; $j < 125;  $j++) { // 125
+for ($j = 0; $j < 130;  $j++) { // 125
     $htmlObj = new Html($dbh);
-    $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
+    $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
 
     foreach ($allHtml as $htmlArray) {
         echo '<';
@@ -56,11 +56,15 @@ for ($j = 0; $j < 125;  $j++) { // 125
                     @$doc->loadHTML(mb_convert_encoding($item->ownerDocument->saveHTML($item), 'HTML-ENTITIES', 'UTF-8'));
                     $isFound = true;
 
+                    $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+                    echo '.';
                     break;
                 }
             }
 
             if (!$isFound) {
+                $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+                echo '.';
                 continue;
             }
         // filtrate $part_of_language }
