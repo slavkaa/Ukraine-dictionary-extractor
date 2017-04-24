@@ -47,13 +47,19 @@ class Html extends AbstractModel {
      */
     public function firstOrNew($wordId, $url, $word, $dictionaryId)
     {
-        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE url_binary = :url;';
+//        var_dump($wordId, $url, $word, $dictionaryId);
+
+        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE url_binary = :url limit 1;';
         $stm = $this->connection->prepare($sql);
         $stm->bindParam(':url', $url, PDO::PARAM_STR);
         $stm->execute();
         $result = $stm->fetch(PDO::FETCH_ASSOC);
 
-        if (empty($result)) {
+//        var_dump($result);
+//        var_dump($this->connection->errorInfo());
+//        var_dump($stm->errorInfo());
+
+        if (empty($result) || false === $result) {
             $sql = 'INSERT INTO `' . $this->tableName .
                 '` ( `dictionary_id`, `word_id`, `url`, `url_binary`, `word`, `word_binary`) VALUES (:dictionary_id, :word_id, :url, :url, :word, :word );';
             $stm = $this->connection->prepare($sql);
@@ -69,6 +75,11 @@ class Html extends AbstractModel {
             $stm->bindParam(':id', $id);
             $stm->execute();
             $result = $stm->fetch(PDO::FETCH_ASSOC);
+
+//            var_dump($id);
+//            var_dump($this->connection->errorInfo());
+//            var_dump($stm->errorInfo());
+//            var_dump($result);
         }
 
         $this->id = array_get($result, 'id');

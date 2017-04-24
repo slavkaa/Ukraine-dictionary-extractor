@@ -16,7 +16,7 @@ require_once('../models/html.php');
 
 $html = new Html($dbh);
 //$html->getMaxFilledHtml();
-$html->getById(372);
+$html->getById(1384218);
 
 $url = $html->getProperty('url');
 $text = $html->getProperty('html');

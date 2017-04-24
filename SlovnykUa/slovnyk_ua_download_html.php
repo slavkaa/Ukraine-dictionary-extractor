@@ -22,6 +22,8 @@ for ($i = 1; $i < 171;  $i++) {
             $page = file_get_contents($htmlObj2->getProperty('url_binary'));
 
             $htmlObj2->updateProperty('html', PDO::PARAM_LOB, $page);
+            $htmlObj2->getById(array_get($htmlArr, 'id')); // refresh
+
             $htmlObj2->generateCutHtml();
 
             $htmlObj2->updateProperty('is_need_processing', PDO::PARAM_BOOL, false); // we need cut HTML after

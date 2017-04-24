@@ -11,7 +11,7 @@ $dictionaryId = (int) $dictionary->getProperty('id');
 
 echo "\n";
 
-for ($i = 1; $i < 170;  $i++) {
+for ($i = 1; $i < 290;  $i++) {
     echo $i . '00. ';
 
     $wordRaw = new WordRaw($dbh);
@@ -24,8 +24,23 @@ for ($i = 1; $i < 170;  $i++) {
         $word_binary = array_get($wordArr, 'word_binary');
         $url = $dictionary->getProperty('base_url') . urlencode($word_binary);
 
+
         $wordRawObj = new WordRaw($dbh);
         $wordRawObj->getById($wordId);
+
+        if (array_in_string($numbers, $word_binary) || array_in_string($foreignLetters, $word_binary)) {
+            echo 'f>';
+            $wordRawObj->updateProperty('is_not_urk_word', PDO::PARAM_BOOL, true);
+            $wordRawObj->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+            continue;
+        } elseif (array_in_string($ukraineAbc, $word_binary)) {
+            // It is OK.
+        } else {
+            echo 'f>';
+            $wordRawObj->updateProperty('is_not_urk_word', PDO::PARAM_BOOL, true);
+            $wordRawObj->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+            continue;
+        }
 
         $html = new Html($dbh);
         $html->firstOrNew($wordId, $url, $word_binary, $dictionaryId);

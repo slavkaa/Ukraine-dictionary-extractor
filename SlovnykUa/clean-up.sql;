@@ -28,6 +28,11 @@ update html set variation = '1 відміна' where variation LIKE '%І відміна%';
 update html set variation = '4 відміна' where variation LIKE '%ІV відміна%';
 update html set variation = 'невідмінюване' where variation LIKE '%невідмінюване%';
 
+update word set word = REPLACE(word, 'на/у ', '') where word LIKE '%/%';
+update word set word_binary = REPLACE(word_binary, 'на/у ', '') where word_binary LIKE '%/%';
+update word set is_need_processing = 0;
+update word set is_need_processing = 1 where word LIKE '%,%';
+
 -- Sanification END
 
 update html set variation = 'невідмінюване' where variation LIKE '%невідмінюване%';
