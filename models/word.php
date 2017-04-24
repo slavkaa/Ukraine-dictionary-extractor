@@ -145,4 +145,16 @@ class Word extends AbstractModel
 //        var_dump($this->id);
 //        die;
     }
+
+    /**
+     * @param string $word
+     *
+     * @return string
+     */
+    public static function cleanWord($word)
+    {
+        $word = str_replace('на/у ', '', $word);
+
+        return $word;
+    }
 }

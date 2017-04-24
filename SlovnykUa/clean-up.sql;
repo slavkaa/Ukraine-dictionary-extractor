@@ -33,6 +33,8 @@ update word set word_binary = REPLACE(word_binary, 'на/у ', '') where word_binar
 update word set is_need_processing = 0;
 update word set is_need_processing = 1 where word LIKE '%,%';
 
+-- delete from word where word LIKE '%,%';
+
 -- Sanification END
 
 update html set variation = 'невідмінюване' where variation LIKE '%невідмінюване%';

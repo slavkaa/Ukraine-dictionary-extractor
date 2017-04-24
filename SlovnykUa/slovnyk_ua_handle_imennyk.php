@@ -107,7 +107,7 @@ for ($j = 0; $j < 170;  $j++) {
                     'kind' => 'називний',
                     'isMainForm' => true,
                 ],[
-                    'word' => $cell2e->item(0)->textContent,
+                    'word' => Word::cleanWord($cell2e->item(0)->textContent),
                     'number' => 'множина',
                     'kind' => 'родовий',
                     'isMainForm' => false,
@@ -127,7 +127,7 @@ for ($j = 0; $j < 170;  $j++) {
                     'kind' => 'орудний',
                     'isMainForm' => false,
                 ],[
-                    'word' => $cell2e->item(2)->textContent,
+                    'word' => Word::cleanWord($cell2e->item(2)->textContent),
                     'number' => 'множина',
                     'kind' => 'місцевий',
                     'isMainForm' => false,
@@ -152,12 +152,12 @@ for ($j = 0; $j < 170;  $j++) {
                     'kind' => 'називний',
                     'isMainForm' => false,
                 ],[
-                    'word' => $cell2->item(1)->textContent,
+                    'word' => Word::cleanWord($cell2->item(1)->textContent),
                     'number' => 'однина',
                     'kind' => 'родовий',
                     'isMainForm' => false,
                 ],[
-                    'word' => $cell2->item(2)->textContent,
+                    'word' => Word::cleanWord($cell2->item(2)->textContent),
                     'number' => 'множина',
                     'kind' => 'родовий',
                     'isMainForm' => false,
@@ -190,11 +190,11 @@ for ($j = 0; $j < 170;  $j++) {
                     'number' => 'множина',
                     'kind' => 'орудний', 'isMainForm' => false,
                 ],[
-                    'word' => $cell2->item(7)->textContent,
+                    'word' => Word::cleanWord($cell2->item(7)->textContent),
                     'number' => 'однина',
                     'kind' => 'місцевий',  'isMainForm' => false,
                 ],[
-                    'word' => $cell2->item(8)->textContent,
+                    'word' => Word::cleanWord($cell2->item(8)->textContent),
                     'number' => 'множина',
                     'kind' => 'місцевий',  'isMainForm' => false,
                 ],[

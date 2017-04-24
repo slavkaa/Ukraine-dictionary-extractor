@@ -89,12 +89,12 @@ for ($j = 0; $j < 2;  $j++) {
                 'number' => 'множина', 'kind' => 'називний',
                 'isMainForm' => false,
             ], [
-                'word' => $cell2->item(01)->textContent,
+                'word' => Word::cleanWord($cell2->item(01)->textContent),
                 'number' => 'однина', 'kind' => 'родовий',
                 'genus' => 'чоловічий рід',
                 'isMainForm' => false,
             ],[
-                'word' => $cell2e->item(0)->textContent,
+                'word' => Word::cleanWord($cell2e->item(0)->textContent),
                 'number' => 'множина', 'kind' => 'родовий',
                 'isMainForm' => false,
             ],[ // ***
@@ -125,12 +125,12 @@ for ($j = 0; $j < 2;  $j++) {
                 'number' => 'множина', 'kind' => 'орудний',
                 'isMainForm' => false,
             ], [ // ***
-                'word' => $cell2->item(2)->textContent,
+                'word' => Word::cleanWord($cell2->item(2)->textContent),
                 'number' => 'однина', 'kind' => 'місцевий',
                 'genus' => 'чоловічий рід',
                 'isMainForm' => false,
             ], [ // ***
-                'word' => $cell2e->item(2)->textContent,
+                'word' => Word::cleanWord($cell2e->item(2)->textContent),
                 'number' => 'множина', 'kind' => 'місцевий',
                 'isMainForm' => false,
             ], [ // ***
