@@ -11,9 +11,14 @@ $dictionary->firstOrNew('slovnyk.ua', 'http://www.slovnyk.ua/?swrd=');
 $dictionaryId = (int) $dictionary->getProperty('id');
 
 $part_of_language = 'чоловіче ім\'я';
+
+$htmlObj = new Html($dbh);
+$counter = $htmlObj->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
+$counter = intval($counter/100) + 1;
+
 echo "\n";
 
-for ($j = 0; $j < 2;  $j++) {
+for ($j = 0; $j < $counter;  $j++) {
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
     echo "<";
@@ -75,6 +80,9 @@ for ($j = 0; $j < 2;  $j++) {
         $cell2 = $xpath->query("//*[contains(@class, 'sfm_cell_2')]");
         $cell2e = $xpath->query("//*[contains(@class, 'sfm_cell_e_2')]");
 
+        var_dump($cell1->length, $cell1e->length, $cell2->length, $cell2e->length);
+        die;
+
         $isHasGenus = (-1 < strpos($item->textContent, 'множина'));
 
         // main form must be first
@@ -82,7 +90,7 @@ for ($j = 0; $j < 2;  $j++) {
             [
                 'word' => $cell1->item(0)->textContent,
                 'number' => 'однина', 'kind' => 'називний',
-                'genus' => 'чоловічий рід',
+                'genus' => 'чоловічий',
                 'isMainForm' => true,
             ],[
                 'word' => $cell1e->item(0)->textContent,
@@ -91,7 +99,7 @@ for ($j = 0; $j < 2;  $j++) {
             ], [
                 'word' => Word::cleanWord($cell2->item(01)->textContent),
                 'number' => 'однина', 'kind' => 'родовий',
-                'genus' => 'чоловічий рід',
+                'genus' => 'чоловічий',
                 'isMainForm' => false,
             ],[
                 'word' => Word::cleanWord($cell2e->item(0)->textContent),
@@ -100,7 +108,7 @@ for ($j = 0; $j < 2;  $j++) {
             ],[ // ***
                 'word' => $cell1->item(1)->textContent,
                 'number' => 'однина', 'kind' => 'давальний',
-                'genus' => 'чоловічий рід',
+                'genus' => 'чоловічий',
                 'isMainForm' => false,
             ],[
                 'word' => $cell1e->item(1)->textContent,
@@ -109,7 +117,7 @@ for ($j = 0; $j < 2;  $j++) {
             ], [ // ***
                 'word' => $cell2->item(1)->textContent,
                 'number' => 'однина', 'kind' => 'знахідний',
-                'genus' => 'чоловічий рід',
+                'genus' => 'чоловічий',
                 'isMainForm' => false,
             ],[
                 'word' => $cell2e->item(1)->textContent,
@@ -118,7 +126,7 @@ for ($j = 0; $j < 2;  $j++) {
             ],[ // ***
                 'word' => $cell1->item(2)->textContent,
                 'number' => 'однина', 'kind' => 'орудний',
-                'genus' => 'чоловічий рід',
+                'genus' => 'чоловічий',
                 'isMainForm' => false,
             ],[
                 'word' => $cell1e->item(2)->textContent,
@@ -127,7 +135,7 @@ for ($j = 0; $j < 2;  $j++) {
             ], [ // ***
                 'word' => Word::cleanWord($cell2->item(2)->textContent),
                 'number' => 'однина', 'kind' => 'місцевий',
-                'genus' => 'чоловічий рід',
+                'genus' => 'чоловічий',
                 'isMainForm' => false,
             ], [ // ***
                 'word' => Word::cleanWord($cell2e->item(2)->textContent),
@@ -136,7 +144,7 @@ for ($j = 0; $j < 2;  $j++) {
             ], [ // ***
                 'word' => $cell1->item(3)->textContent,
                 'number' => 'однина', 'kind' => 'кличний',
-                'genus' => 'чоловічий рід',
+                'genus' => 'чоловічий',
                 'isMainForm' => false,
             ], [ // ***
                 'word' => $cell1e->item(3)->textContent,
@@ -179,6 +187,8 @@ for ($j = 0; $j < 2;  $j++) {
     $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
     echo ">\n";
 }
+
+$htmlObj->backHtmlRowsToProcessing();
 
 echo 'END';
 

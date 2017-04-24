@@ -19,9 +19,15 @@ $dictionaryId = (int) $dictionary->getProperty('id');
 
 $part_of_language = 'вигук';
 
+$htmlObj = new Html($dbh);
+$counter = $htmlObj->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
+$counter = intval($counter/100) + 1;
+
+var_dump($counter);
+
 echo "\n";
 
-for ($j = 0; $j < 1;  $j++) {
+for ($j = 0; $j < $counter;  $j++) {
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
 
@@ -52,6 +58,8 @@ for ($j = 0; $j < 1;  $j++) {
     }
     echo ">\n";
 }
+
+$htmlObj->backHtmlRowsToProcessing();
 
 echo 'END';
 

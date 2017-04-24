@@ -11,9 +11,14 @@ $dictionary->firstOrNew('slovnyk.ua', 'http://www.slovnyk.ua/?swrd=');
 $dictionaryId = (int) $dictionary->getProperty('id');
 
 $part_of_language = 'прийменник';
+
+$htmlObj = new Html($dbh);
+$counter = $htmlObj->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
+$counter = intval($counter/100) + 1;
+
 echo "\n";
 
-for ($j = 0; $j < 2;  $j++) {
+for ($j = 0; $j < $counter;  $j++) {
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
     echo "<";
@@ -39,11 +44,13 @@ for ($j = 0; $j < 2;  $j++) {
         } else {
             echo 'i';
         }
+        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
     }
 
-    $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
     echo ">\n";
 }
+
+$htmlObj->backHtmlRowsToProcessing();
 
 echo 'END';
 

@@ -152,6 +152,24 @@ class Html extends AbstractModel {
     }
 
     /**
+     * @param string $partOfLanguage
+     * @param string $sing
+     * @return PDOStatement
+     */
+    public function countPartOfLanguage($partOfLanguage, $sing = '=')
+    {
+        $sql = 'SELECT count(*) FROM `' . $this->tableName . '` WHERE part_of_language ' . $sing .' :part_of_language'
+            .' AND html_cut IS NOT NULL AND is_need_processing = 1;';
+
+        $stm = $this->connection->prepare($sql);
+        $stm->bindParam(':part_of_language', $partOfLanguage, PDO::PARAM_STR);
+        $stm->execute();
+        $result = $stm->fetch(PDO::FETCH_ASSOC);
+
+        return is_array($result) ? (int) reset($result) : null;
+    }
+
+    /**
      * @param int $limit
      * @return PDOStatement
      */
@@ -163,6 +181,15 @@ class Html extends AbstractModel {
         $stm->execute();
 
         return $stm;
+    }
+
+    /**
+     *
+     */
+    public function backHtmlRowsToProcessing()
+    {
+        $sql = 'UPDATE html SET is_need_processing = 1 WHERE part_of_language IS NOT NULL AND html_cut IS NOT NULL;';
+        $stm = $this->connection->query($sql);
     }
 
     /**
@@ -436,4 +463,6 @@ class Html extends AbstractModel {
             echo '+';
         }
     }
+
+
 }

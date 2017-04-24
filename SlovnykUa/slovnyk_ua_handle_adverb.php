@@ -19,9 +19,13 @@ $dictionaryId = (int) $dictionary->getProperty('id');
 
 $part_of_language = 'прислівник';
 
+$htmlObj = new Html($dbh);
+$counter = $htmlObj->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
+$counter = intval($counter/100) + 1;
+
 echo "\n";
 
-for ($j = 0; $j < 140;  $j++) {
+for ($j = 0; $j < $counter;  $j++) {
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
 
@@ -64,6 +68,8 @@ for ($j = 0; $j < 140;  $j++) {
     echo '>';
     echo "\n";
 }
+
+$htmlObj->backHtmlRowsToProcessing();
 
 echo 'END';
 

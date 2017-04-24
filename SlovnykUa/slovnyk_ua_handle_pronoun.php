@@ -131,17 +131,17 @@ for ($j = 0; $j < 5;  $j++) {
                 [
                     'word' => $cell1->item(0)->textContent,
                     'number' => 'однина', 'kind' => 'називний',
-                    'genus' => 'чоловічий рід',
+                    'genus' => 'чоловічий',
                     'isMainForm' => true,
                 ],[
                     'word' => $cell1->item(1)->textContent,
                     'number' => 'однина', 'kind' => 'називний',
-                    'genus' => 'жіночий рід',
+                    'genus' => 'жіночий',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell1->item(2)->textContent,
                     'number' => 'однина', 'kind' => 'називний',
-                    'genus' => 'середній рід',
+                    'genus' => 'середній',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell1e->item(0)->textContent,
@@ -150,17 +150,17 @@ for ($j = 0; $j < 5;  $j++) {
                 ], [ // ***
                     'word' => $cell2->item(0)->textContent,
                     'number' => 'однина', 'kind' => 'родовий',
-                    'genus' => 'чоловічий рід',
+                    'genus' => 'чоловічий',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell2->item(1)->textContent,
                     'number' => 'однина', 'kind' => 'родовий',
-                    'genus' => 'жіночий рід',
+                    'genus' => 'жіночий',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell2->item(2)->textContent,
                     'number' => 'однина', 'kind' => 'родовий',
-                    'genus' => 'середній рід',
+                    'genus' => 'середній',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell2e->item(0)->textContent,
@@ -169,17 +169,17 @@ for ($j = 0; $j < 5;  $j++) {
                 ],[ // ***
                     'word' => $cell1->item(3)->textContent,
                     'number' => 'однина', 'kind' => 'давальний',
-                    'genus' => 'чоловічий рід',
+                    'genus' => 'чоловічий',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell1->item(4)->textContent,
                     'number' => 'однина', 'kind' => 'давальний',
-                    'genus' => 'жіночий рід',
+                    'genus' => 'жіночий',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell1->item(5)->textContent,
                     'number' => 'однина', 'kind' => 'давальний',
-                    'genus' => 'середній рід',
+                    'genus' => 'середній',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell1e->item(1)->textContent,
@@ -188,17 +188,17 @@ for ($j = 0; $j < 5;  $j++) {
                 ], [ // ***
                     'word' => $cell2->item(3)->textContent,
                     'number' => 'однина', 'kind' => 'знахідний',
-                    'genus' => 'чоловічий рід',
+                    'genus' => 'чоловічий',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell2->item(4)->textContent,
                     'number' => 'однина', 'kind' => 'знахідний',
-                    'genus' => 'жіночий рід',
+                    'genus' => 'жіночий',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell2->item(5)->textContent,
                     'number' => 'однина', 'kind' => 'знахідний',
-                    'genus' => 'середній рід',
+                    'genus' => 'середній',
                     'isMainForm' => false,
                 ],[
                     'word' => $cell2e->item(1)->textContent,
@@ -207,17 +207,17 @@ for ($j = 0; $j < 5;  $j++) {
                 ],[ // ***
                     'word' => Word::cleanWord($cell1->item(6)->textContent),
                     'number' => 'однина', 'kind' => 'орудний',
-                    'genus' => 'чоловічий рід',
+                    'genus' => 'чоловічий',
                     'isMainForm' => false,
                 ],[
                     'word' => Word::cleanWord($cell1->item(7)->textContent),
                     'number' => 'однина', 'kind' => 'орудний',
-                    'genus' => 'жіночий рід',
+                    'genus' => 'жіночий',
                     'isMainForm' => false,
                 ],[
                     'word' => Word::cleanWord($cell1->item(8)->textContent),
                     'number' => 'однина', 'kind' => 'орудний',
-                    'genus' => 'середній рід',
+                    'genus' => 'середній',
                     'isMainForm' => false,
                 ],[
                     'word' => Word::cleanWord($cell1e->item(2)->textContent),
@@ -226,17 +226,17 @@ for ($j = 0; $j < 5;  $j++) {
                 ], [ // ***
                     'word' => Word::cleanWord($cell2->item(6)->textContent),
                     'number' => 'однина', 'kind' => 'місцевий',
-                    'genus' => 'чоловічий рід',
+                    'genus' => 'чоловічий',
                     'isMainForm' => false,
                 ],[
                     'word' => Word::cleanWord($cell2->item(7)->textContent),
                     'number' => 'однина', 'kind' => 'місцевий',
-                    'genus' => 'жіночий рід',
+                    'genus' => 'жіночий',
                     'isMainForm' => false,
                 ],[
                     'word' => Word::cleanWord($cell2->item(8)->textContent),
                     'number' => 'однина', 'kind' => 'місцевий',
-                    'genus' => 'середній рід',
+                    'genus' => 'середній',
                     'isMainForm' => false,
                 ],[
                     'word' => Word::cleanWord($cell2e->item(2)->textContent),

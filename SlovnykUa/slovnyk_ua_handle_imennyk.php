@@ -12,9 +12,13 @@ $dictionaryId = (int) $dictionary->getProperty('id');
 
 $part_of_language = 'іменник';
 
+$htmlObj = new Html($dbh);
+$counter = $htmlObj->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
+$counter = intval($counter/100) + 1;
+
 echo "\n";
 
-for ($j = 0; $j < 170;  $j++) {
+for ($j = 0; $j < $counter;  $j++) {
     echo ($j + 1) . "00: \n";
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%'.$part_of_language.'%', 100, 0, 'LIKE');
@@ -64,7 +68,10 @@ for ($j = 0; $j < 170;  $j++) {
         $definition = explode(',', $definition);
 
         $creature = trim(array_get($definition, 2, '-'));
+
         $genus = trim(array_get($definition, 1, '-')); // rid
+        $genus = str_replace(' рід', '', $genus);
+
         $variation = trim(array_get($definition, 3, '-'));
 
         if ('тільки множина' == trim($variation) || 'тільки однина' == trim($variation)) {
@@ -72,6 +79,8 @@ for ($j = 0; $j < 170;  $j++) {
             $genus = '-';
             $variation = '-';
         }
+
+
 
         if ('істота' == trim($genus) || 'неістота' == trim($genus)) {
             $creature = trim(array_get($definition, 1, '-'));
@@ -93,11 +102,22 @@ for ($j = 0; $j < 170;  $j++) {
 
         $isMainForm = false;
 
+        if ('тільки множина' === $creature) {
+            $creature = '-';
+        }
+
         $cell1 = $xpath->query("//*[contains(@class, 'sfm_cell_1')]");
         $cell2 = $xpath->query("//*[contains(@class, 'sfm_cell_2')]");
 
         $cell1e = $xpath->query("//*[contains(@class, 'sfm_cell_1e')]");
         $cell2e = $xpath->query("//*[contains(@class, 'sfm_cell_2e')]");
+
+        if (12 === $cell1->length && 9 === $cell2->length && 4 === $cell1e->length && 3 === $cell2e->length) {
+
+        } else {
+            var_dump($cell1->length, $cell1e->length, $cell2->length, $cell2e->length);
+            die('Wrong amount of cells. Html.id ' . array_get($htmlArray, 'id'));
+        }
 
         if ('' === $cell1->item(1)->textContent) {
             $wordForms = [
@@ -243,6 +263,8 @@ for ($j = 0; $j < 170;  $j++) {
         echo '>';
     }
 }
+
+$htmlObj->backHtmlRowsToProcessing();
 
 echo 'END';
 

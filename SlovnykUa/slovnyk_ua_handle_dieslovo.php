@@ -19,9 +19,13 @@ $dictionaryId = (int) $dictionary->getProperty('id');
 
 $part_of_language = 'дієслово';
 
+$htmlObj = new Html($dbh);
+$counter = $htmlObj->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
+$counter = intval($counter/100) + 1;
+
 echo "\n";
 
-for ($j = 0; $j < 130;  $j++) { // 125
+for ($j = 0; $j < $counter;  $j++) {
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
 
@@ -53,7 +57,8 @@ for ($j = 0; $j < 130;  $j++) { // 125
                 $item = $tables->item($i);
                 if (-1 < strpos($item->textContent, $part_of_language)) {
                     $doc = new DOMDocument();
-                    @$doc->loadHTML(mb_convert_encoding($item->ownerDocument->saveHTML($item), 'HTML-ENTITIES', 'UTF-8'));
+                    $htmlCutPiece = $item->ownerDocument->saveHTML($item);
+                    @$doc->loadHTML(mb_convert_encoding($htmlCutPiece, 'HTML-ENTITIES', 'UTF-8'));
                     $isFound = true;
 
                     $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
@@ -83,139 +88,261 @@ for ($j = 0; $j < 130;  $j++) { // 125
         $dievidmina = $dievidmina ? $dievidmina : '-';
         $verbKind = $verbKind ? $verbKind : '-';
 
+        // standardisation {
+        $verbKind = str_replace(' вид', '', $verbKind);
+
+        if (-1 < strpos($dievidmina, 'ІІІ відміна')) {
+            $dievidmina = '3 відміна';
+        } elseif (-1 < strpos($dievidmina, 'ІІ відміна')) {
+            $dievidmina = '2 відміна';
+        } elseif (-1 < strpos($dievidmina, 'І відміна')) {
+            $dievidmina = '1 відміна';
+        } elseif (-1 < strpos($dievidmina, 'ІV відміна')) {
+            $dievidmina = '4 відміна';
+        }
+
+        if (-1 < strpos($dievidmina, 'ІІ дієвідміна')) {
+            $dievidmina = '2 дієвідміна';
+        } elseif (-1 < strpos($dievidmina, 'І дієвідміна')) {
+            $dievidmina = '1 дієвідміна';
+        }
+        // standardisation }
+
         $cell2 = $xpath->query("//*[contains(@class, 'sfm_cell_2')]");
         $cell2e = $xpath->query("//*[contains(@class, 'sfm_cell_e_2')]");
 
+        if (8 !== $cell2->length && 8 !== $cell2e->length && 11 !== $cell2->length && 11 !== $cell2e->length) {
+            var_dump($cell2->length, $cell2e->length);
+            die('Wrong amount of cells. Html.id ' . array_get($htmlArray, 'id'));
+        }
+
         $infinitiveArr = [
             'word' => $infinitive,
-            'verb_kind' => str_replace(' вид', '', $verbKind) ,
+            'verb_kind' => $verbKind ,
             'dievidmina' => $dievidmina,
         ];
 
-        // main form must be first
-        $wordForms = [
-            [
-                'word' => $cell2->item(0)->textContent,
-                'tense' => 'теперішній час',
-                'number' => 'однина',
-                'person' => '1 особа',
-            ],[
-                'word' => $cell2->item(1)->textContent,
-                'tense' => 'теперішній час',
-                'number' => 'однина',
-                'person' => '2 особа',
-            ],[
-                'word' => $cell2->item(2)->textContent,
-                'tense' => 'теперішній час',
-                'number' => 'однина',
-                'person' => '3 особа',
-            ],[
-                'word' => $cell2e->item(0)->textContent,
-                'tense' => 'теперішній час',
-                'number' => 'множина',
-                'person' => '1 особа',
-            ],[
-                'word' => $cell2e->item(1)->textContent,
-                'tense' => 'теперішній час',
-                'number' => 'множина',
-                'person' => '2 особа',
-            ],[
-                'word' => $cell2e->item(2)->textContent,
-                'tense' => 'теперішній час',
-                'number' => 'множина',
-                'person' => '3 особа',
-            ],[ // ***
-                'word' => $cell2->item(3)->textContent,
-                'tense' => 'майбутній час',
-                'number' => 'однина',
-                'person' => '1 особа',
-            ],[
-                'word' => $cell2->item(4)->textContent,
-                'tense' => 'майбутній час',
-                'number' => 'однина',
-                'person' => '2 особа',
-            ],[
-                'word' => $cell2->item(5)->textContent,
-                'tense' => 'майбутній час',
-                'number' => 'однина',
-                'person' => '3 особа',
-            ],[
-                'word' => $cell2e->item(3)->textContent,
-                'tense' => 'майбутній час',
-                'number' => 'множина',
-                'person' => '1 особа',
-            ],[
-                'word' => $cell2e->item(4)->textContent,
-                'tense' => 'майбутній час',
-                'number' => 'множина',
-                'person' => '2 особа',
-            ],[
-                'word' => $cell2e->item(5)->textContent,
-                'tense' => 'майбутній час',
-                'number' => 'множина',
-                'person' => '3 особа',
-            ],[ // ***
-                'word' => $cell2->item(6)->textContent,
-                'tense' => 'минулий час',
-                'number' => 'однина',
-                'genus' => 'чоловічий рід',
-            ],[
-                'word' => $cell2->item(7)->textContent,
-                'tense' => 'минулий час',
-                'number' => 'однина',
-                'genus' => 'жіночий рід',
-            ],[
-                'word' => $cell2->item(8)->textContent,
-                'tense' => 'минулий час',
-                'number' => 'однина',
-                'genus' => 'середній рід',
-            ],[
-                'word' => $cell2e->item(6)->textContent,
-                'tense' => 'минулий час',
-                'number' => 'множина',
-                'person' => '1 особа',
-            ],[
-                'word' => $cell2e->item(6)->textContent,
-                'tense' => 'минулий час',
-                'number' => 'множина',
-                'person' => '2 особа',
-            ],[
-                'word' => $cell2e->item(6)->textContent,
-                'tense' => 'минулий час',
-                'number' => 'множина',
-                'person' => '3 особа',
-            ],[ // ***
-                'word' => trim($cell2->item(9)->textContent),
-                'tense' => 'наказовий спосіб',
-                'number' => 'однина',
-                'person' => '1 особа',
-            ],[
-                'word' => $cell2->item(10)->textContent,
-                'tense' => 'наказовий спосіб',
-                'number' => 'однина',
-                'person' => '2 особа',
-            ],[
-                'word' => $cell2e->item(7)->textContent,
-                'tense' => 'наказовий спосіб',
-                'number' => 'множина',
-                'person' => '1 особа',
-            ],[
-                'word' => $cell2e->item(8)->textContent,
-                'tense' => 'наказовий спосіб',
-                'number' => 'множина',
-                'person' => '2 особа',
-            ]
-        ];
+        if (-1 < strpos($htmlCutPiece, 'теперешній')) { // є теперешній час
+            // main form must be first
+            $wordForms = [
+                [
+                    'word' => $cell2->item(0)->textContent,
+                    'tense' => 'теперішній',
+                    'number' => 'однина',
+                    'person' => '1 особа',
+                ],[
+                    'word' => $cell2->item(1)->textContent,
+                    'tense' => 'теперішній',
+                    'number' => 'однина',
+                    'person' => '2 особа',
+                ],[
+                    'word' => $cell2->item(2)->textContent,
+                    'tense' => 'теперішній',
+                    'number' => 'однина',
+                    'person' => '3 особа',
+                ],[
+                    'word' => $cell2e->item(0)->textContent,
+                    'tense' => 'теперішній',
+                    'number' => 'множина',
+                    'person' => '1 особа',
+                ],[
+                    'word' => $cell2e->item(1)->textContent,
+                    'tense' => 'теперішній',
+                    'number' => 'множина',
+                    'person' => '2 особа',
+                ],[
+                    'word' => $cell2e->item(2)->textContent,
+                    'tense' => 'теперішній',
+                    'number' => 'множина',
+                    'person' => '3 особа',
+                ],[ // ***
+                    'word' => $cell2->item(3)->textContent,
+                    'tense' => 'майбутній',
+                    'number' => 'однина',
+                    'person' => '1 особа',
+                ],[
+                    'word' => $cell2->item(4)->textContent,
+                    'tense' => 'майбутній',
+                    'number' => 'однина',
+                    'person' => '2 особа',
+                ],[
+                    'word' => $cell2->item(5)->textContent,
+                    'tense' => 'майбутній',
+                    'number' => 'однина',
+                    'person' => '3 особа',
+                ],[
+                    'word' => $cell2e->item(3)->textContent,
+                    'tense' => 'майбутній',
+                    'number' => 'множина',
+                    'person' => '1 особа',
+                ],[
+                    'word' => $cell2e->item(4)->textContent,
+                    'tense' => 'майбутній',
+                    'number' => 'множина',
+                    'person' => '2 особа',
+                ],[
+                    'word' => $cell2e->item(5)->textContent,
+                    'tense' => 'майбутній',
+                    'number' => 'множина',
+                    'person' => '3 особа',
+                ],[ // ***
+                    'word' => $cell2->item(6)->textContent,
+                    'tense' => 'минулий',
+                    'number' => 'однина',
+                    'genus' => 'чоловічий',
+                ],[
+                    'word' => $cell2->item(7)->textContent,
+                    'tense' => 'минулий',
+                    'number' => 'однина',
+                    'genus' => 'жіночий',
+                ],[
+                    'word' => $cell2->item(8)->textContent,
+                    'tense' => 'минулий',
+                    'number' => 'однина',
+                    'genus' => 'середній',
+                ],[
+                    'word' => $cell2e->item(6)->textContent,
+                    'tense' => 'минулий',
+                    'number' => 'множина',
+                    'person' => '1 особа',
+                ],[
+                    'word' => $cell2e->item(6)->textContent,
+                    'tense' => 'минулий',
+                    'number' => 'множина',
+                    'person' => '2 особа',
+                ],[
+                    'word' => $cell2e->item(6)->textContent,
+                    'tense' => 'минулий',
+                    'number' => 'множина',
+                    'person' => '3 особа',
+                ],[ // ***
+                    'word' => trim($cell2->item(9)->textContent),
+                    'tense' => 'наказовий спосіб',
+                    'number' => 'однина',
+                    'person' => '1 особа',
+                ],[
+                    'word' => $cell2->item(10)->textContent,
+                    'tense' => 'наказовий спосіб',
+                    'number' => 'однина',
+                    'person' => '2 особа',
+                ],[
+                    'word' => $cell2e->item(7)->textContent,
+                    'tense' => 'наказовий спосіб',
+                    'number' => 'множина',
+                    'person' => '1 особа',
+                ],[
+                    'word' => $cell2e->item(8)->textContent,
+                    'tense' => 'наказовий спосіб',
+                    'number' => 'множина',
+                    'person' => '2 особа',
+                ]
+            ];
 
-        $diepruslivnyk = [
-            [
-                'word' => trim($cell2e->item(9)->textContent),
-                'tense' => 'теперішній час',
-            ],[
-                'word' => trim($cell2e->item(10)->textContent),
-                'tense' => 'минулий час',
-            ]
-        ];
+            $diepruslivnyk = [
+                [
+                    'word' => trim($cell2e->item(9)->textContent),
+                    'tense' => 'теперішній',
+                ],[
+                    'word' => trim($cell2e->item(10)->textContent),
+                    'tense' => 'минулий',
+                ]
+            ];
+        } else {  // нєма теперешнього часу
+            // main form must be first
+            $wordForms = [
+                [ // ***
+                    'word' => $cell2->item(0)->textContent,
+                    'tense' => 'майбутній',
+                    'number' => 'однина',
+                    'person' => '1 особа',
+                ],[
+                    'word' => $cell2->item(1)->textContent,
+                    'tense' => 'майбутній',
+                    'number' => 'однина',
+                    'person' => '2 особа',
+                ],[
+                    'word' => $cell2->item(2)->textContent,
+                    'tense' => 'майбутній',
+                    'number' => 'однина',
+                    'person' => '3 особа',
+                ],[
+                    'word' => $cell2e->item(0)->textContent,
+                    'tense' => 'майбутній',
+                    'number' => 'множина',
+                    'person' => '1 особа',
+                ],[
+                    'word' => $cell2e->item(1)->textContent,
+                    'tense' => 'майбутній',
+                    'number' => 'множина',
+                    'person' => '2 особа',
+                ],[
+                    'word' => $cell2e->item(2)->textContent,
+                    'tense' => 'майбутній',
+                    'number' => 'множина',
+                    'person' => '3 особа',
+                ],[ // ***
+                    'word' => $cell2->item(3)->textContent,
+                    'tense' => 'минулий',
+                    'number' => 'однина',
+                    'genus' => 'чоловічий',
+                ],[
+                    'word' => $cell2->item(4)->textContent,
+                    'tense' => 'минулий',
+                    'number' => 'однина',
+                    'genus' => 'жіночий',
+                ],[
+                    'word' => $cell2->item(5)->textContent,
+                    'tense' => 'минулий',
+                    'number' => 'однина',
+                    'genus' => 'середній',
+                ],[
+                    'word' => $cell2e->item(3)->textContent,
+                    'tense' => 'минулий',
+                    'number' => 'множина',
+                    'genus' => 'чоловічий',
+                ],[
+                    'word' => $cell2e->item(3)->textContent,
+                    'tense' => 'минулий',
+                    'number' => 'множина',
+                    'genus' => 'жіночий',
+                ],[
+                    'word' => $cell2e->item(3)->textContent,
+                    'tense' => 'минулий',
+                    'number' => 'множина',
+                    'genus' => 'середній',
+                ],[ // ***
+                    'word' => trim($cell2->item(6)->textContent),
+                    'tense' => 'наказовий спосіб',
+                    'number' => 'однина',
+                    'person' => '1 особа',
+                ],[
+                    'word' => $cell2->item(7)->textContent,
+                    'tense' => 'наказовий спосіб',
+                    'number' => 'однина',
+                    'person' => '2 особа',
+                ],[
+                    'word' => $cell2e->item(4)->textContent,
+                    'tense' => 'наказовий спосіб',
+                    'number' => 'множина',
+                    'person' => '1 особа',
+                ],[
+                    'word' => $cell2e->item(5)->textContent,
+                    'tense' => 'наказовий спосіб',
+                    'number' => 'множина',
+                    'person' => '2 особа',
+                ]
+            ];
+
+            $diepruslivnyk = [
+                [
+                    'word' => trim($cell2e->item(6)->textContent),
+                    'tense' => 'теперішній',
+                ],[
+                    'word' => trim($cell2e->item(7)->textContent),
+                    'tense' => 'минулий',
+                ]
+            ];
+        }
 
         $isInfinitive = ($infinitive === $word);
 
@@ -227,13 +354,15 @@ for ($j = 0; $j < 130;  $j++) { // 125
             $htmlItem->firstOrNewTotal($infinitive, 'дієслово', '-', '-', '-', '-', '-', $verbKind,
                 $dievidmina, '-', '-', '-', '-', '-', 1, 1, '-', $dictionaryId);
             $mainFormId = $htmlItem->getId();
+
+            $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
         }
         // define infinitive }
 
         foreach ($wordForms as $wordForm) {
             echo 'd';
             $word = trim(array_get($wordForm, 'word'));
-            $tense = str_replace(' час', '', array_get($wordForm, 'tense', '-'));
+            $tense = str_replace('', '', array_get($wordForm, 'tense', '-'));
             $number = array_get($wordForm, 'number', '-');
             $genus = array_get($wordForm, 'genus', '-');
             $person = array_get($wordForm, 'person', '-');
@@ -243,7 +372,7 @@ for ($j = 0; $j < 130;  $j++) { // 125
             $number = $number ? $number : '-';
             $person = $person ? $person : '-';
 
-            if ( " " == $word || empty($word)) {
+            if (" " == $word || " " == $word || empty($word)) {
                 continue;
             }
             $htmlItem = new Html($dbh);
@@ -257,7 +386,7 @@ for ($j = 0; $j < 130;  $j++) { // 125
             $word = trim(array_get($wordForm, 'word'));
             $tense = array_get($wordForm, 'tense', '-');
 
-            if (' ' == $word || empty($word)) {
+            if (" " == $word ||' ' == $word || empty($word)) {
                 continue;
             }
 
@@ -270,6 +399,8 @@ for ($j = 0; $j < 130;  $j++) { // 125
         echo '>';
     }
 }
+
+$htmlObj->backHtmlRowsToProcessing();
 
 echo 'END';
 

@@ -7,20 +7,20 @@ select creature from html group by creature;
 
 -- Sanification:
 
-update html set creature = '-' where creature = 'тільки множина';
-update html set genus = '-' where creature = 'тільки множина';
+-- update html set creature = '-' where creature = 'тільки множина';
+-- update html set genus = '-' where creature = 'тільки множина';
 update html set genus = 'жіночий' where genus = 'жіночий рід';
 update html set genus = 'середній' where genus = 'середній рід';
 update html set genus = 'чоловічий' where genus = 'чоловічий рід';
 update html set genus = 'чоловічий і жіночий' where genus = 'чоловічий і жіночий рід';
-update html set verb_kind = 'доконаний' where verb_kind = 'доконаний вид';
-update html set verb_kind = 'недоконаний' where verb_kind = 'недоконаний вид';
-update html set dievidmina = '2 дієвідміна' where dievidmina = 'ІІ дієвідміна';
-update html set dievidmina = '1 дієвідміна' where dievidmina LIKE 'І дієвідміна%';
+-- update html set verb_kind = 'доконаний' where verb_kind = 'доконаний вид';
+-- update html set verb_kind = 'недоконаний' where verb_kind = 'недоконаний вид';
+-- update html set dievidmina = '2 дієвідміна' where dievidmina = 'ІІ дієвідміна';
+-- update html set dievidmina = '1 дієвідміна' where dievidmina LIKE 'І дієвідміна%';
 update html set class = '-' where class = '';
-update html set tense = 'майбутній' where tense = 'майбутній час';
-update html set tense = 'минулий' where tense = 'минулий час';
-update html set tense = 'теперішній' where tense = 'теперішній час';
+-- update html set tense = 'майбутній' where tense = 'майбутній час';
+-- update html set tense = 'минулий' where tense = 'минулий час';
+-- update html set tense = 'теперішній' where tense = 'теперішній час';
 update html set variation = '3 відміна' where variation LIKE '%ІІІ відміна%';
 update html set variation = '2 відміна' where variation LIKE '%ІІ відміна%';
 update html set variation = '1 відміна' where variation LIKE '%І відміна%';
