@@ -1,6 +1,6 @@
 ﻿<?php
 
-// @acton: php detect_wrong_words.php > wrong_words.txt
+// @acton: php scandir.php > tgh.txt
 
 require_once('../support/_require_once.php');
 
@@ -11,10 +11,24 @@ $files = scandir($dir);
 
 $result = [];
 
+echo "[\n";
+
+$i = 0;
 foreach ($files as $file) {
-    $result[] = cleanCyrillic($file);
+//    $result[] = cleanCyrillic($file);
+    $title = cleanCyrillic($file);
+    $title = str_replace('\'', '\\\'', $title);
+
+    if (in_array($title, ['.', '..'])) {
+        continue;
+    }
+
+    echo "    $i => '$title',\n";
+    $i++;
 }
 
-print_r($result);
+echo ']';
+
+//print_r($result);
 
 

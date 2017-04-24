@@ -98,6 +98,16 @@ function cleanCyrillic($text)
 }
 
 /**
+ * @param mixed $text
+ *
+ * @return bool
+ */
+function cleanCyrillicTrue($text)
+{
+    return iconv(mb_detect_encoding($text, mb_detect_order(), true), "UTF-8", $text);
+}
+
+/**
  * @param array $array
  * @param string $key
  * @param mixed $default
