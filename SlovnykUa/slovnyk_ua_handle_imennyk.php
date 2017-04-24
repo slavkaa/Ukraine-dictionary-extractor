@@ -15,6 +15,7 @@ $part_of_language = 'іменник';
 $htmlObj = new Html($dbh);
 $counter = $htmlObj->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
 $counter = intval($counter/100) + 1;
+var_dump($counter);
 
 echo "\n";
 
@@ -80,8 +81,6 @@ for ($j = 0; $j < $counter;  $j++) {
             $variation = '-';
         }
 
-
-
         if ('істота' == trim($genus) || 'неістота' == trim($genus)) {
             $creature = trim(array_get($definition, 1, '-'));
             $genus = '-';
@@ -102,9 +101,28 @@ for ($j = 0; $j < $counter;  $j++) {
 
         $isMainForm = false;
 
+        // standardisation {
         if ('тільки множина' === $creature) {
             $creature = '-';
         }
+
+        if (-1 < strpos($variation, 'ІІІ відміна')) {
+            $variation = '3 відміна';
+        } elseif (-1 < strpos($variation, 'ІІ відміна')) {
+            $variation = '2 відміна';
+        } elseif (-1 < strpos($variation, 'І відміна')) {
+            $variation = '1 відміна';
+        } elseif (-1 < strpos($variation, 'ІV відміна')) {
+            $variation = '4 відміна';
+        } elseif (-1 < strpos($variation, 'невідмінюване')) {
+            $variation = 'невідмінюване';
+        } elseif ('-' === $variation) {
+            // OK
+        } else {
+            var_dump($variation);
+            $variation = null;
+        }
+        // standardisation }
 
         $cell1 = $xpath->query("//*[contains(@class, 'sfm_cell_1')]");
         $cell2 = $xpath->query("//*[contains(@class, 'sfm_cell_2')]");
@@ -113,9 +131,9 @@ for ($j = 0; $j < $counter;  $j++) {
         $cell2e = $xpath->query("//*[contains(@class, 'sfm_cell_2e')]");
 
         if (12 === $cell1->length && 9 === $cell2->length && 4 === $cell1e->length && 3 === $cell2e->length) {
-
+            // OK
         } else {
-            var_dump($cell1->length, $cell1e->length, $cell2->length, $cell2e->length);
+            var_dump($cell1->length, $cell2->length, $cell1e->length, $cell2e->length);
             die('Wrong amount of cells. Html.id ' . array_get($htmlArray, 'id'));
         }
 

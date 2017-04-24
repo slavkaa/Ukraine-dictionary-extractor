@@ -7,8 +7,14 @@ require_once('../support/_require_once.php');
 // *** //
 
 echo "\n";
+$word = new Word($dbh);
+$counter = $word->countIsNeedProcessing();
+$counter = intval($counter/100) + 1;
+var_dump($counter);
 
-for ($i = 1; $i < 180;  $i++) {
+echo "\n";
+
+for ($i = 0; $i < $counter;  $i++) {
     $word = new Word($dbh);
     $allWords = $word->getAllIsNeedProcessing(100);
 

@@ -42,4 +42,18 @@ trait ProcessingFieldTrait {
             $this->props = $result;
         }
     }
+
+    /**
+     * @return integer|null
+     */
+    public function countIsNeedProcessing()
+    {
+        $sql = 'SELECT count(*) FROM `' . $this->tableName . '` WHERE is_need_processing = 1;';
+
+        $stm = $this->connection->prepare($sql);
+        $stm->execute();
+        $result = $stm->fetch(PDO::FETCH_ASSOC);
+
+        return is_array($result) ? (int) reset($result) : null;
+    }
 }

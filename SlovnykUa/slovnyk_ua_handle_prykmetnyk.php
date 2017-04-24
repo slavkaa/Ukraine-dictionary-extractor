@@ -12,9 +12,14 @@ $dictionaryId = (int) $dictionary->getProperty('id');
 
 $part_of_language = 'прикметник';
 
+$htmlObj = new Html($dbh);
+$counter = $htmlObj->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
+$counter = intval($counter/100) + 1;
+var_dump($counter);
+
 echo "\n";
 
-for ($j = 0; $j < 8;  $j++) {
+for ($j = 0; $j < $counter;  $j++) {
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
 
@@ -71,6 +76,13 @@ for ($j = 0; $j < 8;  $j++) {
         $cell1e = $xpath->query("//*[contains(@class, 'sfm_cell_e_1')]");
         $cell2 = $xpath->query("//*[contains(@class, 'sfm_cell_2')]");
         $cell2e = $xpath->query("//*[contains(@class, 'sfm_cell_e_2')]");
+
+        if (9 === $cell1->length && 9 === $cell2->length && 3 === $cell1e->length && 3 === $cell2e->length) {
+            // OK
+        } else {
+            var_dump($cell1->length, $cell2->length, $cell1e->length, $cell2e->length);
+            die('Wrong amount of cells. Html.id ' . array_get($htmlArray, 'id'));
+        }
 
         // main form must be first
         $wordForms = [
@@ -221,6 +233,8 @@ for ($j = 0; $j < 8;  $j++) {
     }
     echo ">\n";
 }
+
+$htmlObj->backHtmlRowsToProcessing();
 
 echo 'END';
 

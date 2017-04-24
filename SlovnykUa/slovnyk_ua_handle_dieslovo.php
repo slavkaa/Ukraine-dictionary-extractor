@@ -22,6 +22,7 @@ $part_of_language = 'дієслово';
 $htmlObj = new Html($dbh);
 $counter = $htmlObj->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
 $counter = intval($counter/100) + 1;
+var_dump($counter);
 
 echo "\n";
 
@@ -91,27 +92,25 @@ for ($j = 0; $j < $counter;  $j++) {
         // standardisation {
         $verbKind = str_replace(' вид', '', $verbKind);
 
-        if (-1 < strpos($dievidmina, 'ІІІ відміна')) {
-            $dievidmina = '3 відміна';
-        } elseif (-1 < strpos($dievidmina, 'ІІ відміна')) {
-            $dievidmina = '2 відміна';
-        } elseif (-1 < strpos($dievidmina, 'І відміна')) {
-            $dievidmina = '1 відміна';
-        } elseif (-1 < strpos($dievidmina, 'ІV відміна')) {
-            $dievidmina = '4 відміна';
-        }
-
         if (-1 < strpos($dievidmina, 'ІІ дієвідміна')) {
             $dievidmina = '2 дієвідміна';
         } elseif (-1 < strpos($dievidmina, 'І дієвідміна')) {
             $dievidmina = '1 дієвідміна';
+        } elseif ('-' === $dievidmina) {
+            // OK
+        } else {
+            $dievidmina = null;
         }
         // standardisation }
 
         $cell2 = $xpath->query("//*[contains(@class, 'sfm_cell_2')]");
         $cell2e = $xpath->query("//*[contains(@class, 'sfm_cell_e_2')]");
 
-        if (8 !== $cell2->length && 8 !== $cell2e->length && 11 !== $cell2->length && 11 !== $cell2e->length) {
+        if (8 === $cell2->length && 8 === $cell2e->length) {
+            // OK
+        } elseif (11 === $cell2->length &&11 === $cell2e->length) {
+            // OK
+        } else {
             var_dump($cell2->length, $cell2e->length);
             die('Wrong amount of cells. Html.id ' . array_get($htmlArray, 'id'));
         }

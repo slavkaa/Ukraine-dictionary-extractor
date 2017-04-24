@@ -15,6 +15,7 @@ $part_of_language = 'чоловіче ім\'я';
 $htmlObj = new Html($dbh);
 $counter = $htmlObj->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
 $counter = intval($counter/100) + 1;
+var_dump($counter);
 
 echo "\n";
 
@@ -80,10 +81,12 @@ for ($j = 0; $j < $counter;  $j++) {
         $cell2 = $xpath->query("//*[contains(@class, 'sfm_cell_2')]");
         $cell2e = $xpath->query("//*[contains(@class, 'sfm_cell_e_2')]");
 
-        var_dump($cell1->length, $cell1e->length, $cell2->length, $cell2e->length);
-        die;
-
-        $isHasGenus = (-1 < strpos($item->textContent, 'множина'));
+        if (4 === $cell1->length && 3 === $cell2->length && 4 === $cell1e->length && 3 === $cell2e->length) {
+            // OK
+        } else {
+            var_dump($cell1->length, $cell2->length, $cell1e->length, $cell2e->length);
+            die('Wrong amount of cells. Html.id ' . array_get($htmlArray, 'id'));
+        }
 
         // main form must be first
         $wordForms = [

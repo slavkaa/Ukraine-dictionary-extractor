@@ -154,7 +154,8 @@ class Html extends AbstractModel {
     /**
      * @param string $partOfLanguage
      * @param string $sing
-     * @return PDOStatement
+     *
+     * @return integer|null
      */
     public function countPartOfLanguage($partOfLanguage, $sing = '=')
     {

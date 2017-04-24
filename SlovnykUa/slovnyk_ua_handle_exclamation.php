@@ -22,7 +22,6 @@ $part_of_language = 'вигук';
 $htmlObj = new Html($dbh);
 $counter = $htmlObj->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
 $counter = intval($counter/100) + 1;
-
 var_dump($counter);
 
 echo "\n";

@@ -6,7 +6,14 @@ require_once('support/_require_once.php');
 
 // *** //
 
-for ($i = 1; $i < 2750;  $i++) { //
+$htmlObj = new Html($dbh);
+$counter = $htmlObj->countIsNeedProcessing();
+$counter = intval($counter/100) + 1;
+var_dump($counter);
+
+echo "\n";
+
+for ($i = 0; $i < $counter;  $i++) {
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getAllIsNeedProcessing(100);
 
