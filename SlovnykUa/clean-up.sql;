@@ -33,5 +33,5 @@ update html set variation = 'невідмінюване' where variation LIKE '%невідмінюване
 update html set variation = 'невідмінюване' where variation LIKE '%невідмінюване%';
 
 update html set is_need_processing = 1 where created_at > '2017-04-21'
-SELECT * FROM html WHERE part_of_language  LIKE '%дієслово%'  AND  created_at > '2017-04-21'
-SELECT * FROM html WHERE part_of_language  LIKE '%дієслово%'  AND  created_at > '2017-04-21' AND main_form_id IS NOT NULL
+SELECT * FROM html WHERE part_of_language  LIKE '%присудкове слово%'  AND  created_at > '2017-04-21'
+SELECT * FROM html WHERE part_of_language  LIKE '%присудкове слово%'  AND  created_at > '2017-04-21' AND main_form_id IS NOT NULL

@@ -1,16 +1,8 @@
 ﻿<?php
 
-// @link: http://phpfaq.ru/pdo
 // @acton: php slovnyk_ua_handle_prysudkove_slovo.php    Присудкове слово
 
-require_once('../support/config.php');
-require_once('../support/functions.php');
-require_once('../support/libs.php');
-require_once('../models/word.php');
-require_once('../models/wordToIgnore.php');
-require_once('../models/source.php');
-require_once('../models/dictionary.php');
-require_once('../models/html.php');
+require_once('../support/_require_once.php');
 
 // *** //
 $dictionary = new Dictionary($dbh);
@@ -35,6 +27,7 @@ for ($j = 0; $j < 1;  $j++) {
         $partOfLanguage = $html->getProperty('part_of_language');
 
         if (' ' == $word || empty($word)) {
+            $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             continue;
         }
 
@@ -44,6 +37,7 @@ for ($j = 0; $j < 1;  $j++) {
                 '-', '-', '-', '-', '-', '-', 0, true, '-', $dictionaryId);
         }
     }
+    $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
     echo ">\n";
 }
 

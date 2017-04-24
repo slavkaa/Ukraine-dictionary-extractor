@@ -1,16 +1,8 @@
 ﻿<?php
 
-// @link: http://phpfaq.ru/pdo
 // @acton: php migrate_html_back_to_word.php
 
-require_once('support/config.php');
-require_once('support/functions.php');
-require_once('support/libs.php');
-require_once('models/word.php');
-require_once('models/wordToIgnore.php');
-require_once('models/source.php');
-require_once('models/dictionary.php');
-require_once('models/html.php');
+require_once('support/_require_once.php');
 
 // *** //
 

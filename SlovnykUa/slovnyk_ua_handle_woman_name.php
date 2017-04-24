@@ -57,11 +57,14 @@ for ($j = 0; $j < 1;  $j++) {
                 @$doc->loadHTML(mb_convert_encoding($item->ownerDocument->saveHTML($item), 'HTML-ENTITIES', 'UTF-8'));
                 $isFound = true;
 
+                $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
                 break;
             }
         }
 
         if (!$isFound) {
+
+            $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             continue;
         }
         // filtrate noun }
@@ -180,7 +183,9 @@ for ($j = 0; $j < 1;  $j++) {
 
             $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
         }
+
         echo ']';
+        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
     }
     echo ">\n";
 }

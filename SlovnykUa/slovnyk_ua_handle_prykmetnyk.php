@@ -3,14 +3,7 @@
 // @link: http://phpfaq.ru/pdo
 // @acton: php slovnyk_ua_handle_prykmetnyk.php
 
-require_once('../support/config.php');
-require_once('../support/functions.php');
-require_once('../support/libs.php');
-require_once('../models/word.php');
-require_once('../models/wordToIgnore.php');
-require_once('../models/source.php');
-require_once('../models/dictionary.php');
-require_once('../models/html.php');
+require_once('../support/_require_once.php');
 
 // *** //
 $dictionary = new Dictionary($dbh);
@@ -21,7 +14,7 @@ $part_of_language = 'прикметник';
 
 echo "\n";
 
-for ($j = 0; $j < 910;  $j++) { // 910
+for ($j = 0; $j < 8;  $j++) {
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, $j*100, 'LIKE');
 
@@ -56,11 +49,13 @@ for ($j = 0; $j < 910;  $j++) { // 910
                     @$doc->loadHTML(mb_convert_encoding($item->ownerDocument->saveHTML($item), 'HTML-ENTITIES', 'UTF-8'));
                     $isFound = true;
 
+                    $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
                     break;
                 }
             }
 
             if (!$isFound) {
+                $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
                 continue;
             }
         // filtrate noun }
@@ -220,7 +215,9 @@ for ($j = 0; $j < 910;  $j++) { // 910
 
             $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
         }
+
         echo ']';
+        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
     }
     echo ">\n";
 }

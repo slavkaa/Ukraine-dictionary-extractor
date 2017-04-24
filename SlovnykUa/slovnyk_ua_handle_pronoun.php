@@ -1,16 +1,8 @@
 ﻿<?php
 
-// @link: http://phpfaq.ru/pdo
 // @acton: php slovnyk_ua_handle_pronoun.php    Займенник
 
-require_once('../support/config.php');
-require_once('../support/functions.php');
-require_once('../support/libs.php');
-require_once('../models/word.php');
-require_once('../models/wordToIgnore.php');
-require_once('../models/source.php');
-require_once('../models/dictionary.php');
-require_once('../models/html.php');
+require_once('../support/_require_once.php');
 
 // *** //
 $dictionary = new Dictionary($dbh);
@@ -56,11 +48,13 @@ for ($j = 0; $j < 5;  $j++) {
                 @$doc->loadHTML(mb_convert_encoding($item->ownerDocument->saveHTML($item), 'HTML-ENTITIES', 'UTF-8'));
                 $isFound = true;
 
+                $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
                 break;
             }
         }
 
         if (!$isFound) {
+            $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             continue;
         }
         // filtrate noun }
@@ -291,7 +285,9 @@ for ($j = 0; $j < 5;  $j++) {
             $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
         }
         echo ']';
+        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
     }
+
     echo ">\n";
 }
 
