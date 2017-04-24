@@ -1,7 +1,6 @@
 select * from html where is_main_form = 1 AND url IS NULL;
 update html set main_form_id = id where is_main_form = 1 AND url IS NULL;
 select * from html where main_form_id IS NULL AND url IS NULL;
-
 select * from html where is_main_form != 1 AND main_form_id IS NULL AND url IS NULL;
 
 select creature from html group by creature;
@@ -40,5 +39,7 @@ update word set is_need_processing = 1 where word LIKE '%,%';
 update html set variation = 'невідмінюване' where variation LIKE '%невідмінюване%';
 
 update html set is_need_processing = 1 where created_at > '2017-04-21'
+update html set is_need_processing = 1 where part_of_language is not null;
+
 SELECT * FROM html WHERE part_of_language  LIKE '%присудкове слово%'  AND  created_at > '2017-04-21'
 SELECT * FROM html WHERE part_of_language  LIKE '%присудкове слово%'  AND  created_at > '2017-04-21' AND main_form_id IS NOT NULL
