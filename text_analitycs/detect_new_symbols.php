@@ -1,6 +1,13 @@
-﻿Гончар Олесь
+﻿<?php
 
-[
+// @acton: php detect_new_symbols.php > new_symbols_oh.txt
+
+require_once('../support/_require_once.php');
+
+// *** //
+
+$author = 'Гончар Олесь';
+$titles = [
     0 => '9 Травня .txt',
     1 => 'Ілонка.txt',
     2 => 'Безсмертний полтавець.txt',
@@ -72,4 +79,44 @@
     68 => 'Штрихи до портрета Остапа Вишні.txt',
     69 => 'Щоб світився вогник.txt',
     70 => 'Яблука на стовпцях.txt',
-]
+];
+
+$wrongWords = [];
+
+echo "\n";
+
+foreach ($titles as $title) {
+    echo $title . ':';
+
+    $filename = sprintf('../texts/%s/%s', $author, $title);
+
+    $filename = iconv(mb_detect_encoding($filename, mb_detect_order(), true), "cp1251", $filename);
+    $text = file_get_contents($filename);
+
+    $text = cleanCyrillicTrue($text);
+
+    $word_binary = str_replace($capitalLetters, '', $text);
+    $word_binary = str_replace($foreignLetters, '', $word_binary);
+    $word_binary = str_replace($pronunciationSings, '', $word_binary);
+    $word_binary = str_replace($ukraineAbc, '', $word_binary);
+    $word_binary = str_replace($numbers, '', $word_binary);
+    $word_binary = str_replace("\xA0", '', $word_binary);
+    $word_binary = str_replace('-', '', $word_binary); // it is OK - it is part of legal words
+    $word_binary = str_replace('’', '', $word_binary); // it is OK - it is part of legal words
+    $word_binary = str_replace('`', '', $word_binary); // it is OK - it is part of legal words
+    $word_binary = str_replace('‘', '', $word_binary); // it is OK - it is part of legal words
+    $word_binary = str_replace(' ', '', $word_binary);
+
+    if ('' != $word_binary) {
+        echo '+';
+        $wrongWords[$title] = $word_binary;
+    }
+
+    echo "\n\n";
+}
+//echo "\n";
+
+var_dump($wrongWords);
+
+
+
