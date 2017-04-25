@@ -9,9 +9,16 @@ $dictionary = new Dictionary($dbh);
 $dictionary->firstOrNew('slovnyk.ua', 'http://www.slovnyk.ua/?swrd=');
 $dictionaryId = (int) $dictionary->getProperty('id');
 
+$WordRawObj = new WordRaw($dbh);
+$counter = $WordRawObj->countIsNeedProcessing();
+$counter = intval($counter/100) + 1;
+var_dump($counter);
+
 echo "\n";
 
-for ($i = 1; $i < 290;  $i++) {
+var_dump($counter);
+
+for ($i = 1; $i < $counter;  $i++) {
     echo $i . '00. ';
 
     $wordRaw = new WordRaw($dbh);
