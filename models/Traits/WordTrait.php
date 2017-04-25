@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * Class WordTrait
+ *
+ * @property int $id
+ * @property PDO $connection
+ */
 trait WordTrait {
     /**
      * @param string $word
@@ -11,12 +17,12 @@ trait WordTrait {
         $stm = $this->connection->query($sql);
         $result = $stm->fetch(PDO::FETCH_ASSOC);
 
+        $this->id = array_get($result, 'id');
+        $this->props = $result;
+
         if (empty($result)) {
             $this->insert($word, $isForeign);
         }
-
-        $this->id = array_get($result, 'id');
-        $this->props = $result;
     }
 
     /**
@@ -31,6 +37,10 @@ trait WordTrait {
         $stm->bindParam(':word', $word, PDO::PARAM_STR);
         $stm->execute();
         $id = $this->connection->lastInsertId();
+
+//        var_dump($this->connection->errorInfo());
+//        var_dump($stm->errorInfo());
+//        var_dump($id);
 
         $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE id = :id limit 1;';
         $stm = $this->connection->prepare($sql);
