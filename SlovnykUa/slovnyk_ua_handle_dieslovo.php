@@ -1,16 +1,8 @@
 ﻿<?php
 
-// @link: http://phpfaq.ru/pdo
 // @acton: php slovnyk_ua_handle_dieslovo.php
 
-require_once('../support/config.php');
-require_once('../support/functions.php');
-require_once('../support/libs.php');
-require_once('../models/word.php');
-require_once('../models/wordToIgnore.php');
-require_once('../models/source.php');
-require_once('../models/dictionary.php');
-require_once('../models/html.php');
+require_once('../support/_require_once.php');
 
 // *** //
 $dictionary = new Dictionary($dbh);
@@ -30,14 +22,20 @@ for ($j = 0; $j < $counter;  $j++) {
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
 
+    echo $j . "00 \n";
+
     foreach ($allHtml as $htmlArray) {
         echo '<';
+
         $html = new Html($dbh);
         $html->getById(array_get($htmlArray, 'id'));
 
+        $htmlData = new HtmlData($dbh);
+        $htmlData->getByHtmlId(array_get($htmlArray, 'id'));
+
         // load extracted HTML=page
-        $word = cleanCyrillic($html->getProperty('word'));
-        $text = cleanCyrillic($html->getProperty('html_cut'));
+        $word = cleanCyrillic($htmlData->getProperty('word'));
+        $text = cleanCyrillic($htmlData->getProperty('html_cut'));
         $text = str_replace(
             ['sfm_cell_1s', 'sfm_cell_2s', 'sfm_cell_1_x2', 'sfm_cell_1e_x2', 'sfm_cell_1e', 'sfm_cell_2_x2', 'sfm_cell_2e_x2', 'sfm_cell_2e'],
             ['sfm_cell_v',  'sfm_cell_v',  'sfm_cell_1',    'sfm_cell_e_1',   'sfm_cell_e_1',   'sfm_cell_2',    'sfm_cell_2e', 'sfm_cell_e_2'],
@@ -62,15 +60,14 @@ for ($j = 0; $j < $counter;  $j++) {
                     @$doc->loadHTML(mb_convert_encoding($htmlCutPiece, 'HTML-ENTITIES', 'UTF-8'));
                     $isFound = true;
 
-                    $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
-                    echo '.';
+                    echo '+';
                     break;
                 }
             }
 
             if (!$isFound) {
                 $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
-                echo '.';
+                echo '-';
                 continue;
             }
         // filtrate $part_of_language }
@@ -375,7 +372,7 @@ for ($j = 0; $j < $counter;  $j++) {
                 continue;
             }
             $htmlItem = new Html($dbh);
-            $htmlItem->firstOrNewTotal($word, 'дієслово', '-', $genus, $number, $person, '-', $verbKind,
+            $htmlItem->firstOrNewTotal($word, $part_of_language, '-', $genus, $number, $person, '-', $verbKind,
                 $dievidmina, '-', '-', '-', $tense, '-', 0, 0, '-', $dictionaryId);
             $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
         }
@@ -396,7 +393,11 @@ for ($j = 0; $j < $counter;  $j++) {
 
         $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
         echo '>';
+
+//        die;
     }
+
+    echo "\n";
 }
 
 $htmlObj->backHtmlRowsToProcessing();

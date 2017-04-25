@@ -65,3 +65,9 @@ select * from html where main_form_id = 51573 or id = 51573
 --
 
 update html set creature = null, genus = null, number = null, person = null, kind = null, verb_kind = null, dievidmina = null, class = null, sub_role = null, comparison = null, tense = null, mood = null, is_infinitive = 0, is_main_form = 0, main_form_id = null
+
+-- INSERT * FROM SELECT *
+
+INSERT INTO html (dictionary_id, word_id, word, word_binary, main_form_id, is_wrong_detection, url, url_binary, html, html_cut, is_main_form, is_proper_name, is_foreign, is_need_processing, part_of_language, creature, genus, number, person, kind, verb_kind, dievidmina, class, sub_role, comparison, tense, variation mood, is_infinitive, is_modal) VALUE SELECT dictionary_id, word_id, word, word_binary, main_form_id, is_wrong_detection, url, url_binary, html, html_cut, is_main_form, is_proper_name, is_foreign, is_need_processing, part_of_language, creature, genus, number, person, kind, verb_kind, dievidmina, class, sub_role, comparison, tense, variation mood, is_infinitive, is_modal FROM html_old_1
+
+INSERT INTO html_cut (html_id, word, word_binary) SELECT id, word, word_binary FROM html

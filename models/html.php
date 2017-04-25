@@ -20,8 +20,6 @@ class Html extends AbstractModel {
         'word_binary' => null,
         'url' => null,
         'url_binary' => null,
-        'html' => null,
-        'html_cut' => null,
         'is_main_form' => null,
         'is_proper_name' => null,
         'is_foreign' => null,
@@ -160,7 +158,7 @@ class Html extends AbstractModel {
     public function countPartOfLanguage($partOfLanguage, $sing = '=')
     {
         $sql = 'SELECT count(*) FROM `' . $this->tableName . '` WHERE part_of_language ' . $sing .' :part_of_language'
-            .' AND html_cut IS NOT NULL AND is_need_processing = 1;';
+            .' AND url IS NOT NULL AND is_need_processing = 1;';
 
         $stm = $this->connection->prepare($sql);
         $stm->bindParam(':part_of_language', $partOfLanguage, PDO::PARAM_STR);
@@ -189,7 +187,7 @@ class Html extends AbstractModel {
      */
     public function backHtmlRowsToProcessing()
     {
-        $sql = 'UPDATE html SET is_need_processing = 1 WHERE part_of_language IS NOT NULL AND html_cut IS NOT NULL;';
+        $sql = 'UPDATE html SET is_need_processing = 1 WHERE part_of_language IS NOT NULL AND url IS NOT NULL;';
         $stm = $this->connection->query($sql);
     }
 
@@ -359,8 +357,11 @@ class Html extends AbstractModel {
         $stm->execute();
         $result = $stm->fetch(PDO::FETCH_ASSOC);
 
+//        var_dump($result);
 //        var_dump($stm->errorInfo());
 //        var_dump($this->connection->errorInfo());
+//        var_dump($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
+//            $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form, $variation, $dictionary_id);
 
         if (empty($result)) {
 
@@ -464,6 +465,4 @@ class Html extends AbstractModel {
             echo '+';
         }
     }
-
-
 }
