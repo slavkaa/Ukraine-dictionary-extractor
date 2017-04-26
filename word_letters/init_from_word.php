@@ -1,8 +1,7 @@
 ﻿<?php
 
 // cd SumInUa
-// php init_urls_from_word.php
-// @acton: php SumInUa/init_urls_from_word.php
+// php init_from_word.php
 
 require_once('../support/_require_once.php');
 
@@ -15,10 +14,12 @@ var_dump($counter);
 
 echo "\n";
 
+var_dump($counter);
+
 for ($i = 1; $i < $counter;  $i++) {
     echo $i . '00. ';
 
-    $word = new Word($dbh);
+    $word = new word($dbh);
     $allWords = $word->getAllIsNeedProcessing(100);
 
     foreach ($allWords as $wordArr) {
@@ -27,12 +28,12 @@ for ($i = 1; $i < $counter;  $i++) {
         $wordId = (int) array_get($wordArr, 'id');
         $word_binary = array_get($wordArr, 'word_binary');
 
-        $WordObj = new Word($dbh);
+        $WordObj = new word($dbh);
         $WordObj->getById($wordId);
 
-        $DataObj = new SumInUaData($dbh);
+        $DataObj = new WordLetters($dbh);
         $DataObj->firstOrNew($wordId, $word_binary);
-        
+
         $DataObj->updateProperty('is_need_processing', PDO::PARAM_BOOL, true);
 
         $WordObj->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);

@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Class WordDataTrait
+ *
+ * @property AbstractModel $this
+ */
 trait WordDataTrait
 {
     /**
@@ -8,6 +13,8 @@ trait WordDataTrait
      */
     public function firstOrNew($wordId, $word)
     {
+        /** @var AbstractModel $this */
+
 //        var_dump($wordId, $url, $word);
 
         $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE word_binary = :word limit 1;';
@@ -27,9 +34,9 @@ trait WordDataTrait
             $stm->bindParam(':word', $word, PDO::PARAM_STR);
             $stm->bindParam(':word_id', $wordId, PDO::PARAM_INT);
             $stm->execute();
-            $id = $this->connection->lastInsertId();
+            $id = $wordId;
 
-            $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE id = :id limit 1;';
+            $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE word_id = :id limit 1;';
             $stm = $this->connection->prepare($sql);
             $stm->bindParam(':id', $id);
             $stm->execute();
@@ -41,7 +48,6 @@ trait WordDataTrait
 //            var_dump($result);
         }
 
-        $this->id = array_get($result, 'id');
         $this->props = $result;
     }
 
@@ -50,7 +56,33 @@ trait WordDataTrait
      */
     public function backRowsToProcessing()
     {
+        /** @var AbstractModel $this */
+
         $sql = 'UPDATE html SET is_need_processing = 1 WHERE url IS NOT NULL;';
         $this->connection->query($sql);
+    }
+
+    /**
+     * @param string $columnName
+     * @param string $columnType, PDO::PARAM_STR, PDO::PARAM_INT, PDO::PARAM_BOOL, PDO::PARAM_LOB
+     * @param mixed $value
+     */
+    public function updateProperty($columnName, $columnType, $value)
+    {
+        /** @var AbstractModel $this */
+
+        $word_id = $this->getProperty('word_id');
+
+        if ($word_id) {
+            $sql = 'UPDATE `' . $this->tableName . '` SET ' . $columnName . ' = :' . $columnName . ' WHERE word_id = :word_id;';
+            $stm = $this->connection->prepare($sql);
+            $stm->bindParam(':word_id', $word_id, PDO::PARAM_INT);
+            $stm->bindParam(':' . $columnName, $value, $columnType);
+            $stm->execute();
+        } else {
+//            var_dump($this);
+            echo '!!!['. $columnName .'] ';
+            exit;
+        }
     }
 }
