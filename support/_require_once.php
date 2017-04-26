@@ -10,5 +10,6 @@ require_once(__DIR__.'/../models/HtmlData.php');
 require_once(__DIR__.'/../models/source.php');
 require_once(__DIR__.'/../models/word.php');
 require_once(__DIR__.'/../models/wordRaw.php');
+require_once(__DIR__.'/../models/wordRaw2.php');
 require_once(__DIR__.'/../models/wordRawToSource.php');
 require_once(__DIR__.'/../models/wordToIgnore.php');

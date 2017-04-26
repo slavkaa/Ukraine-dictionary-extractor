@@ -122,3 +122,43 @@ function array_get($array, $key, $default = null)
 
     return $default;
 }
+
+/**
+ * @param $word
+ *
+ * @return bool
+ */
+function isUkrainianWord($word)
+{
+    global $numbers;
+    global $pronunciationSings;
+    global $foreignLetters;
+
+    if (array_in_string($numbers, $word)) {
+        return false;
+    }
+
+    if (array_in_string($pronunciationSings, $word)) {
+        return false;
+    }
+
+    if (array_in_string($foreignLetters, $word)) {
+        return false;
+    }
+
+    if (array_in_string(['ІІ'], $word)) { // ІІІамілем
+        return false;
+    }
+
+    if (2 < substr_count($word, '-')) {
+        return false;
+    }
+
+    $firstLetter = mb_substr($word, 0);
+
+    if (in_array($firstLetter, ['-'])) {
+        return false;
+    }
+
+    return true;
+}
