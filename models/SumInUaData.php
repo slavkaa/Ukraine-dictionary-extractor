@@ -1,11 +1,11 @@
 <?php
 require_once('abstractModel.php');
 require_once('Traits\ProcessingFieldTrait.php');
-require_once('Traits\ParserDataTrait.php');
+require_once('Traits\WordDataTrait.php');
 
 class SumInUaData extends AbstractModel {
 
-    use ProcessingFieldTrait, ParserDataTrait;
+    use ProcessingFieldTrait, WordDataTrait;
 
     /**
      * @var string

@@ -10,12 +10,10 @@ require_once('../support/_require_once.php');
 
 $obj = new Word($dbh);
 $counter = $obj->countIsNeedProcessing();
-$counter = intval($counter/100) + 1;
+$counter = intval($counter/100) + 2;
 var_dump($counter);
 
 echo "\n";
-
-var_dump($counter);
 
 for ($i = 1; $i < $counter;  $i++) {
     echo $i . '00. ';

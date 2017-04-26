@@ -8,7 +8,7 @@ require_once('../support/_require_once.php');
 
 $Obj = new SumInUaData($dbh);
 $counter = $Obj->countIsNeedProcessing();
-$counter = intval($counter/100) + 1;
+$counter = intval($counter/100) + 2;
 var_dump($counter);
 
 echo "\n";
