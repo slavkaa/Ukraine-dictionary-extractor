@@ -1,9 +1,9 @@
 ﻿﻿
-9 Травня .txt:++
+9 Травня .txt:+++
 
 Ілонка.txt:
 
-Безсмертний полтавець.txt:+++
+Безсмертний полтавець.txt:++++
 
 Берег його дитинства.txt:
 
@@ -15,33 +15,33 @@
 
 Бондарівна.txt:
 
-Бригантина.txt:++++++++++++++++++++++++++
+Бригантина.txt:+++++++++++++++++++++++++
 
 Букет.txt:
 
 Весна за Моравою.txt:
 
-Відлито у вогнях душі.txt:++
+Відлито у вогнях душі.txt:+++++
 
-Вічне слово.txt:++
+Вічне слово.txt:+++
 
-Геній Достоєвського.txt:++
+Геній Достоєвського.txt:++++
 
-Гоголь і Україна.txt:+++
+Гоголь і Україна.txt:+++++
 
-Голос ніжності й правди.txt:++
+Голос ніжності й правди.txt:++++
 
 Гори співають.txt:++++
 
 Дніпровський вітер.txt:
 
-Довженків світ.txt:++
+Довженків світ.txt:++++
 
 Дядько Роман і золотокрилки.txt:
 
 Жайворонок.txt:++++
 
-Жити йому в віках.txt:++
+Жити йому в віках.txt:+++
 
 З тих ночей.txt:
 
@@ -63,7 +63,7 @@
 
 Людина і зброя.txt:+
 
-Людині гімн.txt:++
+Людині гімн.txt:++++
 
 Літньої ночі.txt:
 
@@ -75,7 +75,7 @@
 
 На косі.txt:
 
-Наша Леся.txt:++
+Наша Леся.txt:+++
 
 Нехай живе життя.txt:
 
@@ -85,9 +85,9 @@
 
 Перекоп.txt:+++++++++++++++++++++++
 
-Поборник справедливості.txt:++
+Поборник справедливості.txt:+++
 
-Подвиг Каменяра.txt:+++
+Подвиг Каменяра.txt:++++
 
 Полігон.txt:
 
@@ -97,11 +97,11 @@
 
 Птахи над Бродщиною.txt:
 
-Пізнє прозріння .txt:+++++++++++++++++
+Пізнє прозріння .txt:
 
 Романові яблука.txt:
 
-Слово про Буревісника.txt:++
+Слово про Буревісника.txt:+++
 
 Собор.txt:++++++++++++++++++++
 
@@ -131,32 +131,36 @@
 
 Циклон.txt:++++++++++++++++++++++++++++++++
 
-Чорний яр.txt:++
+Чорний яр.txt:+++
 
-Шевченко і сучасність.txt:++++++
+Шевченко і сучасність.txt:++++++++
 
-Штрихи до портрета Остапа Вишні.txt:++
+Штрихи до портрета Остапа Вишні.txt:+++
 
 Щоб світився вогник.txt:++++++++
 
 Яблука на стовпцях.txt:
 
-array(38) {
+array(37) {
   ["9 Травня .txt"]=>
-  array(2) {
+  array(3) {
     [0]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [1]=>
-    string(40) "org/honchar_oles_terentiiovych/9_travnia"
+    string(13) "terentiiovych"
+    [2]=>
+    string(7) "travnia"
   }
   ["Безсмертний полтавець.txt"]=>
-  array(3) {
+  array(4) {
     [0]=>
     string(5) "XVIII"
     [1]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [2]=>
-    string(52) "org/honchar_oles_terentiiovych/bezsmertnyi_poltavets"
+    string(13) "terentiiovych"
+    [3]=>
+    string(11) "bezsmertnyi"
   }
   ["Берег любови.txt"]=>
   array(27) {
@@ -216,7 +220,7 @@ array(38) {
     string(4) "XXIX"
   }
   ["Бригантина.txt"]=>
-  array(26) {
+  array(25) {
     [0]=>
     string(1) "I"
     [1]=>
@@ -246,66 +250,84 @@ array(38) {
     [13]=>
     string(4) "XVII"
     [14]=>
-    string(2) "Hi"
-    [15]=>
     string(5) "XVIII"
-    [16]=>
+    [15]=>
     string(3) "XIX"
-    [17]=>
+    [16]=>
     string(3) "XXI"
-    [18]=>
+    [17]=>
     string(4) "XXII"
-    [19]=>
+    [18]=>
     string(7) "sapiens"
-    [20]=>
+    [19]=>
     string(5) "XXIII"
-    [21]=>
+    [20]=>
     string(4) "XXIV"
-    [22]=>
+    [21]=>
     string(4) "XXVI"
-    [23]=>
+    [22]=>
     string(5) "XXVII"
-    [24]=>
+    [23]=>
     string(6) "XXVIII"
-    [25]=>
+    [24]=>
     string(4) "XXIX"
   }
   ["Відлито у вогнях душі.txt"]=>
-  array(2) {
+  array(5) {
     [0]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [1]=>
-    string(55) "org/honchar_oles_terentiiovych/vidlyto_u_vohniakh_dushi"
+    string(13) "terentiiovych"
+    [2]=>
+    string(7) "vidlyto"
+    [3]=>
+    string(8) "vohniakh"
+    [4]=>
+    string(5) "dushi"
   }
   ["Вічне слово.txt"]=>
-  array(2) {
+  array(3) {
     [0]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [1]=>
-    string(43) "org/honchar_oles_terentiiovych/vichne_slovo"
+    string(13) "terentiiovych"
+    [2]=>
+    string(6) "vichne"
   }
   ["Геній Достоєвського.txt"]=>
-  array(2) {
+  array(4) {
     [0]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [1]=>
-    string(50) "org/honchar_oles_terentiiovych/henii_dostoievskoho"
+    string(13) "terentiiovych"
+    [2]=>
+    string(5) "henii"
+    [3]=>
+    string(13) "dostoievskoho"
   }
   ["Гоголь і Україна.txt"]=>
-  array(3) {
+  array(5) {
     [0]=>
     string(2) "II"
     [1]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [2]=>
-    string(46) "org/honchar_oles_terentiiovych/hohol_i_ukraina"
+    string(13) "terentiiovych"
+    [3]=>
+    string(1) "i"
+    [4]=>
+    string(7) "ukraina"
   }
   ["Голос ніжності й правди.txt"]=>
-  array(2) {
+  array(4) {
     [0]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [1]=>
-    string(55) "org/honchar_oles_terentiiovych/holos_nizhnosti_i_pravdy"
+    string(13) "terentiiovych"
+    [2]=>
+    string(9) "nizhnosti"
+    [3]=>
+    string(1) "i"
   }
   ["Гори співають.txt"]=>
   array(4) {
@@ -319,11 +341,15 @@ array(38) {
     string(2) "IV"
   }
   ["Довженків світ.txt"]=>
-  array(2) {
+  array(4) {
     [0]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [1]=>
-    string(46) "org/honchar_oles_terentiiovych/dovzhenkiv_svit"
+    string(13) "terentiiovych"
+    [2]=>
+    string(10) "dovzhenkiv"
+    [3]=>
+    string(4) "svit"
   }
   ["Жайворонок.txt"]=>
   array(4) {
@@ -337,11 +363,13 @@ array(38) {
     string(3) "VII"
   }
   ["Жити йому в віках.txt"]=>
-  array(2) {
+  array(3) {
     [0]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [1]=>
-    string(50) "org/honchar_oles_terentiiovych/zhyty_yomu_v_vikakh"
+    string(13) "terentiiovych"
+    [2]=>
+    string(6) "vikakh"
   }
   ["За мить щастя.txt"]=>
   array(3) {
@@ -394,11 +422,15 @@ array(38) {
     string(7) "smoking"
   }
   ["Людині гімн.txt"]=>
-  array(2) {
+  array(4) {
     [0]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [1]=>
-    string(43) "org/honchar_oles_terentiiovych/liudyni_himn"
+    string(13) "terentiiovych"
+    [2]=>
+    string(7) "liudyni"
+    [3]=>
+    string(4) "himn"
   }
   ["Микита Братусь.txt"]=>
   array(8) {
@@ -429,11 +461,13 @@ array(38) {
     string(2) "IV"
   }
   ["Наша Леся.txt"]=>
-  array(2) {
+  array(3) {
     [0]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [1]=>
-    string(42) "org/honchar_oles_terentiiovych/nasha_lesia"
+    string(13) "terentiiovych"
+    [2]=>
+    string(5) "lesia"
   }
   ["Перекоп.txt"]=>
   array(23) {
@@ -485,20 +519,24 @@ array(38) {
     string(2) "IX"
   }
   ["Поборник справедливості.txt"]=>
-  array(2) {
+  array(3) {
     [0]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [1]=>
-    string(54) "org/honchar_oles_terentiiovych/pobornyk_spravedlyvosti"
+    string(13) "terentiiovych"
+    [2]=>
+    string(14) "spravedlyvosti"
   }
   ["Подвиг Каменяра.txt"]=>
-  array(3) {
+  array(4) {
     [0]=>
     string(4) "tiro"
     [1]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [2]=>
-    string(47) "org/honchar_oles_terentiiovych/podvyh_kameniara"
+    string(13) "terentiiovych"
+    [3]=>
+    string(9) "kameniara"
   }
   ["Прапороносці.txt"]=>
   array(26) {
@@ -555,49 +593,14 @@ array(38) {
     [25]=>
     string(6) "XXV11I"
   }
-  ["Пізнє прозріння .txt"]=>
-  array(17) {
-    [0]=>
-    string(15) "товаришi"
-    [1]=>
-    string(9) "Потiм"
-    [2]=>
-    string(15) "слiпучих"
-    [3]=>
-    string(15) "омрiяних"
-    [4]=>
-    string(15) "плюсовiй"
-    [5]=>
-    string(1) "I"
-    [6]=>
-    string(21) "жорстокостi"
-    [7]=>
-    string(13) "каптурi"
-    [8]=>
-    string(17) "насунутiм"
-    [9]=>
-    string(5) "вiн"
-    [10]=>
-    string(7) "тодi"
-    [11]=>
-    string(8) "пiснi"
-    [12]=>
-    string(15) "професiй"
-    [13]=>
-    string(23) "внутрiшнього"
-    [14]=>
-    string(9) "грiха"
-    [15]=>
-    string(8) "//ukrlit"
-    [16]=>
-    string(48) "org/honchar_oles_terentiiovych/piznie_prozrinnia"
-  }
   ["Слово про Буревісника.txt"]=>
-  array(2) {
+  array(3) {
     [0]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [1]=>
-    string(52) "org/honchar_oles_terentiiovych/slovo_pro_burevisnyka"
+    string(13) "terentiiovych"
+    [2]=>
+    string(11) "burevisnyka"
   }
   ["Собор.txt"]=>
   array(20) {
@@ -645,9 +648,9 @@ array(38) {
   ["Спогад про Ауезова.txt"]=>
   array(2) {
     [0]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [1]=>
-    string(49) "org/honchar_oles_terentiiovych/spohad_pro_auezova"
+    string(13) "terentiiovych"
   }
   ["Сусіди.txt"]=>
   array(1) {
@@ -895,14 +898,16 @@ array(38) {
     string(4) "XXII"
   }
   ["Чорний яр.txt"]=>
-  array(2) {
+  array(3) {
     [0]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [1]=>
-    string(42) "org/honchar_oles_terentiiovych/chornyi_yar"
+    string(13) "terentiiovych"
+    [2]=>
+    string(7) "chornyi"
   }
   ["Шевченко і сучасність.txt"]=>
-  array(6) {
+  array(8) {
     [0]=>
     string(1) "I"
     [1]=>
@@ -912,16 +917,22 @@ array(38) {
     [3]=>
     string(3) "III"
     [4]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [5]=>
-    string(54) "org/honchar_oles_terentiiovych/shevchenko_i_suchasnist"
+    string(13) "terentiiovych"
+    [6]=>
+    string(1) "i"
+    [7]=>
+    string(10) "suchasnist"
   }
   ["Штрихи до портрета Остапа Вишні.txt"]=>
-  array(2) {
+  array(3) {
     [0]=>
-    string(8) "//ukrlit"
+    string(6) "ukrlit"
     [1]=>
-    string(65) "org/honchar_oles_terentiiovych/shtrykhy_do_portreta_ostapa_vyshni"
+    string(13) "terentiiovych"
+    [2]=>
+    string(6) "vyshni"
   }
   ["Щоб світився вогник.txt"]=>
   array(8) {

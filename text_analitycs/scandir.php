@@ -1,10 +1,10 @@
 ﻿<?php
 
-// @acton: php scandir.php > tgh.txt
+// @acton: php scandir.php > arr_if.txt
 
 require_once('../support/_require_once.php');
 
-$dir    = '../texts/Тарас Григорович Шевченко/';
+$dir    = '../texts/Іван Франко/';
 $dir = iconv(mb_detect_encoding($dir, mb_detect_order(), true), "cp1251", $dir);
 
 $files = scandir($dir);

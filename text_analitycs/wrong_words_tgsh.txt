@@ -1,4 +1,5 @@
-﻿Єретик.txt:
+﻿﻿
+Єретик.txt:
 
 І Архімед, і Галілей.txt:
 
@@ -32,7 +33,9 @@
 
 А нумо знову віршувать.txt:
 
-А. О. Козачковському.txt:+++
+А. О. Козачковському.txt:
+Warning: file_get_contents(../texts/����� ���������� ��������/�. �. ��������������.txt): failed to open stream: No such file or directory in C:\Users\nikoolin\Dropbox\my\_Business\_WordsFromWords\php_dictionary_builder\v9\Ukraine-dictionary-extractor\text_analitycs\detect_wrong_words.php on line 264
+
 
 Артист.txt:++++++++++++
 
@@ -480,22 +483,13 @@
 
 Якось-то йдучи уночі.txt:
 
-array(24) {
+array(23) {
   ["Іван Підкова.txt"]=>
   array(2) {
     [0]=>
     string(1) "I"
     [1]=>
     string(2) "II"
-  }
-  ["А. О. Козачковському.txt"]=>
-  array(3) {
-    [0]=>
-    string(16) "google_ad_client"
-    [1]=>
-    string(15) "google_ad_width"
-    [2]=>
-    string(16) "google_ad_height"
   }
   ["Артист.txt"]=>
   array(12) {
