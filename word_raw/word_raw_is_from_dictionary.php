@@ -1,20 +1,17 @@
 ﻿<?php
 
-// @link: http://phpfaq.ru/pdo
 // @acton: php word_raw_is_from_dictionary.php
 
-require_once('support/config.php');
-require_once('support/functions.php');
-require_once('support/libs.php');
-require_once('models/word.php');
-require_once('models/wordToIgnore.php');
-require_once('models/source.php');
-require_once('models/dictionary.php');
-require_once('models/html.php');
+require_once('../support/_require_once.php');
 
 // *** //
 
-for ($i = 1; $i < 2704;  $i++) {
+$obj = new  Word($dbh);
+$counter = $obj->countIsNeedProcessing();
+$counter = intval($counter/100) + 1;
+var_dump($counter);
+
+for ($i = 1; $i < $counter;  $i++) {
     $wordObj = new Word($dbh);
     $allWords = $wordObj->getAllIsNeedProcessing(100);
 
