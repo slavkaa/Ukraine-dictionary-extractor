@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * Class AbstractModel
+ */
 class AbstractModel {
 
     /**
@@ -104,7 +108,6 @@ class AbstractModel {
         return NULL === $this->getProperty('id');
     }
 
-
     /**
      * @param string $columnName
      * @param string $columnType, PDO::PARAM_STR, PDO::PARAM_INT, PDO::PARAM_BOOL, PDO::PARAM_LOB
@@ -121,6 +124,7 @@ class AbstractModel {
             $stm->bindParam(':' . $columnName, $value, $columnType);
             $stm->execute();
         } else {
+//            var_dump($this);
             echo '!!!['. $columnName .'] ';
             exit;
         }
