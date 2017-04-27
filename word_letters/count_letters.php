@@ -1,6 +1,6 @@
 ﻿<?php
 
-// cd SumInUa
+// cd word_letters
 // php count_letters.php
 
 require_once('../support/_require_once.php');
