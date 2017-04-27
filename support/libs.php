@@ -79,10 +79,10 @@ $transliteration = [
 ];
 
 $transliterationExtended = array_merge($transliteration, [
-    "'" => 'apostrophe',
+//    "'" => 'apostrophe',
     '-' => 'hyphen',
     ' ' => 'space',
-    ' ' => 'space', /*&nbsp*/
+//    ' ' => 'space', /*&nbsp*/
 ]);
 
 // ***

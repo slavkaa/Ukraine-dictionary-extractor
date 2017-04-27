@@ -47,6 +47,7 @@ class WordLetters extends AbstractModel
         for ($i = 0; $i < $length; $i++) {
             $letter = mb_substr($word, $i, 1);
 
+                                      /*&nbsp*/
             $letter = str_replace(["'", ' '],['`', ' '], $letter); // hack
 
             $n = array_get($counter, $letter);
