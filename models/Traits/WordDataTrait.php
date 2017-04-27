@@ -74,7 +74,7 @@ trait WordDataTrait
         $word_id = $this->getProperty('word_id');
 
         if ($word_id) {
-            $sql = 'UPDATE `' . $this->tableName . '` SET ' . $columnName . ' = :' . $columnName . ' WHERE word_id = :word_id;';
+            $sql = 'UPDATE `' . $this->tableName . '` SET `' . $columnName . '` = :' . $columnName . ' WHERE word_id = :word_id;';
             $stm = $this->connection->prepare($sql);
             $stm->bindParam(':word_id', $word_id, PDO::PARAM_INT);
             $stm->bindParam(':' . $columnName, $value, $columnType);
@@ -84,5 +84,19 @@ trait WordDataTrait
             echo '!!!['. $columnName .'] ';
             exit;
         }
+    }
+
+    /**
+     *
+     */
+    public function getByWordId($id)
+    {
+        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE word_id = :id;';
+        $stm = $this->connection->prepare($sql);
+        $stm->bindParam(':id', $id, PDO::PARAM_INT);
+        $stm->execute();
+        $result = $stm->fetch(PDO::FETCH_ASSOC);
+
+        $this->props = $result;
     }
 }

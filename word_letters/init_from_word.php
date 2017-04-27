@@ -23,8 +23,6 @@ for ($i = 1; $i < $counter;  $i++) {
     $allWords = $word->getAllIsNeedProcessing(100);
 
     foreach ($allWords as $wordArr) {
-        echo '<';
-
         $wordId = (int) array_get($wordArr, 'id');
         $word_binary = array_get($wordArr, 'word_binary');
 
@@ -38,7 +36,7 @@ for ($i = 1; $i < $counter;  $i++) {
 
         $WordObj->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
 
-        echo '>';
+        echo '.';
     }
     echo "\n";
 }
