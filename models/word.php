@@ -1,10 +1,11 @@
 <?php
 require_once('abstractModel.php');
 require_once('Traits\ProcessingFieldTrait.php');
+require_once('Traits\WordTrait.php');
 
 class Word extends AbstractModel
 {
-    use ProcessingFieldTrait;
+    use ProcessingFieldTrait, WordTrait;
 
     /**
      * @var string

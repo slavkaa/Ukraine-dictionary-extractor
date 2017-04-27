@@ -73,8 +73,27 @@ trait WordTrait {
     public function isUkraineWord($numbers, $foreignLetters)
     {
         $markers = array_merge($numbers, $foreignLetters);
-        $markers = array_merge($markers, ['=','ý','Ý', 'Ú', 'ú', 'Û', 'û', '¨', '¸', '^']);
+        $markers = array_merge($markers, ['=','ï¿½','ï¿½', 'ï¿½', 'ï¿½', 'ï¿½', 'ï¿½', 'ï¿½', 'ï¿½', '^']);
 
         return !array_in_string($markers, trim($this->getProperty('word_binary')));
+    }
+
+    /**
+     * @param string $word
+     */
+    public function getByWordBinary($word)
+    {
+        $word = str_replace("'", "\'", $word);
+
+        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE word_binary = \'' . $word . '\' limit 1;';
+        $stm = $this->connection->query($sql);
+        $result = $stm->fetch(PDO::FETCH_ASSOC);
+
+//        var_dump($result);
+//        var_dump($this->connection->errorInfo());
+//        var_dump($stm->errorInfo());
+
+        $this->id = array_get($result, 'id');
+        $this->props = $result;
     }
 }

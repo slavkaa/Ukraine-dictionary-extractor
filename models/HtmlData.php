@@ -29,7 +29,7 @@ class HtmlData extends AbstractModel {
         $stm->bindParam(':id', $id, PDO::PARAM_INT);
         $stm->execute();
         $result = $stm->fetch(PDO::FETCH_ASSOC);
-//
+
 //        var_dump($result);
 //        var_dump($this->connection->errorInfo());
 //        var_dump($stm->errorInfo());
