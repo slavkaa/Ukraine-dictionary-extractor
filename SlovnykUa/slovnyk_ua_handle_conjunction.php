@@ -15,11 +15,12 @@ echo "\n";
 var_dump($counter);
 
 for ($j = 0; $j < $counter;  $j++) {
-    $htmlObj = new Html($dbh);
-    $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
-    echo "$j<";
+    $SlovnykUaData = new SlovnykUaData($dbh);
+    $allSlovnykUaData = $SlovnykUaData->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
 
-    foreach ($allHtml as $htmlArray) {
+    echo "\n$j<";
+
+    foreach ($allSlovnykUaData as $dataArray) {
         $dataId = array_get($dataArray, 'id');
 
         $data = new SlovnykUaData($dbh);
@@ -41,10 +42,11 @@ for ($j = 0; $j < $counter;  $j++) {
         $result = new SlovnykUaResults($dbh);
         $result->firstOrNewTotal(trim($word), $part_of_language, '-', '-', '-', '-', '-', '-',
             '-', '-', '-', '-', '-', '-', 0, true, '-');
+        $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+        $result->updateProperty('main_form_id', PDO::PARAM_INT, $result->getId());
         echo '+';
 
         $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
-        die;
     }
     echo ">\n";
 }
