@@ -3,7 +3,8 @@
 /**
  * Class WordDataTrait
  *
- * @property AbstractModel $this
+ * @property int $id
+ * @property PDO $connection
  */
 trait WordDataTrait
 {

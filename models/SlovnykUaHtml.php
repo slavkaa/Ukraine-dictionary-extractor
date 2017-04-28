@@ -1,21 +1,23 @@
 <?php
 require_once('abstractModel.php');
+require_once('Traits/ProcessingFieldTrait.php');
 require_once('Traits/ParserHtmlTrait.php');
+require_once('Traits/WordTrait.php');
 
-class SumInUaHtml extends AbstractModel {
+class SlovnykUaHtml extends AbstractModel {
 
-    use ParserHtmlTrait;
+    use ParserHtmlTrait, WordTrait, ProcessingFieldTrait;
 
     /**
      * @var string
      */
-	protected $tableName = 'sum_in_ua_html';
+	protected $tableName = 'slovnyk_ua_html';
 
     /**
      * @var mixed[]
      */
     protected $props = [
-        'data_id' => null,
+        'html_id' => null,
         'word' => null,
         'word_binary' => null,
         'html' => null,
@@ -39,11 +41,11 @@ class SumInUaHtml extends AbstractModel {
         // extract table
         $xpath = new DOMXpath($doc);
 
-        /** @var DOMNodeList $extractedHtml */
-        $extractedHtml = $xpath->query("//*[@id='article']/div");
+        /** @var DOMNodeList $partOfLanguageData */
+        $partOfLanguageData = $xpath->query("//*[contains(@class, 'sfm_table')]");
 
         // combine mini-HTML
-        $element = $extractedHtml->item(0);
+        $element = $partOfLanguageData->item(0);
 
         if (NULL === $element) {
             // do nothing

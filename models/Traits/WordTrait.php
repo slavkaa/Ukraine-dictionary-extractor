@@ -11,7 +11,7 @@ trait WordTrait {
      * @param string $word
      * @param boolean $isForeign
      */
-    public function firstOrNew($word, $isForeign = FALSE)
+    public function firstOrNewByWordBinary($word, $isForeign = FALSE)
     {
         $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE word_binary = \'' . $word . '\' limit 1;';
         $stm = $this->connection->query($sql);
@@ -95,5 +95,21 @@ trait WordTrait {
 
         $this->id = array_get($result, 'id');
         $this->props = $result;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWord()
+    {
+        return $this->getProperty('word');
+    }
+
+    /**
+     * @return string
+     */
+    public function getWordBinary()
+    {
+        return $this->getProperty('word_binary');
     }
 }

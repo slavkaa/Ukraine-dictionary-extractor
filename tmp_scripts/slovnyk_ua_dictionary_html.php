@@ -6,7 +6,7 @@ require_once('../support/_require_once.php');
 
 // *** //
 
-for ($i = 1629290; $i < 2186922;  $i++) {
+for ($i = 1384215; $i < 2186922;  $i++) {
     echo $i;
     $htmlObj = new HtmlData($dbh);
     $htmlObj->getByHtmlId($i);

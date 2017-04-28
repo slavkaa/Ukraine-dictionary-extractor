@@ -77,3 +77,6 @@ INSERT INTO slovnyk_ua_results (word_id, word, word_binary, main_form_id, is_wro
 
 INSERT INTO slovnyk_ua_data (word_id, word, word_binary, main_form_id, is_wrong_detection)
                          SELECT word_id, word, word_binary, main_form_id, is_wrong_detection FROM html where url is null
+
+INSERT INTO slovnyk_ua_html (word, word_binary, html, html_cut)
+  SELECT word, word_binary, html, html_cut from html_data;
