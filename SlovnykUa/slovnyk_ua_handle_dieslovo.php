@@ -391,7 +391,6 @@ for ($j = 0; $j < $counter;  $j++) {
             $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
         }
 
-        echo '+';
         $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
 
         echo ">";

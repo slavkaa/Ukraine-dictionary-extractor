@@ -1,33 +1,33 @@
 ﻿<?php
 
-// @link: http://phpfaq.ru/pdo
 // @acton: php slovnyk_ua_handle_imennyk.php
 
 require_once('../support/_require_once.php');
 
-// *** //
-$dictionary = new Dictionary($dbh);
-$dictionary->firstOrNew('slovnyk.ua', 'http://www.slovnyk.ua/?swrd=');
-$dictionaryId = (int) $dictionary->getProperty('id');
-
 $part_of_language = 'іменник';
 
-$htmlObj = new Html($dbh);
-$counter = $htmlObj->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
+$SlovnykUaDataC = new SlovnykUaData($dbh);
+$counter = $SlovnykUaDataC->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
 $counter = intval($counter/100) + 1;
-var_dump($counter);
 
 echo "\n";
+var_dump($counter);
 
 for ($j = 0; $j < $counter;  $j++) {
-    echo ($j + 1) . "00: \n";
-    $htmlObj = new Html($dbh);
-    $allHtml = $htmlObj->getPartOfLanguage('%'.$part_of_language.'%', 100, 0, 'LIKE');
+    $SlovnykUaData = new SlovnykUaData($dbh);
+    $allSlovnykUaData = $SlovnykUaData->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
 
-    foreach ($allHtml as $htmlArray) {
-        echo '<';
-        $html = new Html($dbh);
-        $html->getById(array_get($htmlArray, 'id'));
+    echo "\n$j";
+
+    foreach ($allSlovnykUaData as $dataArray) {
+        echo "<";
+        $dataId = array_get($dataArray, 'id');
+
+        $data = new SlovnykUaData($dbh);
+        $data->getById($dataId);
+
+        $html = new SlovnykUaHtml($dbh);
+        $html->getByDataId($dataId);
 
         // load extracted HTML=page
         $text = cleanCyrillic($html->getProperty('html_cut'));
@@ -50,13 +50,13 @@ for ($j = 0; $j < $counter;  $j++) {
                     @$doc->loadHTML(mb_convert_encoding($item->ownerDocument->saveHTML($item), 'HTML-ENTITIES', 'UTF-8'));
                     $isFound = true;
 
-                    $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+                    $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
                     break;
                 }
             }
 
             if (!$isFound) {
-                $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+                $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
                 continue;
             }
         // filtrate noun }
@@ -134,7 +134,7 @@ for ($j = 0; $j < $counter;  $j++) {
             // OK
         } else {
             var_dump($cell1->length, $cell2->length, $cell1e->length, $cell2e->length);
-            die('Wrong amount of cells. Html.id ' . array_get($htmlArray, 'id'));
+            die('Wrong amount of cells. Html.id ' . array_get($dataArray, 'id'));
         }
 
         if ('' === $cell1->item(1)->textContent) {
@@ -264,25 +264,29 @@ for ($j = 0; $j < $counter;  $j++) {
             $number = $number ? $number : '-';
             $kind = $kind ? $kind: '-';
 
-            $htmlItem = new Html($dbh);
-            $htmlItem->firstOrNewTotal($word, $part_of_language, $creature, $genus, $number, '-', $kind, '-',
-                '-', '-', '-', '-', '-', '-', 0, $is_main_form, $variation, $dictionaryId);
+            $result = new SlovnykUaResults($dbh);
+            $result->firstOrNewTotal($word, $part_of_language, $creature, $genus, $number, '-', $kind, '-',
+                '-', '-', '-', '-', '-', '-', 0, $is_main_form, $variation);
 
             if ($is_main_form) {
-                $mainFormId = $htmlItem->getId();
+                $mainFormId = $result->getId();
             }
 
-            $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
+            $result->updateProperty('main_form_id', PDO::PARAM_INT, $dataId);
+            $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
 
             echo ']';
         }
 
-        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
-        echo '>';
+        $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+
+        echo ">";
     }
+
+    echo "\n";
 }
 
-$htmlObj->backHtmlRowsToProcessing();
+$SlovnykUaDataC->backHtmlRowsToProcessing();
 
 echo 'END';
 
