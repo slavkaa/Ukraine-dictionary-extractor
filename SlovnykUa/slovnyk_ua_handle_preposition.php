@@ -4,7 +4,6 @@
 
 require_once('../support/_require_once.php');
 
-
 $part_of_language = 'прийменник';
 
 $SlovnykUaDataC = new SlovnykUaData($dbh);
@@ -30,7 +29,7 @@ for ($j = 0; $j < $counter;  $j++) {
         $html->getByDataId($dataId);
 
         if (' ' == $word || empty($word)) {
-            $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+            $result->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             continue;
         }
 

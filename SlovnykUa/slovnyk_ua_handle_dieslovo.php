@@ -4,38 +4,34 @@
 
 require_once('../support/_require_once.php');
 
-// *** //
-$dictionary = new Dictionary($dbh);
-$dictionary->firstOrNew('slovnyk.ua', 'http://www.slovnyk.ua/?swrd=');
-$dictionaryId = (int) $dictionary->getProperty('id');
-
 $part_of_language = 'дієслово';
 
-$htmlObj = new Html($dbh);
-$counter = $htmlObj->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
+$SlovnykUaDataC = new SlovnykUaData($dbh);
+$counter = $SlovnykUaDataC->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
 $counter = intval($counter/100) + 1;
-var_dump($counter);
 
 echo "\n";
+var_dump($counter);
 
 for ($j = 0; $j < $counter;  $j++) {
-    $htmlObj = new Html($dbh);
-    $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
+    $SlovnykUaData = new SlovnykUaData($dbh);
+    $allSlovnykUaData = $SlovnykUaData->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
 
-    echo $j . "00 \n";
+    echo "\n$j";
 
-    foreach ($allHtml as $htmlArray) {
-        echo '<';
+    foreach ($allSlovnykUaData as $dataArray) {
+        echo "<";
+        $dataId = array_get($dataArray, 'id');
 
-        $html = new Html($dbh);
-        $html->getById(array_get($htmlArray, 'id'));
+        $data = new SlovnykUaData($dbh);
+        $data->getById($dataId);
 
-        $htmlData = new HtmlData($dbh);
-        $htmlData->getByHtmlId(array_get($htmlArray, 'id'));
+        $html = new SlovnykUaHtml($dbh);
+        $html->getByDataId($dataId);
 
         // load extracted HTML=page
-        $word = cleanCyrillic($htmlData->getProperty('word'));
-        $text = cleanCyrillic($htmlData->getProperty('html_cut'));
+        $word = cleanCyrillic($html->getProperty('word'));
+        $text = cleanCyrillic($html->getProperty('html_cut'));
         $text = str_replace(
             ['sfm_cell_1s', 'sfm_cell_2s', 'sfm_cell_1_x2', 'sfm_cell_1e_x2', 'sfm_cell_1e', 'sfm_cell_2_x2', 'sfm_cell_2e_x2', 'sfm_cell_2e'],
             ['sfm_cell_v',  'sfm_cell_v',  'sfm_cell_1',    'sfm_cell_e_1',   'sfm_cell_e_1',   'sfm_cell_2',    'sfm_cell_2e', 'sfm_cell_e_2'],
@@ -66,7 +62,7 @@ for ($j = 0; $j < $counter;  $j++) {
             }
 
             if (!$isFound) {
-                $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+                $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
                 echo '-';
                 continue;
             }
@@ -109,7 +105,7 @@ for ($j = 0; $j < $counter;  $j++) {
             // OK
         } else {
             var_dump($cell2->length, $cell2e->length);
-            die('Wrong amount of cells. Html.id ' . array_get($htmlArray, 'id'));
+            die('Wrong amount of cells. Html.id ' . array_get($dataArray, 'id'));
         }
 
         $infinitiveArr = [
@@ -346,12 +342,13 @@ for ($j = 0; $j < $counter;  $j++) {
         $mainFormId = null;
         if ( " " != $infinitive && !empty($infinitive)) {
             echo 'i';
-            $htmlItem = new Html($dbh);
-            $htmlItem->firstOrNewTotal($infinitive, 'дієслово', '-', '-', '-', '-', '-', $verbKind,
-                $dievidmina, '-', '-', '-', '-', '-', 1, 1, '-', $dictionaryId);
-            $mainFormId = $htmlItem->getId();
+            $result = new SlovnykUaResults($dbh);
+            $result->firstOrNewTotal($infinitive, 'дієслово', '-', '-', '-', '-', '-', $verbKind,
+                $dievidmina, '-', '-', '-', '-', '-', 1, 1, '-');
+            $mainFormId = $result->getId();
 
-            $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
+            $result->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
+            $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
         }
         // define infinitive }
 
@@ -371,10 +368,11 @@ for ($j = 0; $j < $counter;  $j++) {
             if (" " == $word || " " == $word || empty($word)) {
                 continue;
             }
-            $htmlItem = new Html($dbh);
-            $htmlItem->firstOrNewTotal($word, $part_of_language, '-', $genus, $number, $person, '-', $verbKind,
-                $dievidmina, '-', '-', '-', $tense, '-', 0, 0, '-', $dictionaryId);
-            $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
+            $result = new SlovnykUaResults($dbh);
+            $result->firstOrNewTotal($word, $part_of_language, '-', $genus, $number, $person, '-', $verbKind,
+                $dievidmina, '-', '-', '-', $tense, '-', 0, 0, '-');
+            $result->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
+            $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
         }
 
         foreach ($diepruslivnyk as $wordForm) {
@@ -386,21 +384,23 @@ for ($j = 0; $j < $counter;  $j++) {
                 continue;
             }
 
-            $htmlItem->firstOrNewTotal(trim($word), 'дієприслівник', '-', '-', '-', '-', '-', '-',
-                '-', '-', '-', '-', $tense, '-', 0, 0, '-', $dictionaryId);
-            $htmlItem->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
+            $result = new SlovnykUaResults($dbh);
+            $result->firstOrNewTotal(trim($word), 'дієприслівник', '-', '-', '-', '-', '-', '-',
+                '-', '-', '-', '-', $tense, '-', 0, 0, '-');
+            $result->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
+            $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
         }
 
-        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
-        echo '>';
+        echo '+';
+        $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
 
-//        die;
+        echo ">";
     }
 
     echo "\n";
 }
 
-$htmlObj->backHtmlRowsToProcessing();
+$SlovnykUaDataC->backHtmlRowsToProcessing();
 
 echo 'END';
 
