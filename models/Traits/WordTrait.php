@@ -9,9 +9,8 @@
 trait WordTrait {
     /**
      * @param string $word
-     * @param boolean $isForeign
      */
-    public function firstOrNewByWordBinary($word, $isForeign = FALSE)
+    public function firstOrNewByWordBinary($word)
     {
         $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE word_binary = \'' . $word . '\' limit 1;';
         $stm = $this->connection->query($sql);
@@ -21,19 +20,17 @@ trait WordTrait {
         $this->props = $result;
 
         if (empty($result)) {
-            $this->insert($word, $isForeign);
+            $this->insert($word);
         }
     }
 
     /**
      * @param string $word
-     * @param boolean $isForeign
      */
-    public function insert($word, $isForeign = FALSE)
+    public function insert($word)
     {
         $sql = 'INSERT INTO `' . $this->tableName . '` (`word`, `word_binary`) VALUES (:word, :word);';
         $stm = $this->connection->prepare($sql);
-        $stm->bindParam(':isForeign', $isForeign, PDO::PARAM_BOOL);
         $stm->bindParam(':word', $word, PDO::PARAM_STR);
         $stm->execute();
         $id = $this->connection->lastInsertId();
