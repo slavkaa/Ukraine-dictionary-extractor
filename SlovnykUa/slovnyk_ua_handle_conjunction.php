@@ -1,26 +1,14 @@
 ﻿<?php
 
-// @link: http://phpfaq.ru/pdo
 // @acton: php slovnyk_ua_handle_conjunction.php     Сполучнік
 
-require_once('../support/config.php');
-require_once('../support/functions.php');
-require_once('../support/libs.php');
-require_once('../models/word.php');
-require_once('../models/wordToIgnore.php');
-require_once('../models/source.php');
-require_once('../models/dictionary.php');
-require_once('../models/html.php');
-
-// *** //
-$dictionary = new Dictionary($dbh);
-$dictionary->firstOrNew('slovnyk.ua', 'http://www.slovnyk.ua/?swrd=');
-$dictionaryId = (int) $dictionary->getProperty('id');
+require_once('../support/_require_once.php');
 
 $part_of_language = 'сполучник';
 
-$htmlObj = new Html($dbh);
-$counter = $htmlObj->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
+
+$SlovnykUaDataC = new SlovnykUaData($dbh);
+$counter = $SlovnykUaDataC->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
 $counter = intval($counter/100) + 1;
 
 echo "\n";
@@ -28,38 +16,44 @@ echo "\n";
 for ($j = 0; $j < $counter;  $j++) {
     $htmlObj = new Html($dbh);
     $allHtml = $htmlObj->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
-    echo "<";
+    echo "$j<";
 
     foreach ($allHtml as $htmlArray) {
+        $dataId = array_get($dataArray, 'id');
 
-        $html = new Html($dbh);
-        $html->getById(array_get($htmlArray, 'id'));
+        $data = new SlovnykUaData($dbh);
+        $data->getById($dataId);
+
+        $html = new SlovnykUaHtml($dbh);
+        $html->getByDataId($dataId);
 
         // load extracted HTML=page
         $word = trim(cleanCyrillic($html->getProperty('word')));
+        $text = cleanCyrillic($html->getProperty('html_cut'));
         $partOfLanguage = $html->getProperty('part_of_language');
 
         if (' ' == $word || empty($word)) {
-            $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+            $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             echo '.';
             continue;
         }
 
         if ($part_of_language !== trim($partOfLanguage)) {
-            $htmlItem = new Html($dbh);
-            $htmlItem->firstOrNewTotal(trim($word), $part_of_language, '-', '-', '-', '-', '-', '-',
-                '-', '-', '-', '-', '-', '-', 0, true, '-', $dictionaryId);
+            $result = new SlovnykUaResults($dbh);
+            $result->firstOrNewTotal(trim($word), $part_of_language, '-', '-', '-', '-', '-', '-',
+                '-', '-', '-', '-', '-', '-', 0, true, '-');
             echo '+';
         } else {
             echo '.';
         }
 
-        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+        $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+        die;
     }
     echo ">\n";
 }
 
-$htmlObj->backHtmlRowsToProcessing();
+$SlovnykUaDataC->backHtmlRowsToProcessing();
 
 echo 'END';
 

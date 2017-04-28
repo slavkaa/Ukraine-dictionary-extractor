@@ -24,8 +24,6 @@ for ($j = 0; $j < $counter;  $j++) {
     foreach ($allSlovnykUaData as $dataArray) {
         $dataId = array_get($dataArray, 'id');
 
-//        var_dump($dataId);
-
         $data = new SlovnykUaData($dbh);
         $data->getById($dataId);
 
@@ -39,13 +37,13 @@ for ($j = 0; $j < $counter;  $j++) {
 
         if (-1 < strpos($partOfLanguage, 'дієприслівник')) {
             echo '.';
-            $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+            $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             continue;
         }
 
         if (-1 < strpos($partOfLanguage, 'дієслово')) {
             echo '.';
-            $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+            $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             continue;
         }
 
@@ -58,7 +56,7 @@ for ($j = 0; $j < $counter;  $j++) {
         echo '+';
         $result = new SlovnykUaResults($dbh);
         $result->firstOrNewTotal(trim($word), $part_of_language, '-', '-', '-', '-', '-', '-',
-            '-', '-', '-', '-', '-', '-', 0, true, '-', $dictionaryId);
+            '-', '-', '-', '-', '-', '-', 0, true, '-');
 
         $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
         $result->updateProperty('main_form_id', PDO::PARAM_INT, $result->getId());
