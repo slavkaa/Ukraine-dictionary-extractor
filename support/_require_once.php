@@ -13,6 +13,7 @@ require_once(__DIR__.'/../models/HtmlData.php');
 
 require_once(__DIR__.'/../models/SlovnykUaData.php');
 require_once(__DIR__.'/../models/SlovnykUaHtml.php');
+require_once(__DIR__.'/../models/SlovnykUaResults.php');
 
 require_once(__DIR__.'/../models/SumInUaData.php');
 require_once(__DIR__.'/../models/SumInUaHtml.php');

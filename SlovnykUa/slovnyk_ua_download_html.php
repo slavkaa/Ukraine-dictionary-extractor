@@ -6,8 +6,8 @@ require_once('../support/_require_once.php');
 
 // *** //
 
-$htmlObj = new Html($dbh);
-$counter = $htmlObj->countIsNeedProcessing();
+$SlovnykUaData = new SlovnykUaData($dbh);
+$counter = $SlovnykUaData->countIsNeedProcessing();
 $counter = intval($counter/100) + 1;
 var_dump($counter);
 

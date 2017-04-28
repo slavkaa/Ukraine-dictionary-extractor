@@ -6,20 +6,29 @@ require_once('../support/_require_once.php');
 
 // *** //
 
+$c = new SlovnykUaData($dbh);
+$counter = $c->countIsNeedProcessing();
+$counter = intval($counter/100) + 1;
 echo "\n";
 
-for ($i = 1; $i < 120;  $i++) {
+var_dump($counter);
+
+for ($i = 1; $i < $counter;  $i++) {
     echo $i . '00 ';
-    $htmlObj = new Html($dbh);
-    $allHtml = $htmlObj->getAllIsNeedProcessing(100);
+    $obj = new SlovnykUaData($dbh);
+    $allHtml = $obj->getAllIsNeedProcessing(100);
 
     foreach ($allHtml as $htmlArray) {
-        $html = new Html($dbh);
-        $html->getById(array_get($htmlArray, 'id'));
+        $id = array_get($htmlArray, 'id');
+
+        $SlovnykUaData = new SlovnykUaData($dbh);
+        $SlovnykUaData->getById($id);
+
+        $SlovnykUaHtml = new SlovnykUaHtml($dbh);
+        $SlovnykUaHtml->getByDataId($id);
 
         // load extracted HTML=page
-        $word = $html->getProperty('word');
-        $text = $html->getProperty('html_cut');
+        $text = $SlovnykUaHtml->getProperty('html_cut');
         $text = iconv(mb_detect_encoding($text, mb_detect_order(), true), "UTF-8", $text);
 
         $text = str_replace('<div class="bluecontent_right"> <div id="comp_be74f5e0444f5a5529f9a04de9a4b6b5"></div></div>', '', $text);
@@ -30,7 +39,7 @@ for ($i = 1; $i < 120;  $i++) {
 
         if ('' === $text) { // empty response from slovnyk.ua
             echo 'e';
-            $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+            $SlovnykUaData->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             continue;
         }
 
@@ -52,8 +61,8 @@ for ($i = 1; $i < 120;  $i++) {
         if (0 < strpos($text, 'жіноче ім\'я')) { $result[] = 'жіноче ім\'я'; } // +
 
         // update html_cut
-        $html->updateProperty('part_of_language', PDO::PARAM_STR, implode(',', $result));
-        $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+        $SlovnykUaData->updateProperty('part_of_language', PDO::PARAM_STR, implode(',', $result));
+        $SlovnykUaData->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
     }
 
     echo "\n";

@@ -17,6 +17,7 @@ select creature from html group by creature;
 -- update html set verb_kind = 'недоконаний' where verb_kind = 'недоконаний вид';
 -- update html set dievidmina = '2 дієвідміна' where dievidmina = 'ІІ дієвідміна';
 -- update html set dievidmina = '1 дієвідміна' where dievidmina LIKE 'І дієвідміна%';
+-- update html set variation = 'невідмінюване' where variation LIKE '%невідмінюване%';
 -- update html set class = '-' where class = '';
 -- update html set tense = 'майбутній' where tense = 'майбутній час';
 -- update html set tense = 'минулий' where tense = 'минулий час';
@@ -44,10 +45,12 @@ update word set is_need_processing = 1 where word LIKE '%,%';
 
 -- Sanification END
 
-update html set variation = 'невідмінюване' where variation LIKE '%невідмінюване%';
+update slovnyk_ua_data set is_need_processing = 1 where is_has_html_cut = 1 and is_in_results = 0
 
 update html set is_need_processing = 1 where created_at > '2017-04-21'
 update html set is_need_processing = 1 where part_of_language is not null;
 
 SELECT * FROM html WHERE part_of_language  LIKE '%присудкове слово%'  AND  created_at > '2017-04-21'
 SELECT * FROM html WHERE part_of_language  LIKE '%присудкове слово%'  AND  created_at > '2017-04-21' AND main_form_id IS NOT NULL
+
+update slovnyk_ua_data set is_need_processing = 1 where is_in_results = 0 and is_has_html_cut = 1;
