@@ -1,25 +1,17 @@
 ﻿<?php
 
-// @link: http://phpfaq.ru/pdo
 // @acton: php slovnyk_ua_check_html.php > 1.html
 
-require_once('../support/config.php');
-require_once('../support/functions.php');
-require_once('../support/libs.php');
-require_once('../models/word.php');
-require_once('../models/wordToIgnore.php');
-require_once('../models/source.php');
-require_once('../models/dictionary.php');
-require_once('../models/html.php');
+require_once('../support/_require_once.php');
 
 // *** //
 
-$html = new Html($dbh);
+$html = new SlovnykUaHtml($dbh);
 //$html->getMaxFilledHtml();
-$html->getById(1384218);
+$html->getByDataId(11);
 
 $url = $html->getProperty('url');
-$text = $html->getProperty('html');
+$text = $html->getProperty('html_cut');
 
 echo urldecode($url);
 echo iconv(mb_detect_encoding($text, mb_detect_order(), true), "UTF-8", $text);

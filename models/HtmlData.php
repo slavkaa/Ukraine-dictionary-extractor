@@ -163,7 +163,7 @@ class HtmlData extends AbstractModel {
             $stm->execute();
         } else {
             var_dump($this);
-            echo '!!!['. $columnName .'] ';
+            echo 'HD !!!['. $columnName .'] ';
             exit;
         }
     }

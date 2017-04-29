@@ -82,7 +82,7 @@ trait WordDataTrait
             $stm->execute();
         } else {
 //            var_dump($this);
-            echo '!!!['. $columnName .'] ';
+            echo 'WDT !!!['. $columnName .'] ';
             exit;
         }
     }

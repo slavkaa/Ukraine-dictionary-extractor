@@ -123,9 +123,11 @@ class AbstractModel {
             $stm->bindParam(':id', $id, PDO::PARAM_INT);
             $stm->bindParam(':' . $columnName, $value, $columnType);
             $stm->execute();
+
+
         } else {
 //            var_dump($this);
-            echo '!!!['. $columnName .'] ';
+            echo 'AM !!!['. $columnName .'] ';
             exit;
         }
     }

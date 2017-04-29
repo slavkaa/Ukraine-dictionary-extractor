@@ -30,7 +30,7 @@ for ($j = 0; $j < $counter;  $j++) {
         $html->getByDataId($dataId);
 
         // load extracted HTML=page
-        $word = cleanCyrillic($html->getProperty('word'));
+        $word = $data->getWordBinary();
         $text = cleanCyrillic($html->getProperty('html_cut'));
         $text = str_replace(
             ['sfm_cell_1s', 'sfm_cell_2s', 'sfm_cell_1_x2', 'sfm_cell_1e_x2', 'sfm_cell_1e', 'sfm_cell_2_x2', 'sfm_cell_2e_x2', 'sfm_cell_2e'],
@@ -336,8 +336,6 @@ for ($j = 0; $j < $counter;  $j++) {
             ];
         }
 
-        $isInfinitive = ($infinitive === $word);
-
         // define infinitive {
         $mainFormId = null;
         if ( " " != $infinitive && !empty($infinitive)) {
@@ -347,8 +345,10 @@ for ($j = 0; $j < $counter;  $j++) {
                 $dievidmina, '-', '-', '-', '-', '-', 1, 1, '-');
             $mainFormId = $result->getId();
 
-            $result->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
+            $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
             $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+
+            $data->updateProperty('is_in_results', PDO::PARAM_BOOL, true);
         }
         // define infinitive }
 
@@ -368,11 +368,14 @@ for ($j = 0; $j < $counter;  $j++) {
             if (" " == $word || " " == $word || empty($word)) {
                 continue;
             }
+
             $result = new SlovnykUaResults($dbh);
             $result->firstOrNewTotal($word, $part_of_language, '-', $genus, $number, $person, '-', $verbKind,
                 $dievidmina, '-', '-', '-', $tense, '-', 0, 0, '-');
-            $result->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
+            $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
             $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+
+            $data->updateProperty('is_in_results', PDO::PARAM_BOOL, true);
         }
 
         foreach ($diepruslivnyk as $wordForm) {
@@ -387,8 +390,10 @@ for ($j = 0; $j < $counter;  $j++) {
             $result = new SlovnykUaResults($dbh);
             $result->firstOrNewTotal(trim($word), 'дієприслівник', '-', '-', '-', '-', '-', '-',
                 '-', '-', '-', '-', $tense, '-', 0, 0, '-');
-            $result->updateProperty('main_form_id', PDO::PARAM_INT, $mainFormId);
+            $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
             $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+
+            $data->updateProperty('is_in_results', PDO::PARAM_BOOL, true);
         }
 
         $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);

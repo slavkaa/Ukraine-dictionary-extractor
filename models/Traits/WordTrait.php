@@ -86,10 +86,6 @@ trait WordTrait {
         $stm = $this->connection->query($sql);
         $result = $stm->fetch(PDO::FETCH_ASSOC);
 
-//        var_dump($result);
-//        var_dump($this->connection->errorInfo());
-//        var_dump($stm->errorInfo());
-
         $this->id = array_get($result, 'id');
         $this->props = $result;
     }

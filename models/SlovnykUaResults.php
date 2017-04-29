@@ -1,10 +1,11 @@
 <?php
 require_once('abstractModel.php');
 require_once('Traits\ProcessingFieldTrait.php');
+require_once('Traits\WordTrait.php');
 
 class SlovnykUaResults extends AbstractModel {
 
-    use ProcessingFieldTrait;
+    use ProcessingFieldTrait, WordTrait;
 
     /**
      * @var string
@@ -112,21 +113,7 @@ class SlovnykUaResults extends AbstractModel {
         $stm->execute();
         $result = $stm->fetch(PDO::FETCH_ASSOC);
 
-//        var_dump($result);
-//        var_dump($stm->errorInfo());
-//        var_dump($this->connection->errorInfo());
-//        var_dump($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
-//            $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form, $variation, $dictionary_id);
-
         if (empty($result)) {
-
-//            var_dump($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
-//                $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form, $variation, $dictionary_id);
-//            var_dump($result);
-//            var_dump($stm->errorInfo());
-//            var_dump($this->connection->errorInfo());
-//            die;
-
             $fields = '`word`,`word_binary`,`part_of_language`,`creature`,`genus`,`number`,`person`,`kind`,`verb_kind`,`dievidmina`,`class`,`sub_role`,`comparison`,`tense`,`mood`,`is_infinitive`,`is_main_form`,`variation`';
 
             $values = ':word,:word,:part_of_language,:creature,:genus,:number,:person,:kind,:verb_kind,:dievidmina,:class,:sub_role,:comparison,:tense,:mood,:is_infinitive,:is_main_form,:variation';
@@ -169,17 +156,19 @@ class SlovnykUaResults extends AbstractModel {
 
         $this->id = array_get($result, 'id');
         $this->props = $result;
+    }
 
-//        if (null === $this->id) {
-//            var_dump($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
-//                $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form, $variation, $dictionary_id);
-//            var_dump($stm->errorInfo());
-//            var_dump($this->connection->errorInfo());
-//
-//            exit;
-//        }
+    /**
+     *
+     */
+    public function getByDataId($id)
+    {
+        $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE data_id = :id;';
+        $stm = $this->connection->prepare($sql);
+        $stm->bindParam(':id', $id, PDO::PARAM_INT);
+        $stm->execute();
+        $result = $stm->fetch(PDO::FETCH_ASSOC);
 
-//        var_dump($this->id);
-//        die;
+        $this->props = $result;
     }
 }

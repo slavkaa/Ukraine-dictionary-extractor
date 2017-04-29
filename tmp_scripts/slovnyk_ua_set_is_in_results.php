@@ -4,32 +4,44 @@
 
 require_once('../support/_require_once.php');
 
-// *** //
+$SlovnykUaDataC = new SlovnykUaData($dbh);
+$counter = $SlovnykUaDataC->countIsNeedProcessing();
+$counter = intval($counter/100) + 1;
 
-for ($i = 1; $i < 345309;  $i++) {
+echo "\n";
+var_dump($counter);
+
+for ($j = 0; $j < $counter;  $j++) {
     echo $i;
-    $SlovnykUaData = new SlovnykUaData($dbh);
-    $SlovnykUaData->getById($i);
 
-    $word = $SlovnykUaData->getProperty('word_binary');
+    $d = new SlovnykUaData($dbh);
+    $allWords = $d->getAllIsNeedProcessing(100);
 
-    if (null != $word) {
-        $wordOjb = new Word($dbh);
-        $wordOjb->getByWordBinary($word);
+    foreach ($allWords as $wordArr) {
+        $SlovnykUaData = new SlovnykUaData($dbh);
+        $SlovnykUaData->getById(array_get($wordArr, 'id'));
 
-        $id = $wordOjb->getId();
+        $word = $SlovnykUaData->getProperty('word_binary');
 
-        if (null === $id) {
-            echo ' 0';
-            $SlovnykUaData->updateProperty('is_in_results', PDO::PARAM_BOOL, 0);
-        } else {
-            echo ' 1';
-            $SlovnykUaData->updateProperty('is_in_results', PDO::PARAM_BOOL, 1);
+        if (null != $word) {
+            $wordOjb = new SlovnykUaResults($dbh);
+            $wordOjb->getByDataId(array_get($wordArr, 'id'));
+
+            $id = $wordOjb->getId();
+
+            if (null !== $id) {
+                echo ' 1';
+                $SlovnykUaData->updateProperty('is_in_results', PDO::PARAM_BOOL, 1);
+            }
+
+            $SlovnykUaData->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
         }
-    }
 
-    echo ' : ';
+        echo ' : ';
+    }
 }
+
+$SlovnykUaDataC->backHtmlRowsToProcessing();
 
 
 

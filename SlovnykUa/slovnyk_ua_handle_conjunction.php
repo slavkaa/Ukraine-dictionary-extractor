@@ -30,7 +30,7 @@ for ($j = 0; $j < $counter;  $j++) {
         $html->getByDataId($dataId);
 
         // load extracted HTML=page
-        $word = trim(cleanCyrillic($html->getProperty('word')));
+        $word = $data->getWordBinary();
         $text = cleanCyrillic($html->getProperty('html_cut'));
 
         if (' ' == $word || empty($word)) {
@@ -43,10 +43,11 @@ for ($j = 0; $j < $counter;  $j++) {
         $result->firstOrNewTotal(trim($word), $part_of_language, '-', '-', '-', '-', '-', '-',
             '-', '-', '-', '-', '-', '-', 0, true, '-');
         $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
-        $result->updateProperty('main_form_id', PDO::PARAM_INT, $result->getId());
+        $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $result->getId());
         echo '+';
 
         $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+        $data->updateProperty('is_in_results', PDO::PARAM_BOOL, true);
     }
     echo ">\n";
 }

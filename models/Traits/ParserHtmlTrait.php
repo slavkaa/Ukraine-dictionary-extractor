@@ -105,7 +105,7 @@ trait ParserHtmlTrait
             $stm->execute();
         } else {
             var_dump($this);
-            echo '!!!['. $columnName .'] ';
+            echo 'PHT !!!['. $columnName .'] ';
             exit;
         }
     }

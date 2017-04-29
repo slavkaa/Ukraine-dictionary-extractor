@@ -272,10 +272,12 @@ for ($j = 0; $j < $counter;  $j++) {
                 $mainFormId = $result->getId();
             }
 
-            $result->updateProperty('main_form_id', PDO::PARAM_INT, $dataId);
+            $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
             $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
 
             echo ']';
+
+            $data->updateProperty('is_in_results', PDO::PARAM_BOOL, true);
         }
 
         $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
