@@ -57,6 +57,15 @@ class Word extends AbstractModel
     public function firstOrNewTotal($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
         $dievidmina, $class, $sub_role, $comparison, $tense, $variation, $mood, $is_infinitive, $is_main_form, $main_form_code)
     {
+        if (null == $word || null == $part_of_language || null == $creature || null == $genus || null == $number ||
+            null == $person || null == $kind || null == $verb_kind || null == $dievidmina || null == $class ||
+            null == $sub_role || null == $comparison || null == $tense || null == $mood || !in_array($is_infinitive, [0,1,false,true]) ||
+            !in_array($is_main_form, [0,1,false,true]) || null == $variation || null == $main_form_code) {
+            var_dump($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
+                $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form, $variation, $main_form_code);
+            die('NULL value!');
+        }
+
         $array = [
             'word = :word',
             'word_binary = :word',
@@ -77,8 +86,6 @@ class Word extends AbstractModel
             'is_infinitive = :is_infinitive',
             'is_main_form = :is_main_form',
         ];
-
-
 
         $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE ' . implode(' AND ', $array) . ' limit 1;';
         $stm = $this->connection->prepare($sql);

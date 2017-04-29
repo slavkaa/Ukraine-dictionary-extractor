@@ -13,12 +13,13 @@ echo "\n";
 
 var_dump($counter);
 
-for ($i = 1; $i < $counter;  $i++) {
-    echo $i . '00 ';
+for ($i = 0; $i < $counter;  $i++) {
+    echo ($i+1) . '00 ';
     $obj = new SlovnykUaData($dbh);
     $allHtml = $obj->getAllIsNeedProcessing(100);
 
     foreach ($allHtml as $htmlArray) {
+        echo '.';
         $id = array_get($htmlArray, 'id');
 
         $SlovnykUaData = new SlovnykUaData($dbh);
@@ -43,7 +44,7 @@ for ($i = 1; $i < $counter;  $i++) {
             continue;
         }
 
-        echo '.';
+        echo '+';
 
         if (0 < strpos($text, 'іменник')) {  $result[] = 'іменник';} // +
         if (0 < strpos($text, 'дієслово')) { $result[] = 'дієслово'; } // +

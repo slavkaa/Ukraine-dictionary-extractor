@@ -184,7 +184,13 @@ for ($i = 0; $i < $counter;  $i++) {
         // is_infinitive
         $is_infinitive = (bool) $result->getProperty('is_infinitive', false);
 
-        $main_form_code = $result->getProperty('main_form_id');
+        $main_form_code = $result->getProperty('main_form_code');
+
+        if (null == $main_form_code || empty($main_form_code)) {
+            echo 'Empty main_form_code for `' . $wordText . '` ,';
+            echo '.HTML node, ID ' . $id . '. ';
+            die;
+        }
 
         // --------------------------------------
 

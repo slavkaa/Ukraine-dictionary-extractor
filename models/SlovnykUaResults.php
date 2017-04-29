@@ -58,7 +58,7 @@ class SlovnykUaResults extends AbstractModel {
      * @param string $variation
      */
     public function firstOrNewTotal($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
-        $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form, $variation)
+        $dievidmina, $class, $sub_role, $comparison, $tense, $mood, $is_infinitive, $is_main_form, $variation, $main_form_code = null, $data_id = null)
     {
         $array = [
             'word = :word',
@@ -114,9 +114,9 @@ class SlovnykUaResults extends AbstractModel {
         $result = $stm->fetch(PDO::FETCH_ASSOC);
 
         if (empty($result)) {
-            $fields = '`word`,`word_binary`,`part_of_language`,`creature`,`genus`,`number`,`person`,`kind`,`verb_kind`,`dievidmina`,`class`,`sub_role`,`comparison`,`tense`,`mood`,`is_infinitive`,`is_main_form`,`variation`';
+            $fields = '`word`,`word_binary`,`part_of_language`,`creature`,`genus`,`number`,`person`,`kind`,`verb_kind`,`dievidmina`,`class`,`sub_role`,`comparison`,`tense`,`mood`,`is_infinitive`,`is_main_form`,`variation`,`data_id`,`main_form_code`';
 
-            $values = ':word,:word,:part_of_language,:creature,:genus,:number,:person,:kind,:verb_kind,:dievidmina,:class,:sub_role,:comparison,:tense,:mood,:is_infinitive,:is_main_form,:variation';
+            $values = ':word,:word,:part_of_language,:creature,:genus,:number,:person,:kind,:verb_kind,:dievidmina,:class,:sub_role,:comparison,:tense,:mood,:is_infinitive,:is_main_form,:variation,:data_id,:main_form_code';
 
             $sql = 'INSERT INTO `' . $this->tableName . '` (' . $fields . ') VALUES (' . $values . ');';
             $stm = $this->connection->prepare($sql);
@@ -135,13 +135,14 @@ class SlovnykUaResults extends AbstractModel {
             $stm->bindParam(':tense', $tense, PDO::PARAM_STR);
             $stm->bindParam(':mood', $mood, PDO::PARAM_STR);
             $stm->bindParam(':variation', $variation, PDO::PARAM_STR);
+            $stm->bindParam(':data_id', $data_id, PDO::PARAM_INT);
+            $stm->bindParam(':main_form_code', $main_form_code, PDO::PARAM_STR);
             $stm->bindParam(':is_infinitive', $is_infinitive, PDO::PARAM_BOOL);
             $stm->bindParam(':is_main_form', $is_main_form, PDO::PARAM_BOOL);
             $stm->execute();
 
 //            var_dump($stm->errorInfo());
 //            var_dump($this->connection->errorInfo());
-//
 //            die;
 
             $id = $this->connection->lastInsertId();
@@ -150,6 +151,8 @@ class SlovnykUaResults extends AbstractModel {
             $stm->bindParam(':id', $id);
             $stm->execute();
             $result = $stm->fetch(PDO::FETCH_ASSOC);
+
+            echo 'n';
         } else {
             echo 'e';
         }

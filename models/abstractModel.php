@@ -124,6 +124,11 @@ class AbstractModel {
             $stm->bindParam(':' . $columnName, $value, $columnType);
             $stm->execute();
 
+//            var_dump($columnName);
+//            var_dump($id);
+//            var_dump($this->connection->errorInfo());
+//            var_dump($stm->errorInfo());
+
 
         } else {
 //            var_dump($this);

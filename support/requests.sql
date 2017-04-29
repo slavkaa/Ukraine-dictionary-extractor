@@ -89,3 +89,5 @@ INSERT INTO slovnyk_ua_html (word, word_binary, html, html_cut)
 SELECT CONCAT(word_binary, ';', main_form_code, ';', is_main_form, ';', part_of_language, ';', creature, ';', genus, ';', number, ';', person, ';', kind, ';', verb_kind, ';', dievidmina, ';', class, ';', sub_role, ';', comparison, ';', tense, ';', variation, ';', mood, ';', is_infinitive) from word limit 10
 
 UPDATE word SET unique_code = CONCAT(word_binary, ';', main_form_code, ';', is_main_form, ';', part_of_language, ';', creature, ';', genus, ';', number, ';', person, ';', kind, ';', verb_kind, ';', dievidmina, ';', class, ';', sub_role, ';', comparison, ';', tense, ';', variation, ';', mood, ';', is_infinitive, ';', is_main_form)
+
+SELECT * FROM word INTO OUTFILE 'E:/words.v.8.csv' FIELDS TERMINATED BY ';' LINES TERMINATED BY '\n';

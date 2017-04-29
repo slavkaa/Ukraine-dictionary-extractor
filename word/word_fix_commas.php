@@ -10,15 +10,15 @@ echo "\n";
 $word = new Word($dbh);
 $counter = $word->countIsNeedProcessing();
 $counter = intval($counter/100) + 1;
-var_dump($counter);
 
 echo "\n";
+var_dump($counter);
 
 for ($i = 0; $i < $counter;  $i++) {
     $word = new Word($dbh);
     $allWords = $word->getAllIsNeedProcessing(100);
 
-    echo $i . '00. ';
+    echo ($i+1) . '00. ';
 
     foreach ($allWords as $wordArr) {
         echo '<';
@@ -45,6 +45,7 @@ for ($i = 0; $i < $counter;  $i++) {
         $tense = $word->getProperty('tense');
         $variation = $word->getProperty('variation');
         $mood = $word->getProperty('mood');
+        $main_form_code = $word->getProperty('main_form_code');
         $is_infinitive = (bool) $word->getProperty('is_infinitive');
         $is_main_form = (bool) $word->getProperty('is_main_form');
 
@@ -55,10 +56,8 @@ for ($i = 0; $i < $counter;  $i++) {
             echo '+';
             $wordX = new Word($dbh);
             $wordX->firstOrNewTotal($wordBinaryItem, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
-                $dievidmina, $class, $sub_role, $comparison, $tense, $variation, $mood, $is_infinitive, $is_main_form);
-            if (null === $wordX->getProperty('main_form_code')) {
-                $wordX->updateProperty('main_form_code', PDO::PARAM_INT, $main_form_code);
-            }
+                $dievidmina, $class, $sub_role, $comparison, $tense, $variation, $mood, $is_infinitive, $is_main_form, $main_form_code);
+
             if (null === $wordX->getProperty('html_id')) {
                 $wordX->updateProperty('html_id', PDO::PARAM_INT, $html_id);
             }
