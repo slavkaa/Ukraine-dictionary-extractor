@@ -7,6 +7,13 @@ select creature from html group by creature;
 
 -- Sanification:
 
+select creature from slovnyk_ua_results group by creature;
+select genus from slovnyk_ua_results group by genus;
+select verb_kind from slovnyk_ua_results group by verb_kind;
+select variation from slovnyk_ua_results group by variation;
+select class from slovnyk_ua_results group by class;
+select tense from slovnyk_ua_results group by tense;
+
 -- update html set creature = '-' where creature = 'тільки множина';
 -- update html set genus = '-' where creature = 'тільки множина';
 -- update html set genus = 'жіночий' where genus = 'жіночий рід';
@@ -17,7 +24,6 @@ select creature from html group by creature;
 -- update html set verb_kind = 'недоконаний' where verb_kind = 'недоконаний вид';
 -- update html set dievidmina = '2 дієвідміна' where dievidmina = 'ІІ дієвідміна';
 -- update html set dievidmina = '1 дієвідміна' where dievidmina LIKE 'І дієвідміна%';
--- update html set variation = 'невідмінюване' where variation LIKE '%невідмінюване%';
 -- update html set class = '-' where class = '';
 -- update html set tense = 'майбутній' where tense = 'майбутній час';
 -- update html set tense = 'минулий' where tense = 'минулий час';

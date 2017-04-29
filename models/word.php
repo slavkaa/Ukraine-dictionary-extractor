@@ -52,9 +52,10 @@ class Word extends AbstractModel
      * @param string $mood
      * @param boolean $is_infinitive
      * @param boolean $is_main_form
+     * @param string $main_form_code
      */
     public function firstOrNewTotal($word, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
-        $dievidmina, $class, $sub_role, $comparison, $tense, $variation, $mood, $is_infinitive, $is_main_form)
+        $dievidmina, $class, $sub_role, $comparison, $tense, $variation, $mood, $is_infinitive, $is_main_form, $main_form_code)
     {
         $array = [
             'word = :word',
@@ -77,9 +78,6 @@ class Word extends AbstractModel
             'is_main_form = :is_main_form',
         ];
 
-        $fields = '`word`,`word_binary`,`part_of_language`,`creature`,`genus`,`number`,`person`,`kind`,`verb_kind`,`dievidmina`,`class`,`sub_role`,`comparison`,`tense`,`mood`,`is_infinitive`,`is_main_form`, `variation`';
-
-        $values = ':word,:word,:part_of_language,:creature,:genus,:number,:person,:kind,:verb_kind,:dievidmina,:class,:sub_role,:comparison,:tense,:mood,:is_infinitive,:is_main_form,:variation';
 
 
         $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE ' . implode(' AND ', $array) . ' limit 1;';
@@ -105,6 +103,19 @@ class Word extends AbstractModel
         $result = $stm->fetch(PDO::FETCH_ASSOC);
 
         if (empty($result)) {
+
+            $fields = '`word`,`word_binary`,`part_of_language`,`creature`,`genus`,`number`,`person`,`kind`,`verb_kind`,`dievidmina`,'
+                .'`class`,`sub_role`,`comparison`,`tense`,`mood`,`is_infinitive`,`is_main_form`, `variation`,`unique_code`,`main_form_code`';
+
+            $values = ':word,:word,:part_of_language,:creature,:genus,:number,:person,:kind,:verb_kind,:dievidmina,'.
+                ':class,:sub_role,:comparison,:tense,:mood,:is_infinitive,:is_main_form,:variation,:unique_code,:main_form_code';
+
+
+            $unique_code = implode(';', [
+                $word, $main_form_code, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
+                $dievidmina, $class, $sub_role, $comparison, $tense, $variation, $mood, $is_infinitive, $is_main_form
+            ]);
+
             $sql = 'INSERT INTO `' . $this->tableName . '` (' . $fields . ') VALUES (' . $values . ');';
             $stm = $this->connection->prepare($sql);
             $stm->bindParam(':word', $word, PDO::PARAM_STR);
@@ -122,6 +133,8 @@ class Word extends AbstractModel
             $stm->bindParam(':tense', $tense, PDO::PARAM_STR);
             $stm->bindParam(':variation', $variation, PDO::PARAM_STR);
             $stm->bindParam(':mood', $mood, PDO::PARAM_STR);
+            $stm->bindParam(':unique_code', $unique_code, PDO::PARAM_STR);
+            $stm->bindParam(':main_form_code', $main_form_code, PDO::PARAM_STR);
             $stm->bindParam(':is_infinitive', $is_infinitive, PDO::PARAM_BOOL);
             $stm->bindParam(':is_main_form', $is_main_form, PDO::PARAM_BOOL);
             $stm->execute();
@@ -130,6 +143,19 @@ class Word extends AbstractModel
 //            var_dump($stm->errorInfo());
 
             $id = $this->connection->lastInsertId();
+
+            if ($id) {
+                echo 'NEW';
+            } else {
+                echo 'Error' . "\n\n";
+                var_dump($word);
+                var_dump($array);
+                var_dump($part_of_language);
+                var_dump($stm->errorInfo());
+
+                die;
+            }
+
             $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE id = :id limit 1;';
             $stm = $this->connection->prepare($sql);
             $stm->bindParam(':id', $id);
@@ -141,10 +167,45 @@ class Word extends AbstractModel
         } else {
             $this->id = array_get($result, 'id');
             $this->props = $result;
-        }
 
-//        var_dump($this->id);
-//        die;
+            $this->updateProperty('main_form_code', PDO::PARAM_STR, $main_form_code);
+            $this->updateUniqueCode($word, $main_form_code, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
+                $dievidmina, $class, $sub_role, $comparison, $tense, $variation, $mood, $is_infinitive, $is_main_form);
+
+            echo 'e';
+        }
+    }
+
+
+    /**
+     * @param string $word
+     * @param string $main_form_code
+     * @param string $part_of_language
+     * @param string $creature
+     * @param string $genus
+     * @param string $number
+     * @param string $person
+     * @param string $kind
+     * @param string $verb_kind
+     * @param string $dievidmina
+     * @param string $class
+     * @param string $sub_role
+     * @param string $comparison
+     * @param string $tense
+     * @param string $variation
+     * @param string $mood
+     * @param boolean $is_infinitive
+     * @param boolean $is_main_form
+     */
+    public function updateUniqueCode($word, $main_form_code, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
+        $dievidmina, $class, $sub_role, $comparison, $tense, $variation, $mood, $is_infinitive, $is_main_form)
+    {
+        $unique_code = implode(';', [
+            $word, $main_form_code, $part_of_language, $creature, $genus, $number, $person, $kind, $verb_kind,
+            $dievidmina, $class, $sub_role, $comparison, $tense, $variation, $mood, $is_infinitive, $is_main_form
+        ]);
+
+        $this->updateProperty('unique_code', PDO::PARAM_STR, $unique_code);
     }
 
     /**

@@ -75,16 +75,17 @@ INSERT INTO html_cut (html_id, word, word_binary) SELECT id, word, word_binary F
 INSERT INTO slovnyk_ua_results (word_id, word, word_binary, main_form_id, is_wrong_detection, url, url_binary, is_main_form, is_proper_name, is_foreign, is_need_processing, part_of_language, creature, genus, number, person, kind, verb_kind, dievidmina, class, sub_role, comparison, tense, variation, mood, is_infinitive, is_modal)
                          SELECT word_id, word, word_binary, main_form_id, is_wrong_detection, url, url_binary, is_main_form, is_proper_name, is_foreign, is_need_processing, part_of_language, creature, genus, number, person, kind, verb_kind, dievidmina, class, sub_role, comparison, tense, variation, mood, is_infinitive, is_modal FROM html where url is null
 
-
 INSERT INTO slovnyk_ua_results_copy (data_id, word_id, word, word_binary, main_form_id, is_wrong_detection, url, url_binary, is_main_form, is_proper_name, is_foreign, is_need_processing, part_of_language, creature, genus, number, person, kind, verb_kind, dievidmina, class, sub_role, comparison, tense, variation, mood, is_infinitive, is_modal)
                          SELECT data_id, word_id, word, word_binary, main_form_id, is_wrong_detection, url, url_binary, is_main_form, is_proper_name, is_foreign, is_need_processing, part_of_language, creature, genus, number, person, kind, verb_kind, dievidmina, class, sub_role, comparison, tense, variation, mood, is_infinitive, is_modal FROM slovnyk_ua_results
 
 SELECT word_id, count(word_id) as counter from slovnyk_ua_results_copy group by word_id having 1 < counter order by counter DESC;
-
-
 
 INSERT INTO slovnyk_ua_data (word_id, word, word_binary, main_form_id, is_wrong_detection)
                          SELECT word_id, word, word_binary, main_form_id, is_wrong_detection FROM html where url is null
 
 INSERT INTO slovnyk_ua_html (word, word_binary, html, html_cut)
   SELECT word, word_binary, html, html_cut from html_data;
+
+SELECT CONCAT(word_binary, ';', main_form_code, ';', is_main_form, ';', part_of_language, ';', creature, ';', genus, ';', number, ';', person, ';', kind, ';', verb_kind, ';', dievidmina, ';', class, ';', sub_role, ';', comparison, ';', tense, ';', variation, ';', mood, ';', is_infinitive) from word limit 10
+
+UPDATE word SET unique_code = CONCAT(word_binary, ';', main_form_code, ';', is_main_form, ';', part_of_language, ';', creature, ';', genus, ';', number, ';', person, ';', kind, ';', verb_kind, ';', dievidmina, ';', class, ';', sub_role, ';', comparison, ';', tense, ';', variation, ';', mood, ';', is_infinitive, ';', is_main_form)
