@@ -8,6 +8,8 @@ require_once('../support/_require_once.php');
 $part_of_language = 'прислівник';
 
 $SlovnykUaDataC = new SlovnykUaData($dbh);
+$SlovnykUaDataC->backHtmlRowsToProcessing(); // init is need processing before first run
+
 $counter = $SlovnykUaDataC->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
 $counter = intval($counter/100) + 1;
 

@@ -25,12 +25,14 @@ class SlovnykUaHtml extends AbstractModel {
     ];
 
     /**
+     * @param string $page, HTML code
+     *
      * Generate html_cut from html
      */
-    public function generateCutHtml()
+    public function generateCutHtml($page)
     {
         // load extracted HTML=page
-        $text = $this->getProperty('html');
+        $text = $page;
         $text = iconv(mb_detect_encoding($text, mb_detect_order(), true), "UTF-8", $text);
 
         // init HTML parser
@@ -49,7 +51,7 @@ class SlovnykUaHtml extends AbstractModel {
 
         if (NULL === $element) {
             // do nothing
-            echo 'HTML_ONLY'; //.$this->getProperty('data_id').':'.$this->getProperty('word_binary');
+            echo 'NULL'; //.$this->getProperty('data_id').':'.$this->getProperty('word_binary');
         } else {
             $newDoc = new DOMDocument();
             $doc->encoding = 'UTF-8';

@@ -37,10 +37,9 @@ for ($i = 0; $i < $counter;  $i++) {
             echo ',';
 
             $htmlData->getByDataId($id); // refresh
-            $htmlData->updateProperty('html', PDO::PARAM_LOB, $page);
-
-            $htmlData->getByDataId($id); // refresh
-            $htmlData->generateCutHtml();
+//            $htmlData->updateProperty('html', PDO::PARAM_LOB, $page);
+//            $htmlData->getByDataId($id); // refresh
+            $htmlData->generateCutHtml($page);
 
             $data->updateProperty('is_has_html', PDO::PARAM_BOOL, true); // we need cut HTML after
             $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false); // we need cut HTML after
