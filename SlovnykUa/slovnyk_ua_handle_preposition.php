@@ -17,9 +17,10 @@ for ($j = 0; $j < $counter;  $j++) {
     $SlovnykUaData = new SlovnykUaData($dbh);
     $allSlovnykUaData = $SlovnykUaData->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
 
-    echo "\n$j<";
+    echo "\n". ($j + 1);
 
     foreach ($allSlovnykUaData as $dataArray) {
+        echo "\<";
         $dataId = array_get($dataArray, 'id');
 
         $data = new SlovnykUaData($dbh);
@@ -43,9 +44,11 @@ for ($j = 0; $j < $counter;  $j++) {
 
         $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
         $data->updateProperty('is_in_results', PDO::PARAM_BOOL, true);
+
+        echo '>';
     }
 
-    echo ">\n";
+    echo "\n";
 }
 
 $SlovnykUaDataC->backHtmlRowsToProcessing();

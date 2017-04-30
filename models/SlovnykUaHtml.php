@@ -49,7 +49,7 @@ class SlovnykUaHtml extends AbstractModel {
 
         if (NULL === $element) {
             // do nothing
-            echo '-'.$this->getProperty('data_id').':'.$this->getProperty('word_binary');
+            echo 'HTML_ONLY'; //.$this->getProperty('data_id').':'.$this->getProperty('word_binary');
         } else {
             $newDoc = new DOMDocument();
             $doc->encoding = 'UTF-8';
@@ -59,7 +59,7 @@ class SlovnykUaHtml extends AbstractModel {
             // update html_cut
             $this->updateProperty('html_cut', PDO::PARAM_LOB, html_entity_decode($newDoc->saveHTML()));
 
-            echo '+';
+            echo 'CUT';
         }
     }
 }

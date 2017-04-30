@@ -71,7 +71,9 @@ class SlovnykUaData extends AbstractModel {
      */
     public function backHtmlRowsToProcessing()
     {
-        $sql = 'UPDATE `' . $this->tableName . '` SET is_need_processing = 1 WHERE is_has_html_cut = 1 AND is_in_results = 0;';
-        $stm = $this->connection->query($sql);
+        $sql = 'UPDATE `' . $this->tableName . '` SET is_need_processing = 1 where';
+        $sql .= ' is_in_results = 0 and is_has_html_cut = 1 and \'2017-04-30 00:00:00\' < updated_at;';
+
+        $this->connection->query($sql);
     }
 }

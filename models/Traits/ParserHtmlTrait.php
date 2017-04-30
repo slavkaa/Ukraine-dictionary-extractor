@@ -58,6 +58,9 @@ trait ParserHtmlTrait
             $result = $stm->fetch(PDO::FETCH_ASSOC);
 
 //            var_dump($result);
+            echo 'NEW';
+        } else {
+            echo 'e';
         }
 
 //        var_dump($result);

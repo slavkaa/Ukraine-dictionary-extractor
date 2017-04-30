@@ -13,36 +13,44 @@ var_dump($counter);
 
 echo "\n";
 
-for ($i = 1; $i < $counter;  $i++) {
-    echo $i . '00.';
-    $htmlObj = new Html($dbh);
-    $allHtml = $htmlObj->getAllIsNeedProcessing(100);
+for ($i = 0; $i < $counter;  $i++) {
+    echo ($i+1) . '00.';
+    $dataObj = new SlovnykUaData($dbh);
+    $allData = $dataObj->getAllIsNeedProcessing(100);
 
-        foreach ($allHtml as $htmlArr) {
+        foreach ($allData as $dataArr) {
             echo '<';
 
-            $id = (int) array_get($htmlArr, 'id');
-            $word = array_get($htmlArr, 'word_binary');
-            $htmlObj2 = new Html($dbh);
-            $htmlObj2->getById($id);
+            $id = (int) array_get($dataArr, 'id');
 
-            $page = file_get_contents($htmlObj2->getProperty('url_binary'));
+            $data = new SlovnykUaData($dbh);
+            $data->getById($id);
 
-            $htmlData = new HtmlData($dbh);
-            $htmlData->firstOrNew($id, $word);
+            $word_binary = array_get($dataArr, 'word_binary');
+            $url = 'http://slovnyk.ua/?swrd=' . urlencode($word_binary);
 
+            $page = file_get_contents($url);
+
+            $htmlData = new SlovnykUaHtml($dbh);
+            $htmlData->firstOrNew($id, $word_binary);
+
+            echo ',';
+
+            $htmlData->getByDataId($id); // refresh
             $htmlData->updateProperty('html', PDO::PARAM_LOB, $page);
-            $htmlData->getByHtmlId($id); // refresh
 
+            $htmlData->getByDataId($id); // refresh
             $htmlData->generateCutHtml();
-            $htmlObj2->updateProperty('is_need_processing', PDO::PARAM_BOOL, false); // we need cut HTML after
+
+            $data->updateProperty('is_has_html', PDO::PARAM_BOOL, true); // we need cut HTML after
+            $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false); // we need cut HTML after
 
             echo '>';
         }
 
-    unset($htmlArr);
-    unset($htmlObj2);
-    unset($allHtml);
+    unset($dataArr);
+    unset($dataObj2);
+    unset($allData);
     unset($page);
     echo "\n";
 }

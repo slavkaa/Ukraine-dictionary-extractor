@@ -6,8 +6,8 @@ require_once('../support/_require_once.php');
 
 // *** //
 
-$c = new SlovnykUaData($dbh);
-$counter = $c->countIsNeedProcessing();
+$SlovnykUaDataC = new SlovnykUaData($dbh);
+$counter = $SlovnykUaDataC->countIsNeedProcessing();
 $counter = intval($counter/100) + 1;
 echo "\n";
 
@@ -70,4 +70,6 @@ for ($i = 0; $i < $counter;  $i++) {
 }
 
 echo 'END';
+
+$SlovnykUaDataC->backHtmlRowsToProcessing();
 

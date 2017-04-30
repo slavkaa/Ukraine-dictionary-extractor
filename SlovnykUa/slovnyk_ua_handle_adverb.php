@@ -19,7 +19,7 @@ for ($j = 0; $j < $counter;  $j++) {
     $SlovnykUaData = new SlovnykUaData($dbh);
     $allSlovnykUaData = $SlovnykUaData->getPartOfLanguage('%' . $part_of_language . '%', 100, 0, 'LIKE');
 
-    echo "\n$j<";
+    echo "\n($j+1 )<";
 
     foreach ($allSlovnykUaData as $dataArray) {
         $dataId = array_get($dataArray, 'id');
@@ -31,7 +31,7 @@ for ($j = 0; $j < $counter;  $j++) {
         $html->getByDataId($dataId);
 
         // load extracted HTML=page
-        $word = $data->getWordBinary();
+        $word = mb_strtolower($data->getWordBinary());
         $text = cleanCyrillic($html->getProperty('html_cut'));
         $partOfLanguage = $html->getProperty('part_of_language');
 
