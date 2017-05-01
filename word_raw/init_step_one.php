@@ -9,7 +9,8 @@ require_once('../support/_require_once.php');
 //require_once('config/franko.php');
 //require_once('config/nechuy.php');
 //require_once('config/sheva.php');
-require_once('config/dovjenko.php');
+//require_once('config/dovjenko.php');
+require_once('config/kots.php');
 
 foreach ($titles as $title) {
     echo $title . "\n";
