@@ -5,10 +5,15 @@
 require_once('../support/_require_once.php');
 
 // *** //
+// select MAX(id) from slovnyk_ua_data; -- 345309
+$SlovnykUaDataC = new SlovnykUaData($dbh);
+$SlovnykUaDataC->resetProcessing();
+
 $dictionary = new Dictionary($dbh);
 $dictionary->firstOrNew('slovnyk.ua', 'http://www.slovnyk.ua/?swrd=');
 $dictionaryId = (int) $dictionary->getProperty('id');
 
+// word_raw MAX(id) = 246775
 $WordRawObj = new WordRaw($dbh);
 $counter = $WordRawObj->countIsNeedProcessing();
 $counter = intval($counter/100) + 1;
@@ -38,9 +43,10 @@ for ($i = 1; $i < $counter;  $i++) {
             $data = new SlovnykUaData($dbh);
             $data->firstOrNewByWordBinary($word_binary);
 
-            $isHasHtmlCut = (boolean) $data->getProperty('is_has_html_cut', false);
+            $is_in_results = (boolean) $data->getProperty('is_in_results', false);
+            $is_no_data_on_slovnyk_ua = (boolean) $data->getProperty('is_no_data_on_slovnyk_ua', false);
 
-            if ($isHasHtmlCut) {
+            if ($is_in_results || $is_no_data_on_slovnyk_ua) {
                 echo 'd';
                 $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             } else {

@@ -99,4 +99,15 @@ class SlovnykUaData extends AbstractModel {
 
         $this->connection->query($sql);
     }
+
+    /**
+     *
+     */
+    public function resetProcessing()
+    {
+        $sql = 'UPDATE `' . $this->tableName . '` SET is_need_processing = 0 where';
+        $sql .= ' is_need_processing = 1;';
+
+        $this->connection->query($sql);
+    }
 }

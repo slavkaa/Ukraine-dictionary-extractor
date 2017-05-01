@@ -67,7 +67,7 @@ foreach ($titles as $title) {
 
         echo '+';
         $wordRaw = new WordRaw($dbh);
-        $wordRaw->firstOrNew($textWord);
+        $wordRaw->firstOrNewByWordBinary($textWord);
 
         $wordRaw->updateProperty('is_need_processing', PDO::PARAM_BOOL, true);
 
