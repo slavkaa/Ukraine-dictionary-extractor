@@ -93,3 +93,5 @@ UPDATE word SET unique_code = CONCAT(word_binary, ';', main_form_code, ';', is_m
 SELECT * FROM word INTO OUTFILE 'E:/words.v.8.csv' FIELDS TERMINATED BY ';' LINES TERMINATED BY '\n';
 
 select count(*)from slovnyk_ua_data where is_in_results = 0 and is_has_html_cut = 0 and is_has_html = 1 and '2017-04-30 00:00:00' < updated_at;
+
+select count(*) from slovnyk_ua_data where part_of_language is null and is_in_results = 0

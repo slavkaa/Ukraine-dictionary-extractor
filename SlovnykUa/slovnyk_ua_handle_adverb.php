@@ -8,7 +8,7 @@ require_once('../support/_require_once.php');
 $part_of_language = 'прислівник';
 
 $SlovnykUaDataC = new SlovnykUaData($dbh);
-$SlovnykUaDataC->backHtmlRowsToProcessing(); // init is need processing before first run
+$SlovnykUaDataC->setHtmlRowsToMorphologicalProcessing();
 
 $counter = $SlovnykUaDataC->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
 $counter = intval($counter/100) + 1;
@@ -53,6 +53,10 @@ for ($j = 0; $j < $counter;  $j++) {
             echo '.';
             $html->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             continue;
+        }
+
+        if (0 < strpos($word, ',')) {
+            die($word);
         }
 
         echo '+';

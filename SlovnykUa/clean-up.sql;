@@ -47,6 +47,7 @@ update word_raw set word_binary = TRIM(word_binary);
 update word set is_need_processing = 0;
 update word set is_need_processing = 1 where word LIKE '%,%';
 
+select count(*) from slovnyk_ua_results where word LIKE '%,%';
 -- delete from word where word LIKE '%,%';
 
 -- Sanification END

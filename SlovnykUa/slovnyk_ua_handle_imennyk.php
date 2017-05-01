@@ -264,16 +264,34 @@ for ($j = 0; $j < $counter;  $j++) {
             $number = $number ? $number : '-';
             $kind = $kind ? $kind: '-';
 
-            $result = new SlovnykUaResults($dbh);
-            $result->firstOrNewTotal($word, $part_of_language, $creature, $genus, $number, '-', $kind, '-',
-                '-', '-', '-', '-', '-', '-', 0, $is_main_form, $variation);
+            if (0 < strpos($word, ',')) {
+                $wordVariantsArr = explode(',', $word);
+                foreach ($wordVariantsArr as $word) {
+                    $word = trim($word);
 
-            if ($is_main_form) {
-                $mainFormId = $result->getId();
+                    $result = new SlovnykUaResults($dbh);
+                    $result->firstOrNewTotal($word, $part_of_language, $creature, $genus, $number, '-', $kind, '-',
+                        '-', '-', '-', '-', '-', '-', 0, $is_main_form, $variation);
+
+                    if ($is_main_form) {
+                        $mainFormId = $result->getId();
+                    }
+
+                    $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
+                    $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+                }
+            } else {
+                $result = new SlovnykUaResults($dbh);
+                $result->firstOrNewTotal($word, $part_of_language, $creature, $genus, $number, '-', $kind, '-',
+                    '-', '-', '-', '-', '-', '-', 0, $is_main_form, $variation);
+
+                if ($is_main_form) {
+                    $mainFormId = $result->getId();
+                }
+
+                $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
+                $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
             }
-
-            $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
-            $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
 
             echo ']';
 

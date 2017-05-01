@@ -336,25 +336,46 @@ for ($j = 0; $j < $counter;  $j++) {
             ];
         }
 
+        $isHasCommas = false;
+
         // define infinitive {
         $mainFormId = null;
         if ( " " != $infinitive && !empty($infinitive)) {
-            echo 'i';
-            $result = new SlovnykUaResults($dbh);
-            $result->firstOrNewTotal($infinitive, 'дієслово', '-', '-', '-', '-', '-', $verbKind,
-                $dievidmina, '-', '-', '-', '-', '-', 1, 1, '-');
-            $mainFormId = $result->getId();
 
-            $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
-            $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+            if (0 < strpos($infinitive, ',')) {
+                $wordVariantsArr = explode(',', $word);
+                foreach ($wordVariantsArr as $word) {
+                    $word = trim($word);
+
+                    echo 'i';
+                    $result = new SlovnykUaResults($dbh);
+                    $result->firstOrNewTotal($infinitive, 'дієслово', '-', '-', '-', '-', '-', $verbKind,
+                        $dievidmina, '-', '-', '-', '-', '-', 1, 1, '-');
+                    $mainFormId = $result->getId();
+
+                    $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
+                    $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+
+                    $isHasCommas = true;
+                }
+            } else {
+                echo 'i';
+                $result = new SlovnykUaResults($dbh);
+                $result->firstOrNewTotal($infinitive, 'дієслово', '-', '-', '-', '-', '-', $verbKind,
+                    $dievidmina, '-', '-', '-', '-', '-', 1, 1, '-');
+                $mainFormId = $result->getId();
+
+                $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
+                $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+            }
 
             $data->updateProperty('is_in_results', PDO::PARAM_BOOL, true);
         }
         // define infinitive }
 
         foreach ($wordForms as $wordForm) {
-            echo 'd';
             $word = trim(array_get($wordForm, 'word'));
+
             $tense = str_replace('', '', array_get($wordForm, 'tense', '-'));
             $number = array_get($wordForm, 'number', '-');
             $genus = array_get($wordForm, 'genus', '-');
@@ -369,17 +390,33 @@ for ($j = 0; $j < $counter;  $j++) {
                 continue;
             }
 
-            $result = new SlovnykUaResults($dbh);
-            $result->firstOrNewTotal($word, $part_of_language, '-', $genus, $number, $person, '-', $verbKind,
-                $dievidmina, '-', '-', '-', $tense, '-', 0, 0, '-');
-            $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
-            $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+            if (0 < strpos($word, ',')) {
+                $wordVariantsArr = explode(',', $word);
+                foreach ($wordVariantsArr as $word) {
+                    $word = trim($word);
+
+                    echo 'd';
+                    $result = new SlovnykUaResults($dbh);
+                    $result->firstOrNewTotal($word, $part_of_language, '-', $genus, $number, $person, '-', $verbKind,
+                        $dievidmina, '-', '-', '-', $tense, '-', 0, 0, '-');
+                    $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
+                    $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+
+                    $isHasCommas = true;
+                }
+            } else {
+                echo 'd';
+                $result = new SlovnykUaResults($dbh);
+                $result->firstOrNewTotal($word, $part_of_language, '-', $genus, $number, $person, '-', $verbKind,
+                    $dievidmina, '-', '-', '-', $tense, '-', 0, 0, '-');
+                $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
+                $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+            }
 
             $data->updateProperty('is_in_results', PDO::PARAM_BOOL, true);
         }
 
         foreach ($diepruslivnyk as $wordForm) {
-            echo 'p';
             $word = trim(array_get($wordForm, 'word'));
             $tense = array_get($wordForm, 'tense', '-');
 
@@ -387,16 +424,38 @@ for ($j = 0; $j < $counter;  $j++) {
                 continue;
             }
 
-            $result = new SlovnykUaResults($dbh);
-            $result->firstOrNewTotal(trim($word), 'дієприслівник', '-', '-', '-', '-', '-', '-',
-                '-', '-', '-', '-', $tense, '-', 0, 0, '-');
-            $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
-            $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+            if (0 < strpos($word, ',')) {
+                $wordVariantsArr = explode(',', $word);
+                foreach ($wordVariantsArr as $word) {
+                    $word = trim($word);
+                    echo 'p';
+
+                    $result = new SlovnykUaResults($dbh);
+                    $result->firstOrNewTotal(trim($word), 'дієприслівник', '-', '-', '-', '-', '-', '-',
+                        '-', '-', '-', '-', $tense, '-', 0, 0, '-');
+                    $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
+                    $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+
+                    $isHasCommas = true;
+                }
+            } else {
+                echo 'p';
+                $result = new SlovnykUaResults($dbh);
+                $result->firstOrNewTotal(trim($word), 'дієприслівник', '-', '-', '-', '-', '-', '-',
+                    '-', '-', '-', '-', $tense, '-', 0, 0, '-');
+                $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
+                $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+            }
 
             $data->updateProperty('is_in_results', PDO::PARAM_BOOL, true);
         }
 
         $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+
+        if ($isHasCommas) {
+            var_dump($data);
+            exit;
+        }
 
         echo ">";
     }

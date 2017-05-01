@@ -7,6 +7,9 @@ require_once('../support/_require_once.php');
 // *** //
 
 $SlovnykUaDataC = new SlovnykUaData($dbh);
+
+$SlovnykUaDataC->setDownloadedHtmlRowsToPartOfLanguageProcessing();
+
 $counter = $SlovnykUaDataC->countIsNeedProcessing();
 $counter = intval($counter/100) + 1;
 echo "\n";
@@ -19,7 +22,7 @@ for ($i = 0; $i < $counter;  $i++) {
     $allHtml = $obj->getAllIsNeedProcessing(100);
 
     foreach ($allHtml as $htmlArray) {
-        echo '.';
+        echo '<';
         $id = array_get($htmlArray, 'id');
 
         $SlovnykUaData = new SlovnykUaData($dbh);
@@ -41,6 +44,8 @@ for ($i = 0; $i < $counter;  $i++) {
         if ('' === $text) { // empty response from slovnyk.ua
             echo 'e';
             $SlovnykUaData->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+            $SlovnykUaData->updateProperty('is_no_data_on_slovnyk_ua', PDO::PARAM_BOOL, true);
+            echo '>';
             continue;
         }
 
@@ -63,7 +68,9 @@ for ($i = 0; $i < $counter;  $i++) {
 
         // update html_cut
         $SlovnykUaData->updateProperty('part_of_language', PDO::PARAM_STR, implode(',', $result));
+
         $SlovnykUaData->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
+        echo '>';
     }
 
     echo "\n";
@@ -72,4 +79,3 @@ for ($i = 0; $i < $counter;  $i++) {
 echo 'END';
 
 $SlovnykUaDataC->backHtmlRowsToProcessing();
-

@@ -34,6 +34,10 @@ for ($j = 0; $j < $counter;  $j++) {
             continue;
         }
 
+        if (0 < strpos($word, ',')) {
+            die($word);
+        }
+
         $result = new SlovnykUaResults($dbh);
         $result->firstOrNewTotal(trim($word), $part_of_language, '-', '-', '-', '-', '-', '-',
             '-', '-', '-', '-', '-', '-', 0, true, '-', $dictionaryId);

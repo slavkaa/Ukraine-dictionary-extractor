@@ -206,6 +206,7 @@ for ($j = 0; $j < $counter;  $j++) {
 
         echo '[';
         foreach ($wordForms as $wordForm) {
+            echo '+';
             $word = trim(array_get($wordForm, 'word'));
 
             $number = array_get($wordForm, 'number', '-');
@@ -217,17 +218,34 @@ for ($j = 0; $j < $counter;  $j++) {
                 continue;
             }
 
-            $result = new SlovnykUaResults($dbh);
-            $result->firstOrNewTotal(trim($word), $part_of_language, '-', $genus, $number, '-', $kind, '-',
-                '-', '-', '-', '-', '-', '-', 0, $is_main_form, '-', $dictionaryId);
+            if (0 < strpos($word, ',')) {
+                $wordVariantsArr = explode(',', $word);
+                foreach ($wordVariantsArr as $word) {
+                    $word = trim($word);
 
-            if ($is_main_form) {
-                $mainFormId = $result->getId();
+                    $result = new SlovnykUaResults($dbh);
+                    $result->firstOrNewTotal(trim($word), $part_of_language, '-', $genus, $number, '-', $kind, '-',
+                        '-', '-', '-', '-', '-', '-', 0, $is_main_form, '-', $dictionaryId);
+
+                    if ($is_main_form) {
+                        $mainFormId = $result->getId();
+                    }
+
+                    $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
+                    $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
+                }
+            } else {
+                $result = new SlovnykUaResults($dbh);
+                $result->firstOrNewTotal(trim($word), $part_of_language, '-', $genus, $number, '-', $kind, '-',
+                    '-', '-', '-', '-', '-', '-', 0, $is_main_form, '-', $dictionaryId);
+
+                if ($is_main_form) {
+                    $mainFormId = $result->getId();
+                }
+
+                $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
+                $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
             }
-
-            $result->updateProperty('main_form_code', PDO::PARAM_STR, $mainFormCodePrefix . $mainFormId);
-            $result->updateProperty('data_id', PDO::PARAM_INT, $dataId);
-            echo '+';
 
             $data->updateProperty('is_in_results', PDO::PARAM_BOOL, true);
         }

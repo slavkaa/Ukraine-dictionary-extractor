@@ -71,8 +71,31 @@ class SlovnykUaData extends AbstractModel {
      */
     public function backHtmlRowsToProcessing()
     {
+//        $sql = 'UPDATE `' . $this->tableName . '` SET is_need_processing = 1 where';
+//        $sql .= ' is_in_results = 0 and is_has_html_cut = 1 and \'2017-04-30 00:00:00\' < updated_at;';
+//
+//        $this->connection->query($sql);
+        $this->setHtmlRowsToMorphologicalProcessing();
+    }
+
+    /**
+     *
+     */
+    public function setDownloadedHtmlRowsToPartOfLanguageProcessing()
+    {
         $sql = 'UPDATE `' . $this->tableName . '` SET is_need_processing = 1 where';
-        $sql .= ' is_in_results = 0 and is_has_html_cut = 1 and \'2017-04-30 00:00:00\' < updated_at;';
+        $sql .= ' is_has_html = 1 and is_in_results = 0 and is_no_data_on_slovnyk_ua = 0;';
+
+        $this->connection->query($sql);
+    }
+
+    /**
+     *
+     */
+    public function setHtmlRowsToMorphologicalProcessing()
+    {
+        $sql = 'UPDATE `' . $this->tableName . '` SET is_need_processing = 1 where';
+        $sql .= ' part_of_language is not null and is_in_results = 0 and is_no_data_on_slovnyk_ua = 0;';
 
         $this->connection->query($sql);
     }

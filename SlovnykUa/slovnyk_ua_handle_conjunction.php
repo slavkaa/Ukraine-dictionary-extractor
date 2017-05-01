@@ -8,6 +8,8 @@ $part_of_language = 'сполучник';
 
 
 $SlovnykUaDataC = new SlovnykUaData($dbh);
+$SlovnykUaDataC->setHtmlRowsToMorphologicalProcessing();
+
 $counter = $SlovnykUaDataC->countPartOfLanguage('%'.$part_of_language.'%', ' LIKE ');
 $counter = intval($counter/100) + 1;
 
@@ -37,6 +39,10 @@ for ($j = 0; $j < $counter;  $j++) {
             $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
             echo '.';
             continue;
+        }
+
+        if (0 < strpos($word, ',')) {
+            die($word);
         }
 
         $result = new SlovnykUaResults($dbh);

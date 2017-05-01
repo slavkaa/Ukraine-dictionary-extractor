@@ -8,7 +8,7 @@ require_once('../support/_require_once.php');
 
 $html = new SlovnykUaHtml($dbh);
 //$html->getMaxFilledHtml();
-$html->getByDataId(40);
+$html->getByDataId(195888);
 
 $url = $html->getProperty('url');
 $text = $html->getProperty('html_cut');
