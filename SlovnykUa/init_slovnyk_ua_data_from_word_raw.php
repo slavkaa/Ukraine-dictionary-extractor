@@ -21,8 +21,8 @@ $counter = intval($counter/100) + 1;
 echo "\n";
 var_dump($counter);
 
-for ($i = 1; $i < $counter;  $i++) {
-    echo $i . '00. ';
+for ($i = 0; $i < $counter;  $i++) {
+    echo ($i+1) . '00. ';
 
     $wordRaw = new WordRaw($dbh);
     $allWords = $wordRaw->getAllIsNeedProcessing(100);

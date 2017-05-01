@@ -174,4 +174,15 @@ class SlovnykUaResults extends AbstractModel {
 
         $this->props = $result;
     }
+
+    /**
+     *
+     */
+    public function setWordsWithoutWordIdToProcessing()
+    {
+        $sql = 'UPDATE `' . $this->tableName . '` SET is_need_processing = 1 where';
+        $sql .= ' word_id is null;';
+
+        $this->connection->query($sql);
+    }
 }

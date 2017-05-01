@@ -7,6 +7,8 @@ require_once('../support/_require_once.php');
 // *** //
 
 $results = new SlovnykUaResults($dbh);
+$results->setWordsWithoutWordIdToProcessing();
+
 $counter = $results->countIsNeedProcessing();
 $counter = intval($counter/100) + 1;
 
@@ -17,7 +19,7 @@ for ($i = 0; $i < $counter;  $i++) {
     $result100 = new SlovnykUaResults($dbh);
     $resultsPack = $result100->getAllIsNeedProcessing(100);
 
-    echo $i . '00. ';
+    echo $i . '00/' . $counter . '00. ';
 
     foreach ($resultsPack as $resultsArr) {
         $id = array_get($resultsArr, 'id');
