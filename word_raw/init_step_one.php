@@ -8,7 +8,8 @@ require_once('../support/_require_once.php');
 //require_once('config/honchar.php');
 //require_once('config/franko.php');
 //require_once('config/nechuy.php');
-require_once('config/sheva.php');
+//require_once('config/sheva.php');
+require_once('config/dovjenko.php');
 
 foreach ($titles as $title) {
     echo $title . "\n";
@@ -44,7 +45,7 @@ foreach ($titles as $title) {
 
     foreach ($textWords as $textWord) {
         $textWord = trim($textWord);
-        $textWord = str_replace(["'", '"','’','‘'], ['`','`','`','`'], $textWord);
+        $textWord = str_replace(["'", '"','’','‘','ó','ý'], ['`','`','`','`','о','у'], $textWord);
 
         if ("" == $textWord || empty($textWord)) {
             echo ".\n";

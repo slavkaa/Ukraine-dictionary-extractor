@@ -4,7 +4,7 @@
 
 require_once('../support/_require_once.php');
 
-$dir    = '../texts/Іван Франко/';
+$dir    = '../texts/Довженко Олександр/';
 $dir = iconv(mb_detect_encoding($dir, mb_detect_order(), true), "cp1251", $dir);
 
 $files = scandir($dir);
