@@ -17,7 +17,7 @@ echo "\n";
 var_dump($counter);
 
 for ($i = 0; $i < $counter;  $i++) {
-    echo ($i+1) .'/00'. $counter . '00 ';
+    echo ($i+1) .'00/'. $counter . '00 ';
     $obj = new SlovnykUaData($dbh);
     $allHtml = $obj->getAllIsNeedProcessing(100);
 

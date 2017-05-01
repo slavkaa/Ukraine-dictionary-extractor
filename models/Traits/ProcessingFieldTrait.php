@@ -56,4 +56,15 @@ trait ProcessingFieldTrait {
 
         return is_array($result) ? (int) reset($result) : null;
     }
+
+    /**
+     *
+     */
+    public function resetProcessing()
+    {
+        $sql = 'UPDATE `' . $this->tableName . '` SET is_need_processing = 0 where';
+        $sql .= ' is_need_processing = 1;';
+
+        $this->connection->query($sql);
+    }
 }

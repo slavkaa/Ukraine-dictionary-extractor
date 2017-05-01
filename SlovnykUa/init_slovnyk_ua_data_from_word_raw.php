@@ -15,6 +15,10 @@ $dictionaryId = (int) $dictionary->getProperty('id');
 
 // word_raw MAX(id) = 246775
 $WordRawObj = new WordRaw($dbh);
+$WordRawObj->resetProcessing();
+
+$dbh->query('UPDATE `word_raw` SET is_need_processing = 1 where 264786 < id;');
+
 $counter = $WordRawObj->countIsNeedProcessing();
 $counter = intval($counter/100) + 1;
 
@@ -22,7 +26,7 @@ echo "\n";
 var_dump($counter);
 
 for ($i = 0; $i < $counter;  $i++) {
-    echo ($i+1) . '00. ';
+    echo ($i+1) . '00/' . $counter . '00. ';
 
     $wordRaw = new WordRaw($dbh);
     $allWords = $wordRaw->getAllIsNeedProcessing(100);

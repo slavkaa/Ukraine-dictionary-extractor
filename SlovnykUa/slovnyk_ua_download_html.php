@@ -7,6 +7,9 @@ require_once('../support/_require_once.php');
 // *** //
 
 $SlovnykUaData = new SlovnykUaData($dbh);
+$SlovnykUaData->resetProcessing();
+$SlovnykUaData->setDownloadingProcessing();
+
 $counter = $SlovnykUaData->countIsNeedProcessing();
 $counter = intval($counter/100) + 1;
 var_dump($counter);
@@ -29,6 +32,18 @@ for ($i = 0; $i < $counter;  $i++) {
             $word_binary = array_get($dataArr, 'word_binary');
             $url = 'http://slovnyk.ua/?swrd=' . urlencode($word_binary);
 
+//            var_dump($word_binary);
+//            die;
+
+//            $aContext = array(
+//                'http' => array(
+//                    'proxy' => 'tcp://178.151.149.227',
+//                    'request_fulluri' => true,
+//                ),
+//            );
+//            $cxContext = stream_context_create($aContext);
+//
+//            $page = file_get_contents($url, False, $cxContext);
             $page = file_get_contents($url);
 
             $htmlData = new SlovnykUaHtml($dbh);

@@ -92,10 +92,10 @@ class SlovnykUaData extends AbstractModel {
     /**
      *
      */
-    public function setHtmlRowsToMorphologicalProcessing()
+    public function setDownloadingProcessing()
     {
         $sql = 'UPDATE `' . $this->tableName . '` SET is_need_processing = 1 where';
-        $sql .= ' part_of_language is not null and is_in_results = 0 and is_no_data_on_slovnyk_ua = 0;';
+        $sql .= ' is_has_html = 0 and is_in_results = 0 and is_no_data_on_slovnyk_ua = 0;';
 
         $this->connection->query($sql);
     }
@@ -103,10 +103,10 @@ class SlovnykUaData extends AbstractModel {
     /**
      *
      */
-    public function resetProcessing()
+    public function setHtmlRowsToMorphologicalProcessing()
     {
-        $sql = 'UPDATE `' . $this->tableName . '` SET is_need_processing = 0 where';
-        $sql .= ' is_need_processing = 1;';
+        $sql = 'UPDATE `' . $this->tableName . '` SET is_need_processing = 1 where';
+        $sql .= ' part_of_language is not null and is_in_results = 0 and is_no_data_on_slovnyk_ua = 0;';
 
         $this->connection->query($sql);
     }
