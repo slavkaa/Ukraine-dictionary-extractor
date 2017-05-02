@@ -6,7 +6,9 @@ exec('chcp 65001');
 
 $mac = GetMAC();
 
-if ("00-50-56-C0-00-01" === $mac) { // must be "..."
+if ("00-50-56-C0-00-01" === $mac) { // Notebook
+    $host = '127.0.0.1';
+} elseif ("00-50-56-C0-00-08" === $mac) { // Notebook
     $host = '127.0.0.1';
 } else {
     $host = '172.19.5.99';

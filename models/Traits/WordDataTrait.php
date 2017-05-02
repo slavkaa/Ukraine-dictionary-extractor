@@ -47,6 +47,9 @@ trait WordDataTrait
 //            var_dump($this->connection->errorInfo());
 //            var_dump($stm->errorInfo());
 //            var_dump($result);
+            echo 'n';
+        } else {
+            echo 'e';
         }
 
         $this->props = $result;
