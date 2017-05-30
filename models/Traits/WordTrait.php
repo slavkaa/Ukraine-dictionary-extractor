@@ -52,13 +52,16 @@ trait WordTrait {
     /**
      * @param string $word
      */
-    public function findByWordAll($word)
+    public function findByWord($word)
     {
         $sql = 'SELECT * FROM `' . $this->tableName . '` WHERE word_binary = \'' . $word . '\' limit 1;';
         $stm = $this->connection->prepare($sql);
         $stm->execute();
 
-        return $stm;
+        $result = $stm->fetch(PDO::FETCH_ASSOC);
+
+        $this->id = array_get($result, 'id');
+        $this->props = $result;
     }
 
     /**

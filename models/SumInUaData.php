@@ -1,5 +1,5 @@
 <?php
-require_once('abstractModel.php');
+require_once('Abstract\AbstractModel.php');
 require_once('Traits\ProcessingFieldTrait.php');
 require_once('Traits\WordDataTrait.php');
 

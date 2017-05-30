@@ -6,6 +6,7 @@ require_once('../support/_require_once.php');
 
 // *** //
 // select MAX(id) from slovnyk_ua_data; -- 345309
+// select MAX(id) from slovnyk_ua_data; -- 369301
 $SlovnykUaDataC = new SlovnykUaData($dbh);
 $SlovnykUaDataC->resetProcessing();
 
@@ -13,11 +14,11 @@ $dictionary = new Dictionary($dbh);
 $dictionary->firstOrNew('slovnyk.ua', 'http://www.slovnyk.ua/?swrd=');
 $dictionaryId = (int) $dictionary->getProperty('id');
 
-// word_raw MAX(id) = 246775
+// word_raw MAX(id) = 276155
 $WordRawObj = new WordRaw($dbh);
 $WordRawObj->resetProcessing();
 
-$dbh->query('UPDATE `word_raw` SET is_need_processing = 1 where 264786 < id;');
+$dbh->query('UPDATE `word_raw` SET is_need_processing = 1 where 276155 < id;');
 
 $counter = $WordRawObj->countIsNeedProcessing();
 $counter = intval($counter/100) + 1;

@@ -10,7 +10,8 @@ require_once('../support/_require_once.php');
 //require_once('config/nechuy.php');
 //require_once('config/sheva.php');
 //require_once('config/dovjenko.php');
-require_once('config/kots.php');
+//require_once('config/kots.php');
+require_once('config/RuUa1924.php');
 
 foreach ($titles as $title) {
     echo $title . "\n";
@@ -27,8 +28,10 @@ foreach ($titles as $title) {
     $text = str_replace($pronunciationSings, ' ', $text); // remove pronunciation sings
     // двічи, щоб гарантовано очистити комбіновані пунктуаційні символи на шкалт [-"(доречі...]
     $text = str_replace($numbers, ' ', $text); // remove pronunciation sings
-    $text = str_replace($foreignLetters, ' ', $text); // remove pronunciation sings
-    $text = str_replace($foreignLetters, ' ', $text); // remove pronunciation sings
+
+    $text = str_replace($foreignLetters, ' ', $text);
+    $text = str_replace($foreignLetters, ' ', $text);
+
     $text = str_replace(['  ','  ','  ','  ','  ','  ','  ',' -','- '
         ,' `','` '," '","' ",' "','" ',' ‘','‘ '], ' ', $text); // remove pronunciation sings
 
@@ -46,6 +49,12 @@ foreach ($titles as $title) {
 
     foreach ($textWords as $textWord) {
         $textWord = trim($textWord);
+
+
+        // select MAX(id) from word_raw; = 276155
+        $textWord = str_replace("'",'', $textWord); // for RuUa1924
+
+
         $textWord = str_replace(["'", '"','’','‘','ó','ý'], ['`','`','`','`','о','у'], $textWord);
 
         if ("" == $textWord || empty($textWord)) {

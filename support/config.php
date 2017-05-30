@@ -1,5 +1,6 @@
 <?php
 
+// chcp 65001
 exec('chcp 65001');
 
 // @link: http://phpfaq.ru/pdo

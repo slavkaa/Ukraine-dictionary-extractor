@@ -1,5 +1,5 @@
 <?php
-require_once('abstractModel.php');
+require_once('Abstract\AbstractModel.php');;
 require_once('Traits\ProcessingFieldTrait.php');
 require_once('Traits\WordTrait.php');
 
@@ -222,7 +222,11 @@ class Word extends AbstractModel
      */
     public static function cleanWord($word)
     {
-        $word = str_replace('на/у ', '', $word);
+        $word = str_replace('на/у ', '', $word); // slovnyk ua
+
+        if ('при ' === mb_substr($word, 0, 4)) {  // Lcorp
+            $word = mb_substr($word, 3);
+        }
 
         return $word;
     }
