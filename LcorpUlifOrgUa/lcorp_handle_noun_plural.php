@@ -1,15 +1,10 @@
 ﻿<?php
 
-// @acton: php lcorp_handle_noun_women_sex.php
+// @acton: php lcorp_handle_noun_plural.php
 
 require_once('../support/_require_once.php');
 
-$part_of_language = 'власна назва';
-//$part_of_language = 'іменник чоловічого%';
-//$part_of_language = 'іменник чоловічого%';
-//$part_of_language = 'іменник жіночого або чоловічого роду, істота';
-//$part_of_language = 'іменник жіночого роду, істота';
-//$part_of_language = 'іменник жіночого роду';
+$part_of_language = '%множинний іменник%';
 
 $LcorpDataC = new LcorpData($dbh);
 
@@ -123,12 +118,12 @@ for ($j = 0; $j < $counter + 1;  $j++) {
                     'word' => $cell->item(0)->textContent,
                     'number' => 'однина', 'kind' => 'називний',
                     'genus' => 'жіночий',
-                    'isMainForm' => true,
+                    'isMainForm' => false,
                 ],[
                     'word' => $cell->item(1)->textContent,
                     'number' => 'множина', 'kind' => 'називний',
                     'genus' => '-',
-                    'isMainForm' => false,
+                    'isMainForm' => true,
                 ],[
                     'word' => $cell->item(2)->textContent,
                     'number' =>  'однина', 'kind' => 'родовий',
@@ -197,7 +192,7 @@ for ($j = 0; $j < $counter + 1;  $j++) {
                     'word' => $cell->item(0)->textContent,
                     'number' => 'однина', 'kind' => 'називний',
                     'genus' => 'чоловічий',
-                    'isMainForm' => true,
+                    'isMainForm' => false,
                 ],[
                     'word' => $cell->item(1)->textContent,
                     'number' => 'однина', 'kind' => 'називний',
@@ -212,7 +207,7 @@ for ($j = 0; $j < $counter + 1;  $j++) {
                     'word' => $cell->item(2)->textContent,
                     'number' => 'множина', 'kind' => 'називний',
                     'genus' => '-',
-                    'isMainForm' => false,
+                    'isMainForm' => true,
                 ],[
                     'word' => $cell->item(3)->textContent,
                     'number' =>  'однина', 'kind' => 'родовий',

@@ -3,13 +3,14 @@
 // @acton: php lcorp_check_html.php > 1.html
 // @acton: php lcorp_check_html.php > 2.html
 // @acton: php lcorp_check_html.php > 3.html
+// @acton: php lcorp_check_html.php > 4.html
 
 require_once('../support/_require_once.php');
 
 // *** //
 
 $html = new LcorpHtml($dbh);
-$html->getByDataId(229);
+$html->getByDataId(77931);
 //$html->getByDataId(120011);
 
 $url = $html->getProperty('url');

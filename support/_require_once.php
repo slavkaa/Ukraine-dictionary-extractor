@@ -35,3 +35,5 @@ require_once(__DIR__.'/../models/WordLetters.php');
 
 require_once(__DIR__.'/../models/source.php');
 require_once(__DIR__.'/../models/wordRawToSource.php');
+
+require_once(__DIR__.'/../models/CapitalWord.php');

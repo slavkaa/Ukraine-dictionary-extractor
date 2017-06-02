@@ -195,4 +195,14 @@ class LcorpResults extends AbstractModel {
 
         $this->connection->query($sql);
     }
+
+    /**
+     *
+     */
+    public function setAllToProcessing()
+    {
+        $sql = 'UPDATE `' . $this->tableName . '` SET is_need_processing = 1';
+
+        $this->connection->query($sql);
+    }
 }

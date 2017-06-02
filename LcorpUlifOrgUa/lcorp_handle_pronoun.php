@@ -1,15 +1,10 @@
 ﻿<?php
 
-// @acton: php lcorp_handle_noun_women_sex.php
+// @acton: php lcorp_handle_pronoun.php
 
 require_once('../support/_require_once.php');
 
-$part_of_language = 'власна назва';
-//$part_of_language = 'іменник чоловічого%';
-//$part_of_language = 'іменник чоловічого%';
-//$part_of_language = 'іменник жіночого або чоловічого роду, істота';
-//$part_of_language = 'іменник жіночого роду, істота';
-//$part_of_language = 'іменник жіночого роду';
+$part_of_language = 'займенник';
 
 $LcorpDataC = new LcorpData($dbh);
 
@@ -66,58 +61,10 @@ for ($j = 0; $j < $counter + 1;  $j++) {
             $commentText .= ' ' . trim($grammatical->item(0)->textContent);
         }
 
-// ********************************************************************************************************************
-//        if (3 !== $headers->length) {
-//            var_dump($dataId);
-//            var_dump($text);
-//            die;
-//        } else {
-//            $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
-//            continue;
-//        }
-
-//        if (0 !== $comment->length) {
-//            $t = trim($comment->item(0)->textContent);
-//            if (!empty($t)) {
-//                var_dump($comment->item(0)->textContent);
-//                var_dump($dataId);
-//                var_dump($text);
-//                die;
-//            }
-//        }
-//
-//        $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
-//        continue;
-// ********************************************************************************************************************
-
-//        if (14 === $cell->length) {
-//            $h1 = trim($headers->item(1)->textContent);
-//            $h2 = trim($headers->item(2)->textContent);
-//
-//            if ('однина' != $h1 || 'множина' != $h2) {
-//                var_dump($h1, $h2, $dataId);
-//                die;
-//            }
-//        } elseif (28 === $cell->length) {
-//            $h1 = trim($headers->item(3)->textContent);
-//            $h2 = trim($headers->item(4)->textContent);
-//            $h3 = trim($headers->item(5)->textContent);
-//            $h4 = trim($headers->item(2)->textContent);
-//            if ('чол. р.' != $h1 || 'жін. р.' != $h2 || 'сер. р.' != $h3 || 'множина' != $h4) {
-//                var_dump($h1, $h2, $dataId);
-//                die;
-//            }
-//        } else {
-//            var_dump($cell->length);
-//            die('Wrong amount of cells. Html.id ' . array_get($dataArray, 'id'));
-//        }
-//        $data->updateProperty('is_need_processing', PDO::PARAM_BOOL, false);
-//        continue;
-
         $wordForms = [];
 
         // main form must be first
-        if (14 === $cell->length) {
+        if (6 === $cell->length) {
             $wordForms = [
                 [
                     'word' => $cell->item(0)->textContent,
@@ -126,72 +73,96 @@ for ($j = 0; $j < $counter + 1;  $j++) {
                     'isMainForm' => true,
                 ],[
                     'word' => $cell->item(1)->textContent,
-                    'number' => 'множина', 'kind' => 'називний',
-                    'genus' => '-',
-                    'isMainForm' => false,
-                ],[
-                    'word' => $cell->item(2)->textContent,
                     'number' =>  'однина', 'kind' => 'родовий',
                     'genus' => 'жіночий',
                     'isMainForm' => false,
-                ],[
-                    'word' => $cell->item(3)->textContent,
-                    'number' =>  'множина', 'kind' => 'родовий',
-                    'genus' => '-',
-                    'isMainForm' => false,
                 ],[ // ***
-                    'word' => $cell->item(4)->textContent,
+                    'word' => $cell->item(2)->textContent,
                     'number' => 'однина', 'kind' => 'давальний',
                     'genus' => 'жіночий',
                     'isMainForm' => false,
-                ],[
-                    'word' => $cell->item(5)->textContent,
-                    'number' => 'множина', 'kind' => 'давальний',
-                    'genus' => '-',
-                    'isMainForm' => false,
-                ], [ // ***
-                    'word' => $cell->item(6)->textContent,
+                ],[ // ***
+                    'word' => $cell->item(3)->textContent,
                     'number' => 'однина', 'kind' => 'знахідний',
                     'genus' => 'жіночий',
                     'isMainForm' => false,
-                ],[
-                    'word' => $cell->item(7)->textContent,
-                    'number' => 'множина', 'kind' => 'знахідний',
-                    'genus' => '-',
-                    'isMainForm' => false,
                 ],[ // ***
-                    'word' => $cell->item(8)->textContent,
+                    'word' => $cell->item(4)->textContent,
                     'number' => 'однина', 'kind' => 'орудний',
                     'genus' => 'жіночий',
                     'isMainForm' => false,
-                ],[
-                    'word' => $cell->item(9)->textContent,
-                    'number' => 'множина', 'kind' => 'орудний',
-                    'genus' => '-',
-                    'isMainForm' => false,
-                ], [ // ***
-                    'word' => Word::cleanWord($cell->item(10)->textContent),
+                ],[ // ***
+                    'word' => Word::cleanWord($cell->item(5)->textContent),
                     'number' => 'однина', 'kind' => 'місцевий',
                     'genus' => 'жіночий',
                     'isMainForm' => false,
-                ], [ // ***
-                    'word' => Word::cleanWord($cell->item(11)->textContent),
-                    'number' => 'множина', 'kind' => 'місцевий',
-                    'genus' => '-',
-                    'isMainForm' => false,
-                ], [ // ***
-                    'word' => $cell->item(12)->textContent,
-                    'number' => 'однина', 'kind' => 'кличний',
-                    'genus' => 'жіночий',
-                    'isMainForm' => false,
-                ], [ // ***
-                    'word' => $cell->item(13)->textContent,
-                    'number' => 'множина', 'kind' => 'кличний',
-                    'genus' => '-',
-                    'isMainForm' => false,
                 ]
             ];
-        } elseif (28 === $cell->length) {
+        } elseif (12 === $cell->length) {
+//            $wordForms = [
+//                [
+//                    'word' => $cell->item(0)->textContent,
+//                    'number' => 'однина', 'kind' => 'називний',
+//                    'genus' => 'жіночий',
+//                    'isMainForm' => true,
+//                ],[
+//                    'word' => $cell->item(1)->textContent,
+//                    'number' => 'множина', 'kind' => 'називний',
+//                    'genus' => '-',
+//                    'isMainForm' => false,
+//                ],[
+//                    'word' => $cell->item(2)->textContent,
+//                    'number' =>  'однина', 'kind' => 'родовий',
+//                    'genus' => 'жіночий',
+//                    'isMainForm' => false,
+//                ],[
+//                    'word' => $cell->item(3)->textContent,
+//                    'number' =>  'множина', 'kind' => 'родовий',
+//                    'genus' => '-',
+//                    'isMainForm' => false,
+//                ],[ // ***
+//                    'word' => $cell->item(4)->textContent,
+//                    'number' => 'однина', 'kind' => 'давальний',
+//                    'genus' => 'жіночий',
+//                    'isMainForm' => false,
+//                ],[
+//                    'word' => $cell->item(5)->textContent,
+//                    'number' => 'множина', 'kind' => 'давальний',
+//                    'genus' => '-',
+//                    'isMainForm' => false,
+//                ], [ // ***
+//                    'word' => $cell->item(6)->textContent,
+//                    'number' => 'однина', 'kind' => 'знахідний',
+//                    'genus' => 'жіночий',
+//                    'isMainForm' => false,
+//                ],[
+//                    'word' => $cell->item(7)->textContent,
+//                    'number' => 'множина', 'kind' => 'знахідний',
+//                    'genus' => '-',
+//                    'isMainForm' => false,
+//                ],[ // ***
+//                    'word' => $cell->item(8)->textContent,
+//                    'number' => 'однина', 'kind' => 'орудний',
+//                    'genus' => 'жіночий',
+//                    'isMainForm' => false,
+//                ],[
+//                    'word' => $cell->item(9)->textContent,
+//                    'number' => 'множина', 'kind' => 'орудний',
+//                    'genus' => '-',
+//                    'isMainForm' => false,
+//                ], [ // ***
+//                    'word' => Word::cleanWord($cell->item(10)->textContent),
+//                    'number' => 'однина', 'kind' => 'місцевий',
+//                    'genus' => 'жіночий',
+//                    'isMainForm' => false,
+//                ], [ // ***
+//                    'word' => Word::cleanWord($cell->item(11)->textContent),
+//                    'number' => 'множина', 'kind' => 'місцевий',
+//                    'genus' => '-',
+//                    'isMainForm' => false,
+//                ]
+//            ];
+        } elseif (24 === $cell->length) {
             $wordForms = [
                 [
                     'word' => $cell->item(0)->textContent,
@@ -313,31 +284,21 @@ for ($j = 0; $j < $counter + 1;  $j++) {
                     'number' => 'множина', 'kind' => 'місцевий',
                     'genus' => '-',
                     'isMainForm' => false,
-                ],[
-                    'word' => $cell->item(18)->textContent,
-                    'number' => 'однина', 'kind' => 'кличний',
-                    'genus' => 'чоловічий',
-                    'isMainForm' => false,
-                ],[
-                    'word' => $cell->item(19)->textContent,
-                    'number' => 'однина', 'kind' => 'кличний',
-                    'genus' => 'жіночий',
-                    'isMainForm' => false,
-                ],[
-                    'word' => $cell->item(20)->textContent,
-                    'number' => 'однина', 'kind' => 'кличний',
-                    'genus' => 'середний',
-                    'isMainForm' => false,
-                ],[
-                    'word' => $cell->item(20)->textContent,
-                    'number' => 'множина', 'kind' => 'кличний',
-                    'genus' => '-',
-                    'isMainForm' => false,
                 ]
             ];
         }
 
         $mainFormId = null;
+
+        if (0 == $cell->length) {
+            continue;
+        }
+
+        if (empty($wordForms)) {
+            var_dump($dataId);
+            var_dump($cell->length);
+            die('#Err');
+        }
 
         foreach ($wordForms as $wordForm) {
             $word = trim(array_get($wordForm, 'word'));
@@ -400,24 +361,3 @@ for ($j = 0; $j < $counter + 1;  $j++) {
 $LcorpDataC->setHtmlRowsToMorphologicalProcessing();
 
 echo 'END';
-
-
-// 'чол. р.', 'жін. р.', 'множина', 'чол. і жін. р.'
-function parseHeader($header)
-{
-    if (-1 < mb_strpos($header, 'множина')) {
-        return ['-', 'множина'];
-    } elseif (-1 < mb_strpos($header, 'чол. і жін. р.')) {
-        return ['чоловічий,жіночий', 'однина'];
-    } elseif (-1 < mb_strpos($header, 'чол. р.')) {
-        return ['чоловічий', 'однина'];
-    } elseif (-1 < mb_strpos($header, 'жін. р.')) {
-        return ['жіночий', 'однина'];
-    }
-
-    return ['-', '-'];
-}
-
-
-
-
